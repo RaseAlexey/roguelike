@@ -1,3 +1,23 @@
+.main {
+	padding-top: 3em;
+	text-align: center;
+}
+.map {
+	display: inline-block;
+}
+.cell-container {
+	position: relative;
+}
 .cell {
 	border: 1px solid black;
+	width: 4em;
+	height: 4em;
+	overflow: hidden;
+}
+.cords {
+	position: absolute;
+	right: 0.3em;
+	bottom: 0.3em;
+	font-size: 0.5em;
+	color: blue;
 }
