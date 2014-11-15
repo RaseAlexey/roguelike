@@ -10,14 +10,26 @@
 }
 .cell {
 	border: 1px solid black;
-	width: 4em;
-	height: 4em;
+	width: 64px;
+	height: 64px;
 	overflow: hidden;
 }
+.cell.out-of-borders {
+	border: 0;
+}
+.cell.adjacent {
+	cursor: pointer;
+}
 .cords {
+	background-color: yellow;
 	position: absolute;
 	right: 0.3em;
 	bottom: 0.3em;
 	font-size: 0.5em;
 	color: blue;
+}
+.unit {
+	color: white;
+	width: 100%;
+	height: 100%;
 }

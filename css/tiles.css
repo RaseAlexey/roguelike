@@ -1,0 +1,9 @@
+[data-tile="ground"] {
+	 background: url('http://www.mocap-dancer.com/worlds/imvu/MDT/MDT-site-pictures/MDT-Pirates-Island-ground1-sm.jpg') no-repeat center center;
+}
+[data-tile="rocks-1"] {
+	 background: url('tiles/rocks1.jpg') no-repeat center center;
+}
+[data-tile="rocks-1"] {
+	 background: url('tiles/rocks2.jpg') no-repeat center center;
+}

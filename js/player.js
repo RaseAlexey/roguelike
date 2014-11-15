@@ -1,6 +1,6 @@
-var player = (function(name) {
+var player = (function(name, image_url) {
 	var name = name;
-	var me = new Unit(name, 100);
+	var me = new Unit(name, 100, 'units/sunbro.png');
 	me.getName = function() {
 		return name;
 	};
@@ -8,5 +8,5 @@ var player = (function(name) {
 		return 4;
 	};
 	return me;
-})('player fgv dfg sdg sfg dsg dg ');
+})('Alexey');
 //prompt('say your name')
