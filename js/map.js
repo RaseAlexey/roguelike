@@ -38,7 +38,7 @@ var MapGenerator = (function () {
 var Dungeon = (function() {
 	var floors = [];
 	for (var i = 0; i < 5; i++) {
-		floors.push(MapGenerator.generateFloor('biom1', 20, 20));
+		floors.push(MapGenerator.generateFloor('biom1', 100, 100));
 	};
 	var cur_level_index = 0;
 	return {
@@ -51,19 +51,19 @@ var Map = (function() {
 	return {    
 		getScreenCode : function() {
 			var floor = Dungeon.getCurrentFloor();
-	        var los = player.getLOS(); // line_of_sight
-	        var code = '<table>';
-	        for(var y = player.getY() - los; y <= player.getY() + los; y++) {
+	        var size =10; // half of screensize
+	        var code = '<table cellspacing="0" cellpadding="0" class="screen">';
+	        for(var y = player.getY() - size; y <= player.getY() + size; y++) {
 		        code += '<tr>';
-		            for(var x = player.getX() - los; x <= player.getX() + los; x++) {
+		            for(var x = player.getX() - size; x <= player.getX() + size; x++) {
 		       			if (y >=0 && y < floor.getY()) {
 			            	if(x >= 0 && x < floor.getX()) {
 				                code += floor.getCell(x, y).getCode();
 			            	} else {
-			            		code += out_of_borders_cell;
+			            		//code += out_of_borders_cell;
 			            	}
 		           		 } else {
-		           		 	code += out_of_borders_cell;
+		           		 	//code += out_of_borders_cell;
 
 		           		 }
 		        }

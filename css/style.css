@@ -1,17 +1,27 @@
+body {
+	background-color: black;
+}
 .main {
 	padding-top: 3em;
-	text-align: center;
 }
 .map {
+	float: left;
 	display: inline-block;
+	width: 70%;
+}
+.panel {
+	background-color: grey;
+	float: right;
+	display: inline-block;
+	width: 30%;
 }
 .cell-container {
 	position: relative;
 }
 .cell {
 	border: 1px solid black;
-	width: 64px;
-	height: 64px;
+	width: 32px;
+	height: 32px;
 	overflow: hidden;
 }
 .cell.out-of-borders {
@@ -20,7 +30,12 @@
 .cell.adjacent {
 	cursor: pointer;
 }
+.cell.invisible {
+	opacity: 0.5;
+	background-color: black;
+}
 .cords {
+	display: none;
 	background-color: yellow;
 	position: absolute;
 	right: 0.3em;
@@ -32,4 +47,7 @@
 	color: white;
 	width: 100%;
 	height: 100%;
+}
+.screen {
+	border-spacing: 0
 }

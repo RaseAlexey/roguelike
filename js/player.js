@@ -4,9 +4,6 @@ var player = (function(name, image_url) {
 	me.getName = function() {
 		return name;
 	};
-	me.getLOS = function() {
-		return 4;
-	};
 	return me;
 })('Alexey');
 //prompt('say your name')

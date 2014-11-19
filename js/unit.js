@@ -26,6 +26,9 @@ Unit = function(name, hp, image_url) {
 		isWalkable : function() {
 			return false;
 		},
+		getLOS : function() {
+			return 4;
+		},
 		strike : function(target) {
 
 		},
