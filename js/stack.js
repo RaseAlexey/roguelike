@@ -1,4 +1,4 @@
-Stack = (function() {
+var Stack = (function() {
 	var time = 0;
 	var objects = [];
 	return {
@@ -20,8 +20,16 @@ Stack = (function() {
 		passTurn : function() {
 			time++;
 			objects.forEach(function(object, index) {
-				console.log(object.getAction())
-				object.getAction().do();
+				if(object.getAction()) {
+					object.getAction().do();
+				} else {
+					if (object == Player) {
+											
+					} else {
+						processFor(object);
+					}
+				}
+				
 			});
 		},
 		pass : function(time) {
@@ -30,21 +38,25 @@ Stack = (function() {
 			};
 		},
 		passTillPlayer : function() {
-			while(player.getAction()) {
+			while(Player.getAction()) {
 				this.passTurn();
 			}
+		},
+		refresh : function() {
+			if(Player.getPlace()) {
+				$('.main').html(Player.getPlace().getCode());
+				$('.header').html(Player.getLocation().getName()+': '+Player.getPlace().getName()+Player.getPlace().getDepth())
+			};
 		}
 	}
 })();
 
-Action = function(time, code) {
+var Action = function(time, code) {
 	var time = time;
 	var code = code;
 	var unit;
 	return {
 		setUnit : function(new_unit) {
-			console.log('new unit in action')
-			console.log(new_unit)
 			return unit = new_unit;
 		},
 		getUnit : function() {
@@ -52,18 +64,15 @@ Action = function(time, code) {
 		},
 		end : function() {
 			code.call(unit);
-			if (unit == player) {
-				Map.draw();
+			if (unit == Player) {
+				Stack.refresh();
 			};
 			unit.endAction();
-			console.log('action ended', this);
 		},
 		do : function() {
 			time--;
 			if (time <= 0) {
 				this.end();
-			} else {
-				console.log('action passed, turns left: '+time)
 			}
 		}
 	}

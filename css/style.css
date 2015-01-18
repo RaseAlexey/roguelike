@@ -1,53 +1,133 @@
-body {
-	background-color: black;
-}
-.main {
-	padding-top: 3em;
-}
-.map {
-	float: left;
-	display: inline-block;
-	width: 70%;
-}
-.panel {
-	background-color: grey;
-	float: right;
-	display: inline-block;
-	width: 30%;
-}
-.cell-container {
-	position: relative;
-}
-.cell {
-	border: 1px solid black;
-	width: 32px;
-	height: 32px;
-	overflow: hidden;
-}
-.cell.out-of-borders {
-	border: 0;
-}
-.cell.adjacent {
-	cursor: pointer;
-}
-.cell.invisible {
-	opacity: 0.5;
-	background-color: black;
-}
-.cords {
-	display: none;
-	background-color: yellow;
-	position: absolute;
-	right: 0.3em;
-	bottom: 0.3em;
-	font-size: 0.5em;
-	color: blue;
-}
-.unit {
-	color: white;
+html, body, .container {
+	font-family: Courier, "Courier New", monospace;
 	width: 100%;
 	height: 100%;
+	margin: 0;
 }
-.screen {
-	border-spacing: 0
+.connection {
+	background-color: #C4D4F5;
+	border: 1px solid black;
+	padding: 0.1em;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.container {
+  	font-size: 0;
+  	letter-spacing: 0;
+  	word-spacing: 0;
+}
+.container .tab {
+	display: inline-block;
+	height: calc(100% - 10em - 32px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	font-size: 16px;
+	letter-spacing: 1px;
+	word-spacing: .1em;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+.header {	
+	font-size: 22px;
+	letter-spacing: 1px;
+	word-spacing: .1em;
+	text-align: center;
+	background-color: #C9CAD1;
+	border-bottom: 1px solid #ADADAD;
+}
+.sidebar_container {   
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+	text-align: center;
+	background-color: #E9EDF5;
+	width: 40%;
+}
+.sidebar {
+	height: 100%;
+	padding: 0.5em;
+	box-sizing: border-box;
+}
+.main {
+	background-color: white;
+	width: 60%;
+}
+.place_units_list, .connections_list {
+	list-style-type: none;
+	line-height: 1.6em;
+}
+.place_unit .unit_code {
+	border: 1px solid black;
+	padding: 0.1em;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.inventory_container {	
+	display: inline-block;
+	height: 264px;
+	width: 528px;
+}
+.sidebar_header {
+	text-align: center;	
+	height: 2em;
+}
+.inventory_cell {
+	vertical-align:middle;
+	display: inline-block;
+	box-sizing: border-box;
+	margin-top: 2px;
+	margin-right: 2px;
+	width: 64px;
+	height: 64px;
+	border: 1px solid black;
+	border-radius: 2px;
+}
+.item_icon {
+	width: 64px;
+	height: 64px;
+}
+.slots_container {
+	display: flex;
+  	flex-direction: column;
+  	justify-content: center;
+	box-sizing: border-box;
+	height: calc(100% - 264px - 3em);
+}
+.slots {
+	display: inline-block;
+}
+.slot {
+	display: inline-block;
+	box-sizing: border-box;
+	margin-top: 2px;
+	margin-right: 2px;
+	width: 64px;
+	height: 64px;
+	border: 1px solid black;
+	border-radius: 2px;
+}
+.enemy {
+	background-color: #F5C4C4;
+}
+.place_name {
+	text-align: center;
+}
+.chat_container {
+    overflow: hidden;
+	padding: 0.2em;
+	position: fixed; 
+	border-top: 1px solid #ADADAD;
+    bottom: 0%;
+    height: 10em;
+    width: 100%;
+    background-color: white;
+}
+.chat {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding-right: 15px;	
 }

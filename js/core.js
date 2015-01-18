@@ -1,16 +1,26 @@
-/*
-Array.prototype.eachCell = function(callback) {
-	this.forEach(function(row, row_index) {
-		row.forEach(function(cell, cell_index) {
-			callback(cell);
-		}); 
-	});
-}
-*/
-function dist(x1, y1, x2, y2) {
-	console.log(x1, y1, x2, y2)
-	return Math.round(Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)));
+var clone = function(what) {
+	return $.extend({}, what);
 };
-function dist_between(cell1, cell2) {
-	return dist(cell1.getX(), cell1.getY(), cell2.getX(), cell2.getY())
+var calcDamage = function(source, target, amount) {
+
 };
+var rand = function(upper_bound) {
+	return Math.floor(1+Math.random()*upper_bound);
+};
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+var randomPropertyInObject = function (object) {
+  var keys = Object.keys(object);
+  return object[keys[Math.floor(keys.length * Math.random())]];
+};
+Array.prototype.getRandomElement = function() {
+	return this[Math.floor(Math.random()*this.length)];
+};
+$(document).on('click', '.connection', function() {
+  Player.goTo($(this).data('location_id'), $(this).data('place_id'));
+});
