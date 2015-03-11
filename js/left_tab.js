@@ -1,0 +1,1 @@
+var left_tab = new Tab($('.left_tab'), dungeon);

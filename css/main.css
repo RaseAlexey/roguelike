@@ -1,0 +1,42 @@
+html, body, .container  { 
+	font-family: Courier, "Courier New", monospace;
+	height: 100%;
+	width: 100%;
+}
+.container {
+	width: 100%;
+}
+.tab {
+	 display: inline-block;
+	 width: 50%;
+}
+.floor {
+	width: 15em;
+	height: 15em;
+}
+.cell {
+	font-size: 0.75em;
+	text-align: center;
+	width: 3em;
+	height: 3em;
+	overflow: hidden;
+}
+/*
+.cells {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.cells_row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.cell {
+	flex-grow: 1;
+	border: 1px solid black;
+}
+*/
