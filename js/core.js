@@ -7,25 +7,6 @@ var rand = function(max) {
 var range = function(min, max) {
 	return Math.floor(Math.random() * (max - min +1)) + min;
 };
-var rand_formula = function(max) {
-	var max = max;
-	return function() {
-		return rand(max);
-	}
-};
-var range_formula = function(min, max) {
-	var min = min;
-	var max = max;
-	return function() {
-		return range(min, max);
-	}
-};
-var constant_formula = function(constant) {
-    var constant = constant;
-    return function() {
-        return constant;
-    }
-}
 var getObjectSize = function(object) {
     var size = 0, key;
     for (key in object) {
@@ -38,25 +19,48 @@ var getRandomPropertyInObject = function(object) {
   return object[keys[Math.floor(keys.length * Math.random())]];
 };
 var getRandomItemInArray = function(array) {
-    console.log(array)
 	var array = array;
 	var pos = Math.floor(Math.random()*array.length);
 	return array[pos];
 };
 
-var Collection = function(items) {
-    this.all = [];
-    this.byName = {};
-    this.add = function(item) {
-    	this.all.push(item);
-    	this.byName[item.name] = item;
-    };
-    this.getByName = function(name) {
-    	return this.byName[name];
-    };
-    var add_method = this.add;
-    var self = this;
-    items.forEach(function(item, index) {
-        add_method.call(self, item);
-    });
+
+var Formula = function(f, arguments_array, context) { //new Formula(f, arguments_array, context) is equal to function() { return f.apply(context, arguments_array) }
+    var f = f;
+    var arguments_array = arguments_array;
+    var context = context || window;
+    return function() {
+        return f.apply(context, arguments_array)
+    }
 };
+var rand_formula = function(max) {
+    return new Formula(rand, [max]);
+};
+var range_formula = function(min, max) {
+    return new Formula(range, [min, max]);
+};
+var constant_formula = function(constant) {
+    return new Formula(function(value){return value}, [constant]);
+};
+
+/*
+var rand_formula = function(max) {
+    var max = max;
+    return function() {
+        return rand(max);
+    }
+};
+var range_formula = function(min, max) {
+    var min = min;
+    var max = max;
+    return function() {
+        return range(min, max);
+    }
+};
+var constant_formula = function(constant) {
+    var constant = constant;
+    return function() {
+        return constant;
+    }
+};
+*/

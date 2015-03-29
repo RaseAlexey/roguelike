@@ -1,11 +1,11 @@
-var stack = new function() {
+var Stack = function() {
 	this.actions = [];
 
 
 	this.tick = function() {
 		this.actions.forEach(function(action, id) {
 			action.tick();
-		})
+		});
 	};
 
 	this.waitForPlayer = function() {

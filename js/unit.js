@@ -20,18 +20,19 @@ var Unit = function(name, hp) {
 		this.action = undefined;
 	};
 
-	this.goTo = function(target_place) {
+	this.goTo = function(dest) {
+		var dest_place = typeof dest == Place ? dest : dest.entrance;
 		var data = {
-			'target_place' : target_place
+			'dest_place' : dest_place
 		};
 		this.startAction(10, function(data) {
 			if(this.place) {
 				this.place.removeUnit(this);	
 			};
-			data.target_place.addUnit(this);
+			data.dest_place.addUnit(this);
 			if(this == player) {
-				dungeon.current_floor = target_place;
-				left_tab.content = target_place;
+				dungeon.current_floor = dest_place;
+				left_tab.content = dest_place;
 				left_tab.draw();
 			};
 		}, data);

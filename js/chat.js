@@ -1,22 +1,25 @@
-var node = $('.chatbox');
-
-
-var chat = {
+var Chat = function(node) {
 	this.node = node;
 	this.posts = [];
 
 	this.send = function(post) {
+		var post = post.constructor == Post ? post : new Post('generic', post);
 		this.posts.push(post);
 	};
 
 	this.refresh = function() {
-		var text = '';
-		this.posts.forEach(function(post, index) {
-			text += post.getHTML();
-		});
-		this.node.html(text);
+		this.node.html(this.getHTML());
 	};
-})();
+
+	this.getHTML = function() {
+		var html = '<div class="chatbox">';
+		this.posts.forEach(function(post, index) {
+			html += post.getHTML();
+		});
+		html += '</div>';
+		return html;
+	};
+};
 
 
 var Post = function(type, text) {
@@ -24,6 +27,6 @@ var Post = function(type, text) {
 	this.text = text;
 
 	this.getHTML = function() {
-		return '<div class="post '+this.type+'">'+this.text+'</div>'
+		return '<div class="post post-'+this.type+'">'+this.text+'</div>'
 	};
 }

@@ -1,8 +1,19 @@
+// Floor is a part of dungeon. It is represented as x*y table of places/empty cells.
+// Floor.getHTML returns html code for map of this floor. 'Map' tab displays this for current floor.
+// Floor template is a scheme for simillar floors. It can be interpretated as floor-type. 
+// For example, Sewers floor template is a pattern which is used to generate every Sewer floor in the game.
+// Floor.generate('Sewers') is a way to get completely working floor.
+// Rect and pattern are helpers. Rect is x*y array of places or empty places, it is contained in floor. Pattern is function 
+// which fills rect with certain places
+
+
 var Floor = function(name, template, rect) {
     this.name = name;
     this.template = template;
     this.rect = rect;
-    this.cells = this.rect.cells;
+    this.places = this.rect.cells;
+    this.entrance = rect.entrance;
+    this.exit = rect.exit;
 
     this.getHTML = function() {
         var html ='<div class="floor">';
@@ -13,11 +24,12 @@ var Floor = function(name, template, rect) {
 };  
 
 
-var FloorTemplate = function(name, pattern, x_formula, y_formula, place_templates) {
+var FloorTemplate = function(name, pattern, x_formula, y_formula, levels, place_templates) {
     this.name = name;
     this.pattern = pattern;
     this.x_formula = x_formula;
     this.y_formula = y_formula;
+    this.levels = levels;
     this.place_templates = place_templates;
 
 
@@ -29,19 +41,25 @@ var FloorTemplate = function(name, pattern, x_formula, y_formula, place_template
 
 
 Floor.generate = function(name) {
+    console.log(name)
     return floor_templates.getByName(name) ? floor_templates.getByName[name].getFloor() : new Floor(name);
 };
 
+Floor.generateRandom = function(level) {
+    var possible_templates = floor_templates.filter( 'level', function(a){return a==level} );
+    return 
+};
 
-var Rect = function(x, y) {
-    this.x = x;
-    this.y = y;
+
+var Rect = function(width, height) {
+    this.width = width;
+    this.height = height;
     this.cells = [];
 
 
-    for (var h = 0; h < y; h++) {
+    for (var y = 0; y < height; y++) {
         var row = [];
-        for (var w = 0; w < x; w++) {
+        for (var x = 0; x < width; x++) {
            row.push(null); 
         };
         this.cells.push(row)
@@ -53,8 +71,6 @@ var Rect = function(x, y) {
     };
 
     this.fill = function(x, y, place) {
-        console.log(x, y, place, this.cells)
-        a = this.cells;
         place.x = x;
         place.y = y;
         return this.cells[y][x] = place;
@@ -81,19 +97,14 @@ var Rect = function(x, y) {
 };
 
 var floor_templates = new Collection([
-    new FloorTemplate('Entrance', 'linear', range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Dusty room'), place_templates.getByName('Hall')]),
-    new FloorTemplate('Sewers', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')]),
-    new FloorTemplate('Mines', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')]),
-    new FloorTemplate('Tombs', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')]),
-    new FloorTemplate('Treasury', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')]),
-    new FloorTemplate('Sewers', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')]),
-    new FloorTemplate('End', 'linear',  range_formula(4, 7), range_formula(4, 7), [place_templates.getByName('Hall')])
+    new FloorTemplate('Entrance',   'linear', range_formula(4, 7), range_formula(4, 7), [1], [place_templates.getByName('Dusty room'), place_templates.getByName('Hall')]),
+    new FloorTemplate('Sewers',     'linear', range_formula(4, 7), range_formula(4, 7), [2, 3], [place_templates.getByName('Hall')]),
+    new FloorTemplate('Mines',      'linear', range_formula(4, 7), range_formula(4, 7), [2, 3, 4, 5], [place_templates.getByName('Hall')]),
+    new FloorTemplate('Tombs',      'linear', range_formula(4, 7), range_formula(4, 7), [4, 5, 6, 7], [place_templates.getByName('Hall')]),
+    new FloorTemplate('Treasury',   'linear', range_formula(4, 7), range_formula(4, 7), [6, 7, 8, 9], [place_templates.getByName('Hall')]),
+    new FloorTemplate('Stronghold', 'linear', range_formula(4, 7), range_formula(4, 7), [8, 9], [place_templates.getByName('Hall')]),
+    new FloorTemplate('End',        'linear', range_formula(4, 7), range_formula(4, 7), [10], [place_templates.getByName('Hall')])
 ]);
-/*
-var floor_templates = new Collection([
-    new FloorTemplate('TestFloor', 'linear', constant_formula(5), constant_formula(5), [place_templates.getByName('Dusty room')])
-]);
-*/
 
 
 var patterns = { 
@@ -102,17 +113,21 @@ var patterns = {
         var place_templates = place_templates;
         var mode = getRandomItemInArray(['horizontal', 'vertical']);
         if(mode == 'horizontal') {
-            var y = rand(rect.y-1);
-            console.log('horizontal', y);
-            for (var i = 0; i < rect.x; i++) {
-                rect.fill(i, y, getRandomItemInArray(place_templates).getPlace());
+            var y = rand(rect.height-1);
+            for (var i = 0; i < rect.width; i++) {
+                var place = getRandomItemInArray(place_templates).getPlace();
+                rect.fill(i, y, place);
+                if(i==0) {rect.entrance = place};
+                if(i==rect.width-1) {rect.exit = place};
             };
         };
         if(mode == 'vertical') {
-            var x = rand(rect.x);
-            console.log('vertical', x);
-            for (var i = 0; i < rect.y; i++) {
-                rect.fill(x, i, getRandomItemInArray(place_templates).getPlace());
+            var x = rand(rect.width);
+            for (var i = 0; i < rect.height; i++) {
+                var place = getRandomItemInArray(place_templates).getPlace();
+                rect.fill(x, i, place);
+                if(i==0) {rect.entrance = place};
+                if(i==rect.height-1) {rect.exit = place};
             };
         };
         return rect;

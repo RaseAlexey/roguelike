@@ -1,1 +1,0 @@
-var player = new Unit('player', 100);

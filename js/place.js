@@ -6,6 +6,7 @@ var Place = function(name, template, units) {
 
     this.addUnit = function(unit) {
         unit.place = this;
+        unit.floor = this.floor || unit.floor || undefined;
         unit.id = this.units.length;
         this.units.push(unit);
     };
@@ -14,6 +15,13 @@ var Place = function(name, template, units) {
         this.units.splice(this.units.indexOf(unit), 1);
         unit.place = undefined;
     };
+
+    this.checkUnits = function() {
+        this.units.forEach(function(unit, id) {
+
+        })
+    };
+
 
     this.getHTML = function() {
         var html = '<div class="place" data-x='+this.x+' data-y = '+this.y+'>';
@@ -46,6 +54,6 @@ Place.generate = function(name) {
 
 
 var place_templates = new Collection([
-    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(3)),
-    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(5))
+    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(2)),
+    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(3))
 ]);
