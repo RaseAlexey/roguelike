@@ -2,13 +2,81 @@ html, body, .container  {
 	font-family: Courier, "Courier New", monospace;
 	height: 100%;
 	width: 100%;
+	margin: 0px;
+	background-color: #8A8A8A;
 }
 .container {
+	box-sizing: border-box;
 	width: 100%;
+	white-space: nowrap;
+	padding: 5px;
 }
 .tab {
-	 display: inline-block;
-	 width: 50%;
+	background-color: white;
+	display: inline-block;
+    vertical-align: top;
+	width: 49.7%;
+	height: 100%;
+	border: 1px solid white;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+.tab_mode-switcher {
+	background-color: #464CA3;
+	color: white;
+	width: 100%;
+	height: calc(1em + 2px);
+	border-radius: 3px;
+	/*box-shadow: 0 3px 1px rgba(0,0,0,0.5);*/
+}
+.header {
+	width: 100%;
+	text-align: center;
+}
+.name {
+	text-align: center;
+    white-space: pre-wrap;
+}
+.tab_contents {
+	background-color: #C9D3F2;
+	width: 100%;
+}
+.tab_contents_container {
+	width: 100%;
+	height: calc(100% - 1em - 2px);
+	padding: 0.5em;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+.left.tab {
+	float: left;
+}
+.right.tab {
+	float: right;
+}
+.scroll-button {
+}
+.scroll-button.left {
+	float: left;
+}
+.scroll-button.right {
+	float: right;
+}
+.units_group_container {
+}
+.units_group {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap; 
+	justify-content: space-around;
+}
+.unit, .item, .slot {
+	cursor: pointer;
+	border: 2px solid;
+	border-radius: 3px;
+	width: calc(100%-1em);
+	margin: 0.2em 0.5em;
+	box-sizing: border-box;
 }
 .floor {
 	width: 15em;

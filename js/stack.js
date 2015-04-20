@@ -46,5 +46,7 @@ var Action = function(unit, time, code, data) {
 		this.code.call(unit, this.data);
 		unit.removeAction();
 		stack.removeAction(this);
+		left_tab.draw();
+		right_tab.draw();
 	};
 }

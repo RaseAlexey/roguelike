@@ -22,11 +22,11 @@ var Chat = function(node) {
 };
 
 
-var Post = function(type, text) {
-	this.type = type;
+var Post = function(text, type) {
 	this.text = text;
+	this.type = type || 'generic';
 
 	this.getHTML = function() {
-		return '<div class="post post-'+this.type+'">'+this.text+'</div>'
+		return '<div class="post post-'+this.type+'">'+this.text+'</div>';
 	};
-}
+};

@@ -1,12 +1,20 @@
-var Unit = function(name, hp) {
+var Unit = function(template, name, stats, items, slots) {
+	this.template = template;
 	this.name = name;
-	this.hp = hp;
-	this.items = [];
+	this.stats = stats;
+	this.inventory = new Inventory(this, items);
+	this.slots = new SlotsList(this, slots);
 
-
+	this.getId = function() {
+		return this.place.units.indexOf(this);
+	};
 	this.startAction = function(time, code, data) {
 		this.action = new Action(this, time, code, data);
 		stack.addAction(this.action);
+	};
+
+	this.removeAction = function() {
+		this.action = undefined;
 	};
 
 	this.strike = function(target) {
@@ -16,8 +24,18 @@ var Unit = function(name, hp) {
 		}, data)
 	};
 
-	this.removeAction = function() {
-		this.action = undefined;
+	this.isEnemyWith = function(unit) {
+		if (this != player && unit != player) {
+			return false
+		};
+		if (this == player && unit != player) {
+			return true
+		};
+		return true;
+	};
+
+	this.isEnemy = function() {
+		return this.isEnemyWith(player);
 	};
 
 	this.goTo = function(dest) {
@@ -31,28 +49,30 @@ var Unit = function(name, hp) {
 			};
 			data.dest_place.addUnit(this);
 			if(this == player) {
-				dungeon.current_floor = dest_place;
-				left_tab.content = dest_place;
-				left_tab.draw();
+				dungeon.current_place = dest_place;
 			};
 		}, data);
+	};
+
+	this.getPortraitUrl = function() {
+		return 'portraits/'+this.template.name + '.jpg';
 	};
 };
 
 
-var UnitTemplate = function(name, hp_formula) {
+var UnitTemplate = function(name, stat_formulas, slots) {
 	this.name = name;
-	this.hp_formula = hp_formula;
-
+	this.slots = slots;
+	this.stat_formulas = stat_formulas;
 
 	this.getUnit = function() {
-		return new Unit(name, hp_formula())
+		return new Unit(this, this.name, Formula.calcArray(this.stat_formulas), this.slots)
 	};
 };
 
 
 var unit_templates = new Collection([
-	new UnitTemplate('Rat', range_formula(10, 20)),
-	new UnitTemplate('Zombie', range_formula(20, 30)),
-	new UnitTemplate('Skeleton', range_formula(10, 30))
+	new UnitTemplate('Rat', 		{'hp':range_formula(10, 20)}, []),
+	new UnitTemplate('Zombie', 		{'hp':range_formula(20, 30)}, [], humanoid_slots),
+	new UnitTemplate('Skeleton', 	{'hp':range_formula(10, 30)}, [], humanoid_slots)
 ])

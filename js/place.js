@@ -1,8 +1,13 @@
-var Place = function(name, template, units) {
+var Place = function(template, name, units) {
     this.name = name;
     this.template = template;
     this.units = units;
 
+    var place = this;
+    this.units.forEach(function(unit, id) {
+        console.log(unit);
+        unit.place = place;
+    })
 
     this.addUnit = function(unit) {
         unit.place = this;
@@ -16,20 +21,23 @@ var Place = function(name, template, units) {
         unit.place = undefined;
     };
 
-    this.checkUnits = function() {
+    this.hasEnemies = function() {
+        if(!this.units) return true;
         this.units.forEach(function(unit, id) {
-
-        })
+            if(unit.isEnemy()) return false;
+        });
+        return true;   
     };
 
-
-    this.getHTML = function() {
-        var html = '<div class="place" data-x='+this.x+' data-y = '+this.y+'>';
-        html += this.name;
-        html += '</div>';
-        return html;
-    }
-
+    this.tick = function() {
+        this.units.forEach(function(unit, id) {
+            if(!unit.action) {
+                unit.requestAction();
+            } else {
+                //Stack ticks actions itself
+            }
+        })
+    };
 };
 
 
@@ -40,11 +48,12 @@ var PlaceTemplate = function(name, unit_templates, number_of_units_formula) {
     this.getPlace = function() {
         var name = this.name;
         var units = [];
-        for(var i = number_of_units_formula(); i<=0; i--) {
-        	units.push(getRandomItemInArray(unit_templates).getUnit())
+        var number_of_units = number_of_units_formula();
+        for(var i = 0; i < number_of_units; i++) {
+        	units.push(getRandomItemInArray(unit_templates).getUnit()); 
         };
-        return new Place(name, this, units)
-    }    
+        return new Place(this, name, units);
+    };   
 };
 
 
@@ -54,6 +63,6 @@ Place.generate = function(name) {
 
 
 var place_templates = new Collection([
-    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(2)),
-    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], rand_formula(3))
+    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(10)),
+    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(15))
 ]);

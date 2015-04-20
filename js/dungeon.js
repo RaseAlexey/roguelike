@@ -1,10 +1,12 @@
-// Dungeon is constructor for global object of world.
-// Dungeon consists of floors. First release version will have ten floors.
-// Gameplay is based on roguelikes/TBS, text quests from Space Rangers, traditional rpg elements.
-// Lore background isnt complete yet. It is heavily based on traditional roguelike/rpg ideas and fantasy literature.
-// Current concept is that you can leave the dungeon through the entrance at the top floor. If you do so current playthrough is over
-// and you get save of your character. Then you can start all over again with that character and dungeon will be harder depending on
-// your character.
+/*	
+	  Dungeon is constructor for global object of world.
+	Dungeon consists of floors. First release version will have ten floors.
+	Gameplay is based on roguelikes/TBS, text quests from Space Rangers, traditional rpg elements.
+	Lore background isnt complete yet. It is heavily based on traditional roguelike/rpg ideas and fantasy literature.
+	Current concept is that you can leave the dungeon through the entrance at the top floor. If you do so current playthrough is over
+	and you get save of your character. Then you can start all over again with that character and dungeon will be harder depending on
+	your character.
+*/
 var Dungeon = function(floor_templates) {
 	this.floor_templates = floor_templates;
 	this.floors = [];
