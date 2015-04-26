@@ -16,7 +16,7 @@ var Stack = function() {
 
 	this.addAction = function(action) {
 		this.actions.push(action);
-		if(action.unit == player) {
+		if(action.context == player) {
 			console.log('player started action');
 			this.waitForPlayer();
 		}
@@ -28,8 +28,8 @@ var Stack = function() {
 };
 
 
-var Action = function(unit, time, code, data) {
-	this.unit = unit;
+var Action = function(context, time, code, data) {
+	this.context = context;
 	this.time = time;
 	this.code = code;
 	this.data = data;
@@ -41,12 +41,12 @@ var Action = function(unit, time, code, data) {
 		}
 	};
 
+
 	this.end = function() {
 		console.log('Action ended');
-		this.code.call(unit, this.data);
-		unit.removeAction();
+		this.code.call(context, this.data);
+		context.removeAction();
 		stack.removeAction(this);
-		left_tab.draw();
-		right_tab.draw();
+		draw_tabs();
 	};
 }

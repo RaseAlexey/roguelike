@@ -2,14 +2,15 @@ var Place = function(template, name, units) {
     this.name = name;
     this.template = template;
     this.units = units;
+    this.items = [];
 
     var place = this;
     this.units.forEach(function(unit, id) {
-        console.log(unit);
         unit.place = place;
     })
 
     this.addUnit = function(unit) {
+        console.log(unit);
         unit.place = this;
         unit.floor = this.floor || unit.floor || undefined;
         unit.id = this.units.length;
@@ -29,6 +30,11 @@ var Place = function(template, name, units) {
         return true;   
     };
 
+    this.addItem = function(item) {
+        item.place = this;
+        this.items.push(item);
+    };
+    
     this.tick = function() {
         this.units.forEach(function(unit, id) {
             if(!unit.action) {

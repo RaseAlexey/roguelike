@@ -30,23 +30,29 @@ Rect.prototype.getHTML = function() {
 };
 
 Place.prototype.getHTML = function() {
-    var html = '<div class="tab_place header">' + this.name + '</div>';
-    html += '<div class="tab_place">'
+    var html = '<div class="header">' + this.name + '</div>';
     if(this.hasEnemies()) {
-        html += '<div class="units_group_container">';
-        html += '<div class="units_group header">Enemies</div>';
-        html += '<div class="units_group">';
+        html += '<div class="list-header">Enemies</div>';
+        html += '<div class="place_enemies v-list">';
         this.units.forEach(function(unit, id) {
             if(unit != player) {
             html += unit.getHTML();
             };
         })
-        html += '</div>';
         html += '</div>';   
     } else {
-
-    }
-    html += '</div>';
+        //Interaction
+    };
+    if(this.items.length > 0) {
+        html += '<div class="v-list tab_footer">'
+        html += '<div class="list-header">Items</div>';
+        html += '<div class="place_items v-list">';
+        this.items.forEach(function(item, id) {
+            html += item.getHTML();
+        });
+        html += '</div>';
+        html += '</div>';
+    };
     return html;
 };
 
@@ -87,7 +93,13 @@ Slot.prototype.getHTML = function() {
 Item.prototype.getHTML = function() {
     var classes = '';
     var html = '';
-    html += '<div class="item" data-id='+this.getId()+'>';
+    var id = this.getId();
+    html += '<div class="item" data-id='+id+'>';
+    if(this.unit) {
+        html += '<button class="drop-button">drop</button>';
+    } else {
+
+    };
     html += '<div class="name'+classes+'">' + this.name + '</div>';
     html += '</div>'
     return html;
@@ -104,8 +116,7 @@ Unit.prototype.getHTML = function() {
 
 
 Unit.prototype.getStatsHTML = function() {
-    var html = '';
-    html += '<div class="unit-stats">';
+    var html = '<div class="unit-stats">';
     $.each(this.stats, function(stat, value) {
         html = html + stat + ': ' + value + '<br>';
     });
@@ -115,8 +126,7 @@ Unit.prototype.getStatsHTML = function() {
 
 
 Unit.prototype.getInventoryHTML = function() {
-    var html = '';
-    html += '<div class="inventory">';
+    var html = '<div class="inventory">';
     this.inventory.items.forEach(function(item, id) {
         html += item.getHTML();
     });
@@ -125,16 +135,32 @@ Unit.prototype.getInventoryHTML = function() {
 };
 
 
+Tab.prototype.getHTML = function() {
+    var html = '<div class="tab" data-id='+this.getId()+'>';
+    html += this.getInnerHTML();
+    html += '</div>';
+};
+
 
 Tab.prototype.getInnerHTML = function() {
-	var html = '<div class = "tab_mode-switcher header">';
+	var html = '<div class = "tab_header header">';
+    /*
     html += '<button class="scroll-button left"> ← </button>';
     html += this.mode;
     html += '<button class="scroll-button right"> → </button>';
 	html += '</div>';
-    html += '<div class="tab_contents_container">';
-	html += this.modes2HTML[this.mode]();
-    html += '</div>';
+    */
+    //html += '<div class="tab_contents_container">';
+	html += tab_modes2HTML[this.mode];
+    //html += '</div>';
 	return html;
 };
 
+$(document).on('click', '.list-header', function() {
+    var list = $(this).next();
+    if(list.is(':visible')) {  
+        list.hide();
+    } else {
+        list.show();
+    }
+});

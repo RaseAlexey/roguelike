@@ -6,7 +6,13 @@ var Item = function(template, name, stats, slot_type, code) {
 
 
 	this.getId = function() {
-		return this.unit.items.indexOf(this);
+		if(this.unit) {
+			return this.unit.items.indexOf(this);
+		};
+		if(this.place) {
+			return this.place.items.indexOf(this);
+		};
+		return undefined;
 	};
 };
 
