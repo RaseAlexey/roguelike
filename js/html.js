@@ -30,6 +30,7 @@ Rect.prototype.getHTML = function() {
 };
 
 Place.prototype.getHTML = function() {
+    console.log(this)
     var html = '<div class="header">' + this.name + '</div>';
     if(this.hasEnemies()) {
         html += '<div class="list-header">Enemies</div>';
@@ -139,11 +140,12 @@ Tab.prototype.getHTML = function() {
     var html = '<div class="tab" data-id='+this.getId()+'>';
     html += this.getInnerHTML();
     html += '</div>';
+    return html;
 };
 
 
 Tab.prototype.getInnerHTML = function() {
-	var html = '<div class = "tab_header header">';
+	var html = '<div class = "tab_header header">'+this.mode+'</div>';
     /*
     html += '<button class="scroll-button left"> ← </button>';
     html += this.mode;
@@ -151,7 +153,7 @@ Tab.prototype.getInnerHTML = function() {
 	html += '</div>';
     */
     //html += '<div class="tab_contents_container">';
-	html += tab_modes2HTML[this.mode];
+	html += UI.tab_modes2HTML[this.mode]();
     //html += '</div>';
 	return html;
 };

@@ -11,7 +11,7 @@ var Stack = function() {
 	this.waitForPlayer = function() {
 		while(player.action) {
 			this.tick();
-		}
+		};
 	};
 
 	this.addAction = function(action) {
@@ -47,6 +47,6 @@ var Action = function(context, time, code, data) {
 		this.code.call(context, this.data);
 		context.removeAction();
 		stack.removeAction(this);
-		draw_tabs();
+		UI.refreshTabs();
 	};
 }
