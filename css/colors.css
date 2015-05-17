@@ -3,5 +3,16 @@
 	background-color: #DE5D79;
 }
 .item {
-	background-color: #C2DE5D;
+	background-color: #D4D487;
 }
+.slot {
+	background-color: #D4D4D4;
+}
+/*
+.slot.empty {
+	background-color: #D4D4D4;
+}
+.slot.full {
+	background-color: #B1D9B1;
+}
+*/

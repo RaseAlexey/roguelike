@@ -1,11 +1,19 @@
 var Stack = function() {
 	this.actions = [];
-
+	this.time = 0;
 
 	this.tick = function() {
-		this.actions.forEach(function(action, id) {
-			action.tick();
-		});
+		if(this.time >= 10) return; //for preventing infinite loops in case of fuck-ups
+		this.time++;
+		console.log('stack tick', this.time);
+		if(this.actions.length > 0) {
+			this.actions.forEach(function(action, id) {
+				action.tick();
+			});
+		};
+		if(dungeon.current_place) {
+			dungeon.current_place.tick()
+		};
 	};
 
 	this.waitForPlayer = function() {
@@ -17,7 +25,6 @@ var Stack = function() {
 	this.addAction = function(action) {
 		this.actions.push(action);
 		if(action.context == player) {
-			console.log('player started action');
 			this.waitForPlayer();
 		}
 	};
@@ -43,7 +50,6 @@ var Action = function(context, time, code, data) {
 
 
 	this.end = function() {
-		console.log('Action ended');
 		this.code.call(context, this.data);
 		context.removeAction();
 		stack.removeAction(this);

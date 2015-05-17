@@ -36,12 +36,13 @@ var Place = function(template, name, units) {
     };
     
     this.tick = function() {
+        console.log('place tick')
         this.units.forEach(function(unit, id) {
+            //unit.check();
+            console.log(unit);
             if(!unit.action) {
                 unit.requestAction();
-            } else {
-                //Stack ticks actions itself
-            }
+            };
         })
     };
 };
@@ -69,6 +70,6 @@ Place.generate = function(name) {
 
 
 var place_templates = new Collection([
-    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(10)),
-    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(15))
+    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(2)),
+    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3))
 ]);

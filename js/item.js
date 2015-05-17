@@ -1,6 +1,7 @@
-var Item = function(template, name, stats, slot_type, code) {
+var Item = function(template, name, stats, requirements, slot_type, code) {
 	this.name = name;
 	this.stats = stats;
+	this.requirements = requirements;
 	this.slot_type = slot_type;
 	this.script = new Script(this, code);
 
@@ -12,11 +13,15 @@ var Item = function(template, name, stats, slot_type, code) {
 		if(this.place) {
 			return this.place.items.indexOf(this);
 		};
+		if(this.slot) {
+			return this.slot.getId();
+		}
 		return undefined;
 	};
+
 };
 
-var ItemTemplate = function(template, name, stat_formulas, code) {
+var ItemTemplate = function(template, name, stat_formulas, requirements, code) {
 	return new Item(this, name, Formula.calcArray(stat_formulas), code);
 };
 

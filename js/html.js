@@ -66,55 +66,19 @@ Chat.prototype.getHTML = function() {
 };
 
 Post.prototype.getHTML = function() {
-	return '<div class="post post-'+this.type+'">'+this.text+'</div>';
+	return '<div class="post post-'+this.type+'">'+'<span class="time">'+this.time+': </span>'+this.text+'</div>';
 };
 
-SlotsList.prototype.getHTML = function() {
-    var html = '';
-    html += '<div class="slots">';
-    this.slots.forEach(function(slot, id) {
-        html += slot.getHTML();
-    });
-    html += '</div>';
-    return html;
-};
 
-Slot.prototype.getHTML = function() {
-    var html = '';
-    html += '<div class="slot" data-id ='+this.getId()+'>';
-    html += '<div class="name">' + this.type + '</div>';
-    if(this.item) {
-        html += this.item.getHTML();
-    } else {
-    };
-    html += '</div>';
-    return html;
-};
-
-Item.prototype.getHTML = function() {
-    var classes = '';
-    var html = '';
-    var id = this.getId();
-    html += '<div class="item" data-id='+id+'>';
-    if(this.unit) {
-        html += '<button class="drop-button">drop</button>';
-    } else {
-
-    };
-    html += '<div class="name'+classes+'">' + this.name + '</div>';
-    html += '</div>'
-    return html;
-};
 
 Unit.prototype.getHTML = function() {
     var classes = player.isEnemyWith(this) ? ' enemy' : '';
     var html = '';
     html += '<div class="unit" data-id='+this.getId()+'>';
-    html += '<div class="name'+classes+'">' + this.name + '</div>';
+    html += '<div class="name'+classes+'">' + this.name + '(' + this.stats.maxhp + '/' + this.stats.hp + ')' + '</div>';
     html += '</div>';
     return html;
 };
-
 
 Unit.prototype.getStatsHTML = function() {
     var html = '<div class="unit-stats">';
@@ -125,13 +89,56 @@ Unit.prototype.getStatsHTML = function() {
     return html;
 };
 
-
 Unit.prototype.getInventoryHTML = function() {
-    var html = '<div class="inventory">';
+    var html = '<div class="inventory v-list">';
     this.inventory.items.forEach(function(item, id) {
         html += item.getHTML();
     });
     html += '</div>';
+    return html;
+};
+
+Unit.prototype.getSlotsHTML = function() {
+    var html = '';
+    html += '<div class="slots v-list">';
+    this.inventory.slots.forEach(function(slot, id) {
+        html += slot.getHTML();
+    });
+    html += '</div>';
+    return html;
+};
+
+Slot.prototype.getHTML = function() {
+    if(this.pair_slot && !this.item) { //pair slots without items dont display
+        return '';
+    }
+    var html = '';
+    var classes = (this.item ? ' full': ' empty');
+    html += '<div class="slot'+classes+'" data-id='+this.getId()+'>';
+    html += '<div class="name">' + this.type + '</div>';
+    if(this.item) {
+        html += this.item.getHTML();    
+    };
+    html += '</div>';
+    return html;
+};
+
+Item.prototype.getHTML = function() {
+    var classes = '';
+    var html = '';
+    var id = this.getId();
+    html += '<div class="item" data-id='+id+'>';
+    html += '<div class="name'+classes+'">' + this.name + '</div>';
+    if(this.unit) {
+        html += '<div class="button drop-button">drop</div>';
+    };
+    if(this.slot && this.slot.type == 'hand' && !this.slot.pair_slot) {
+        html += '<div class="button twohand-button">twohand</div>';
+    }
+    if(this.slot && this.slot.type == 'hand' && this.slot.pair_slot) {
+        html += '<div class="button twohand-button">onehand</div>';
+    }
+    html += '</div>'
     return html;
 };
 
@@ -146,15 +153,9 @@ Tab.prototype.getHTML = function() {
 
 Tab.prototype.getInnerHTML = function() {
 	var html = '<div class = "tab_header header">'+this.mode+'</div>';
-    /*
-    html += '<button class="scroll-button left"> ← </button>';
-    html += this.mode;
-    html += '<button class="scroll-button right"> → </button>';
-	html += '</div>';
-    */
-    //html += '<div class="tab_contents_container">';
+    html += '<div class="tab_contents">';
 	html += UI.tab_modes2HTML[this.mode]();
-    //html += '</div>';
+    html += '</div>';
 	return html;
 };
 
