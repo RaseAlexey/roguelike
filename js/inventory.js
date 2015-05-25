@@ -44,7 +44,7 @@ var Inventory = function(unit, slots_list, items) {
 	this.canWield = function(item) {
 		var slot = this.getSlotForItem(item);
 		if (unit.checkRequirements(item.requirements)) {
-            return !Boolean(slot.item);
+            return slot ? !Boolean(slot.item) : false;
 		}
 	};
 
