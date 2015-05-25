@@ -86,18 +86,34 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-.button {
+.inline-description {
 	border-radius: 0 3px 3px 0;
 	height: 100%;
 	font-size: 0.7em;
-	padding: 0.4em;
-	order: 99;
+	order: 1;
 	box-sizing: border-box;
 }
+.button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 3px;
+	margin: 0.2em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+	order: 99;
+}
 
+.button span {
+	font-size: 0.6em;
+}
 .drop-button {
 	background-color: #D48787;
 }
 .twohand-button {
 	background-color: #D48787;
+}
+
+.blocked, .blocked .button {
+	cursor: default !important;
 }

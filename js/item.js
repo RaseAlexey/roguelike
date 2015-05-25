@@ -8,7 +8,7 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 
 	this.getId = function() {
 		if(this.unit) {
-			return this.unit.items.indexOf(this);
+			return this.unit.inventory.items.indexOf(this);
 		};
 		if(this.place) {
 			return this.place.items.indexOf(this);
@@ -17,6 +17,10 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 			return this.slot.getId();
 		}
 		return undefined;
+	};
+
+	this.setUnit = function(unit) {
+		return this.unit = unit;
 	};
 
 };

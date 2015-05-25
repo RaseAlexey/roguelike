@@ -1,20 +1,27 @@
-var Tab = function(mode) {
+var Tab = function(mode, inner_html_func) {
 	this.mode = mode;
-	UI.tabs.push(this);
-	this.isMinimized = true;
-	UI.refreshTabPanel();
+	this.inner_html_func = inner_html_func;
+	this.isBlocked = false;
+	this.isMinimized = false;
+	//this.needRefresh = false;
+
+
+	UI.tabs[this.mode] = this;
 
 	this.getId = function() {
-		return UI.tabs.indexOf(this);
+		return mode;
 	};
 
-	this.draw = function() {
+	this.draw = function() {	
 		UI.node.append(this.getHTML());
-		this.node = $('.tab[data-id='+this.getId()+']');
+		this.node = $('.tab[data-id='+this.mode+']');
 	};
 
 	this.refresh = function() {
-		this.node.html(this.getInnerHTML());
+		if(this.node) {
+			this.node.html(this.getInnerHTML());
+			//this.needRefresh = false;
+		};
 	};
 
 	this.minimize = function() {
@@ -26,7 +33,7 @@ var Tab = function(mode) {
 	};
 
 	this.maximize = function() {
-		if(this.isMinimized) {	
+		if(this.isMinimized && !this.isBlocked) {	
 			this.isMinimized = false;
 			this.draw();
 			UI.refreshTabPanel();
@@ -40,69 +47,77 @@ var Tab = function(mode) {
 			this.minimize();
 		}
 	};
+
+	this.block = function() {
+		this.isBlocked = true;
+		this.minimize();
+	};
 };
 
-UI.tabs = [];
-UI.tab_modes2HTML = {
-	'place' : function() { return player.place.getHTML() },
-	'inventory' : function() { return player.getInventoryHTML() },
-	'slots' : function() { return player.getSlotsHTML() },
-	'stats' : function() { return player.getStatsHTML() },
-	'chat' : function() { return chat.getHTML() }
-};
 
+UI.tabs = {};
+UI.drawTabs = function() {
+	$.each(this.tabs, function(mode, tab) {
+		if(!tab.isMinimized && !tab.isBlocked) {
+			tab.draw();
+		};
+	});
+};
 UI.refreshTabs = function() {
-	if(this.tabs.length>0) {
-		this.tabs.forEach(function(tab, id) {
-			if(!tab.isMinimized) {
-				tab.refresh();
-			}
-		});
-	}
+	$.each(this.tabs, function(mode, tab) {
+		if(!tab.isMinimized /* && tab.needRefresh */) {
+			tab.refresh();
+		};
+	});
 };
 UI.refreshTabPanel = function() {
 	var panel = $('.tab-panel');
 	var html = '';
-	this.tabs.forEach(function(tab, id) {
-		if(tab.isMinimized) {
-			var classes = 'minimized'
-		} else {
-			var classes = 'maximized'
-		};
-		html += '<div class="tab-icon '+classes+'" data-id='+id+'>'+tab.mode+'</div>'
+	$.each(this.tabs, function(mode, tab) {
+		console.log(tab)
+		html += tab.getPanelButtonHTML();
 	});
 	panel.html(html);
 };
-
-new Tab('place');
-new Tab('inventory');
-new Tab('slots');
-new Tab('stats');
-new Tab('chat');
-
-UI.refreshPlace = function() {
-	this.tabs[0].refresh();
-};
-UI.refreshInventory = function() {
-	this.tabs[1].refresh();
-};
-UI.refreshSlots = function() {
-	this.tabs[2].refresh();
-};
-UI.refreshStats = function() {
-	this.tabs[3].refresh();
-};
-UI.refreshChat = function() {
-	this.tabs[4].refresh();
+UI.draw = function() {
+	this.refreshTabPanel();
+	this.drawTabs();
 };
 
-$(document).on('click', '.tab_header', function() {
-	var tab = UI.tabs[$(this).parent().data('id')];
-	tab.minimize();
+new Tab('place', function() {
+	if(dungeon.current_place) {
+		return dungeon.current_place.getHTML();
+	} else {
+		return '';
+	};
+});
+new Tab('inventory', function() {
+	if(player) {
+		return player.getInventoryHTML();
+	} else {
+		return '';
+	};
+});
+new Tab('slots', function() {
+	if(player) {
+		return player.getSlotsHTML();
+	} else {
+		return '';
+	};
+});
+new Tab('stats', function() {
+	if(player) {
+		return player.getStatsHTML();
+	} else {
+		return '';
+	};
+});
+new Tab('chat', function() {
+	if(chat) {
+		return chat.getHTML();
+	} else {
+		return '';
+	};
 });
 
-$(document).on('click', '.tab-icon', function() {
-	var tab = UI.tabs[$(this).data('id')];
-	tab.toggle();
-});
 

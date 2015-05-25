@@ -2,35 +2,28 @@ var Stack = function() {
 	this.actions = [];
 	this.time = 0;
 
-	this.tick = function() {
-		if(this.time >= 10) return; //for preventing infinite loops in case of fuck-ups
-		this.time++;
-		console.log('stack tick', this.time);
-		if(this.actions.length > 0) {
-			this.actions.forEach(function(action, id) {
-				action.tick();
-			});
-		};
-		if(dungeon.current_place) {
-			dungeon.current_place.tick()
-		};
-	};
 
-	this.waitForPlayer = function() {
-		while(player.action) {
+	this.tick = function() {
+		this.time++;
+		if(dungeon.current_place) {
+			dungeon.current_place.tick();
+		} else {
+			player.action.tick();
+		};
+		if(player.action) {			
 			this.tick();
 		};
 	};
 
 	this.addAction = function(action) {
 		this.actions.push(action);
-		if(action.context == player) {
-			this.waitForPlayer();
-		}
+		if(action.context == player) { //Player's actions cause stack to tick and process all actions
+			this.tick();
+		};
 	};
 
-	this.removeAction = function(action) {
-		this.actions.splice(this.actions.indexOf(action), 1);
+	this.removeAction = function(id) {
+		this.actions.splice(id, 1);
 	};
 };
 
@@ -43,16 +36,15 @@ var Action = function(context, time, code, data) {
 
 	this.tick = function() {
 		this.time --;
-		if(this.time <=0) {
+		if(this.time <= 0) {
 			this.end();
 		}
 	};
 
-
 	this.end = function() {
 		this.code.call(context, this.data);
 		context.removeAction();
-		stack.removeAction(this);
+		stack.removeAction(stack.actions.indexOf(this));
 		UI.refreshTabs();
 	};
 }

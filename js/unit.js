@@ -4,6 +4,8 @@ var Unit = function(template, name, stats, slots, items) {
 	this.stats = stats;
 	this.inventory = new Inventory(this, slots, items);
 
+	this.stats['hp'] = this.stats['max_hp']
+
 	this.getId = function() {
 		return this.place.units.indexOf(this);
 	};
@@ -21,6 +23,9 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.isEnemyWith = function(unit) {
+		if(this == unit) {
+			return false;
+		};
 		if (this != player && unit != player) {
 			return false
 		};
@@ -35,15 +40,20 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.check = function() {
-		if(this.hp <= 0) {
+		if(this.stats.hp <= 0) {
 			this.die();
 		}
 	};
 
 	this.die = function() {
+		chat.send(this.name + ' has died.');
+		this.action = undefined;
 		this.inventory.emptySlots();
 		this.inventory.dropItems();
 		this.place.units.splice(this.getId(), 1);
+		if(this == player) {
+			UI.tabs['place'].block();
+		}
 	};
 
 	this.goTo = function(dest) {
@@ -52,7 +62,12 @@ var Unit = function(template, name, stats, slots, items) {
 			this.setPlace(data.dest_place);
 			if(this == player) {
 				chat.send('You entered ' + dest_place.name + '.');
-			}
+				data.dest_place.units.forEach(function(unit, id) {
+					if(unit != player) {
+						unit.requestAction();
+					};
+				});
+			};
 		}, {'dest_place' : dest_place});
 	};
 
@@ -76,7 +91,6 @@ var Unit = function(template, name, stats, slots, items) {
 		var res = true;
 		$.each(requirements, function(stat, value) {
 			if(stats[stat]) {
-				console.log(stats[stat], value)
 				if(stats[stat] < value) {
 					res = false;
 				};
@@ -127,32 +141,37 @@ var Unit = function(template, name, stats, slots, items) {
 		}, {'id':id} );
 	};
 
+	this.unpairSlot = function(slot_id) {
+		this.startAction(1, function(data) {
+			var name = this == player ? 'You' : this.name;
+			this.inventory.unpairSlot(data.slot_id);
+			chat.send(name + ' onehanded ' + this.inventory.slots[data.slot_id].item.name + '.');
+		}, {'slot_id':slot_id});	
+	};
+
+	this.pairSlots = function(slot_id, pair_slot_id) {;
+		console.log(slot_id, pair_slot_id)
+		this.startAction(1, function(data) {
+			this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
+			var name = this == player ? 'You' : this.name;
+			chat.send(name + ' twohanded ' + this.inventory.slots[slot_id].item.name + '.');
+		}, {'slot_id': slot_id, 'pair_slot_id': pair_slot_id});	
+		
+	};
+
 	this.toggleTwohand = function(slot_id) {
 		var slot = this.inventory.slots[slot_id];
-		var data = {'slot_id' : slot_id};
+		var name = this == player ? 'You' : this.name;
 		if(slot.pair_slot) {
-			this.startAction(1, function(data) {
-				this.inventory.unpairSlot(data.slot_id);
-				chat.send(this.name + ' onehanded ' + slot.item.name + '.')
-			}, {'slot_id':slot_id});			
+			this.unpairSlot(slot_id);		
 		} else {
 			if(true) { //twohand condition
 				var pair_slot = this.inventory.getPairForSlot(slot_id);
-				data['pair_slot_id'] = pair_slot.getId();
+				var pair_slot_id = pair_slot.getId();
 				if(pair_slot.item) {
-					console.log(slot.getId(), pair_slot.getId());
-					this.startAction(1, function (data) {
-						this.inventory.unwieldItem(data.pair_slot_id);
-						this.startAction(1, function(data) {
-							this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
-							chat.send(this.name + ' twohanded ' + this.inventory.slots[data.slot_id].item.name + '.')
-						}, data);
-					}, data);
+					this.unwieldItem(pair_slot_id);
 				} else {
-					this.startAction(1, function(data) {
-						this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
-						chat.send(this.name + ' twohanded ' + this.inventory.slots[data.slot_id].item.name + '.')
-					}, data);
+					this.pairSlots(slot_id, pair_slot_id);
 				}
 			};			
 		};
@@ -171,6 +190,7 @@ var UnitTemplate = function(name, stat_formulas, slots) {
 	this.name = name;
 	this.slots = slots || humanoid_slots
 	this.stat_formulas = stat_formulas;
+	
 
 	this.getUnit = function() {
 		var stats = Formula.calcArray(this.stat_formulas);
@@ -181,9 +201,7 @@ var UnitTemplate = function(name, stat_formulas, slots) {
 
 
 var unit_templates = new Collection([
-	new UnitTemplate('Rat', 		{'hp':range_formula(10, 20)}, null),
-	new UnitTemplate('Zombie', 		{'hp':range_formula(20, 30)}, humanoid_slots),
-	new UnitTemplate('Skeleton', 	{'hp':range_formula(10, 30)}, humanoid_slots)
+	new UnitTemplate('Rat', 		{'max_hp':range_formula(10, 20)}, null),
+	new UnitTemplate('Zombie', 		{'max_hp':range_formula(20, 30)}, humanoid_slots),
+	new UnitTemplate('Skeleton', 	{'max_hp':range_formula(10, 30)}, humanoid_slots)
 ]);
-
-var player = new Unit(null, 'player', {'maxhp':100, 'strength': 10}, humanoid_slots_four_hands, []	);

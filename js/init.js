@@ -1,8 +1,10 @@
 
+
 var dungeon = new Dungeon(floor_templates);
 var stack = new Stack();
-
 var chat = new Chat();
+
+
 
 var sword = new Item(null, 		'sword', 			{'dmg':3}, {'strength':10}, 'hand', {});
 var axe = new Item(null, 		'axe', 				{'dmg':3}, {'strength':10}, 'hand', {});
@@ -13,15 +15,9 @@ var claymore = new Item(null, 	'claymore	', 		{'dmg':5}, {'strength':14}, 'hand'
 var light_helm = new Item(null, 'light helm', 		{'armor':1}, {}, 'head', {});
 var heavy_helm = new Item(null, 'heavy helm', 		{'armor':2}, {'strength':11}, 'head', {});
 
-player.addItem(sword);
-player.addItem(mace);
-player.addItem(axe);
-player.addItem(hammer);
-player.addItem(spear);
-player.addItem(claymore);
-player.addItem(light_helm);
-player.addItem(heavy_helm);
-UI.tabs[1].maximize();
-UI.tabs[2].maximize();
-UI.tabs[4].maximize();
+var player = new Unit(null, 'player', {'max_hp':100, 'strength': 10}, humanoid_slots, [// Items
+	sword, axe, mace, hammer, spear, claymore, light_helm, heavy_helm
+]);
+dungeon.floors[0].entrance.clearEnemies();
 player.goTo(dungeon.floors[0]);
+UI.draw();
