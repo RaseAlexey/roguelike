@@ -15,7 +15,7 @@ var Collection = function(items) {
 
     this.filter = function(property, condition) {
         var result = [];
-        this.all.forEach(function(item, id) {
+        this.all.forEach(function(item) {
             if(condition(item[property])) {
                 result.push(item);
             }

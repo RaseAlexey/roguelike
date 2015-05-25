@@ -6,12 +6,12 @@ var chat = new Chat();
 
 
 
-var sword = new Item(null, 		'sword', 			{'dmg':3}, {'strength':10}, 'hand', {});
-var axe = new Item(null, 		'axe', 				{'dmg':3}, {'strength':10}, 'hand', {});
-var mace = new Item(null, 		'mace', 			{'dmg':3}, {'strength':10}, 'hand', {});
-var hammer = new Item(null, 	'hammer', 			{'dmg':3}, {'strength':10}, 'hand', {});
-var spear = new Item(null, 		'spear	', 			{'dmg':3}, {'strength':10}, 'hand', {});
-var claymore = new Item(null, 	'claymore	', 		{'dmg':5}, {'strength':14}, 'hand', {});
+var sword = new Item(null, 		'sword', 			{'dmg':6}, {'strength':10}, 'hand', {});
+var axe = new Item(null, 		'axe', 				{'dmg':8}, {'strength':10}, 'hand', {});
+var mace = new Item(null, 		'mace', 			{'dmg':8}, {'strength':10}, 'hand', {});
+var hammer = new Item(null, 	'hammer', 			{'dmg':4}, {'strength':10}, 'hand', {});
+var spear = new Item(null, 		'spear	', 			{'dmg':8}, {'strength':10}, 'hand', {});
+var claymore = new Item(null, 	'claymore	', 		{'dmg':16}, {'strength':14}, 'hand', {});
 var light_helm = new Item(null, 'light helm', 		{'armor':1}, {}, 'head', {});
 var heavy_helm = new Item(null, 'heavy helm', 		{'armor':2}, {'strength':11}, 'head', {});
 

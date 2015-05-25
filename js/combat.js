@@ -1,6 +1,14 @@
 
 Unit.prototype.calcDamage = function() {
-	return rand(10);
+    var weapon_damage = 0;
+    var str_modificator = 10;
+    var weapons = this.inventory.getItemsFromNotEmptySlotsOfType('hand');
+
+    weapons.forEach(function(weapon) {
+        weapon_damage += weapon.stats.dmg;
+    });
+
+    return weapon_damage + range(0, str_modificator);
 };
 
 Unit.prototype.calcAttackTime = function() {

@@ -86,15 +86,25 @@ var Inventory = function(unit, slots_list, items) {
 		}
 	};
 
-	this.getSlotsOfType = function(type) {
-		var slots = [];
-		this.slots.forEach(function(slot) {
-			if(slot.type == type) {
-				slots.push(slot);
-			}
-		});
-		return slots;
-	};
+    this.getSlotsOfType = function(type) {
+        var slots = [];
+        this.slots.forEach(function(slot) {
+            if(slot.type == type) {
+                slots.push(slot);
+            }
+        });
+        return slots;
+    };
+
+    this.getItemsFromNotEmptySlotsOfType = function(type) {
+        var items = [];
+        this.getSlotsOfType(type).forEach(function(slot) {
+            if(slot.item != null) {
+                items.push(slot.item);
+            }
+        });
+        return items;
+    };
 
 	this.getSlotForItem = function(item) {
 		var free_slot;
