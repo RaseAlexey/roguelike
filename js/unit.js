@@ -150,11 +150,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.pairSlots = function(slot_id, pair_slot_id) {
-<<<<<<< HEAD
 		console.log(slot_id, pair_slot_id);
-=======
-		console.log(slot_id, pair_slot_id)
->>>>>>> refactored a bit
 		this.startAction(1, function(data) {
 			this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
 			var name = this == player ? 'You' : this.name;
