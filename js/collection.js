@@ -2,14 +2,15 @@
 var Collection = function(items) {
     this.all = [];
     this.byName = {};
-    items.forEach(function(item, index) {
-        this.add(item);
-    }, this);
 
     this.add = function(item) {
     	this.all.push(item);
     	this.byName[item.name] = item;
     };
+
+    items.forEach(function(item, index) {
+        this.add(item);
+    }, this);
 
     this.getByName = function(name) {
     	return this.byName[name];
