@@ -1,10 +1,11 @@
+
 var Unit = function(template, name, stats, slots, items) {
 	this.template = template;
 	this.name = name;
 	this.stats = stats;
 	this.inventory = new Inventory(this, slots, items);
-
 	this.stats['hp'] = this.stats['max_hp']
+
 
 	this.getId = function() {
 		return this.place.units.indexOf(this);
@@ -13,7 +14,7 @@ var Unit = function(template, name, stats, slots, items) {
 	this.startAction = function(time, code, data, context) {
 		if(!this.action) {
 			var context = context || this;
-			this.action = new Action(this, time, code, data);
+			this.action = new Action(context, time, code, data);
 			stack.addAction(this.action);
 		}
 	};
@@ -25,13 +26,13 @@ var Unit = function(template, name, stats, slots, items) {
 	this.isEnemyWith = function(unit) {
 		if(this == unit) {
 			return false;
-		};
+		}
 		if (this != player && unit != player) {
 			return false
-		};
+		}
 		if (this == player && unit != player) {
 			return true
-		};
+		}
 		return true;
 	};
 
@@ -65,22 +66,21 @@ var Unit = function(template, name, stats, slots, items) {
 				data.dest_place.units.forEach(function(unit, id) {
 					if(unit != player) {
 						unit.requestAction();
-					};
+					}
 				});
-			};
+			}
 		}, {'dest_place' : dest_place});
 	};
 
 	this.setPlace = function(place) {
 		if(this.place) {
 			this.place.removeUnit(this);	
-		};
+		}
 		place.addUnit(this);
 		if(this == player) {
 			dungeon.current_place = place;
-		};
+		}
 	};
-
 
 	this.getPortraitUrl = function() {
 		return 'portraits/'+this.template.name + '.jpg';
@@ -93,7 +93,7 @@ var Unit = function(template, name, stats, slots, items) {
 			if(stats[stat]) {
 				if(stats[stat] < value) {
 					res = false;
-				};
+				}
 			}
 		});
 		return res;
@@ -135,7 +135,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.unwieldItem = function(id) {
-		console.log('unit unwield start', id)
+		console.log('unit unwield start', id);
 		this.startAction(1, function (data) {
 			this.inventory.unwieldItem(data.id)
 		}, {'id':id} );
@@ -149,19 +149,17 @@ var Unit = function(template, name, stats, slots, items) {
 		}, {'slot_id':slot_id});	
 	};
 
-	this.pairSlots = function(slot_id, pair_slot_id) {;
-		console.log(slot_id, pair_slot_id)
+	this.pairSlots = function(slot_id, pair_slot_id) {
+		console.log(slot_id, pair_slot_id);
 		this.startAction(1, function(data) {
 			this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
 			var name = this == player ? 'You' : this.name;
 			chat.send(name + ' twohanded ' + this.inventory.slots[slot_id].item.name + '.');
-		}, {'slot_id': slot_id, 'pair_slot_id': pair_slot_id});	
-		
+		}, {'slot_id': slot_id, 'pair_slot_id': pair_slot_id});
 	};
 
 	this.toggleTwohand = function(slot_id) {
 		var slot = this.inventory.slots[slot_id];
-		var name = this == player ? 'You' : this.name;
 		if(slot.pair_slot) {
 			this.unpairSlot(slot_id);		
 		} else {
@@ -173,8 +171,8 @@ var Unit = function(template, name, stats, slots, items) {
 				} else {
 					this.pairSlots(slot_id, pair_slot_id);
 				}
-			};			
-		};
+			}
+		}
 	};
 
 	this.dropItem = function(id) {
@@ -183,7 +181,6 @@ var Unit = function(template, name, stats, slots, items) {
 		}, {'id':id} );
 	};
 };
-
 
 
 var UnitTemplate = function(name, stat_formulas, slots) {

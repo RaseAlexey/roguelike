@@ -16,14 +16,14 @@ var Floor = function(name, template, width, height, pattern, place_templates) {
     this.entrance = this.rect.entrance;
     this.exit = this.rect.exit;
 
+
     this.getHTML = function() {
         var html ='<div class="floor">';
         html += this.rect.getHTML();
         html += '</div`>';
         return html;
     };
-};  
-
+};
 
 var FloorTemplate = function(name, pattern, x_formula, y_formula, levels, place_templates) {
     this.name = name;
@@ -59,14 +59,13 @@ var Rect = function(floor, width, height, pattern, place_templates) {
     this.place_templates = place_templates;
     this.cells = [];
 
-
     for (var y = 0; y < height; y++) {
         var row = [];
         for (var x = 0; x < width; x++) {
            row.push(null); 
         };
         this.cells.push(row)
-    }; 
+    };
 
 
     this.getCell = function(x, y) {
@@ -102,6 +101,7 @@ var Rect = function(floor, width, height, pattern, place_templates) {
         return html;
     }
 };
+
 
 var floor_templates = new Collection([
     new FloorTemplate('Entrance',   'linear', range_formula(4, 7), range_formula(4, 7), [1], [place_templates.getByName('Dusty room'), place_templates.getByName('Hall')]),

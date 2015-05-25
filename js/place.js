@@ -1,3 +1,4 @@
+
 var Place = function(template, name, units) {
     this.name = name;
     this.template = template;
@@ -5,9 +6,10 @@ var Place = function(template, name, units) {
     this.items = [];
 
     var place = this;
-    this.units.forEach(function(unit, id) {
+    this.units.forEach(function(unit) {
         unit.place = place;
-    })
+    });
+
 
     this.addUnit = function(unit) {
         unit.place = this;
@@ -23,22 +25,22 @@ var Place = function(template, name, units) {
 
     this.clearEnemies = function() {
         var self = this;
-        var units = this.units.slice(); //making independent copy of place units array to use later
-        units.forEach(function(unit, id) { //forEach is applied to copy array so removing units from the place doesnt fuck the shit up
+        var units = this.units.slice(); // making independent copy of place units array to use later
+        units.forEach(function(unit) { // forEach is applied to copy array so removing units from the place doesnt fuck the shit up
             if(unit.isEnemy()) {
                 console.log(unit);
                 self.removeUnit(unit);
-            };
-        });
+            }
+        })
     };
 
     this.hasEnemies = function() {
         var has_enemies = false;
         if(!this.units) return false;
-        this.units.forEach(function(unit, id) {
+        this.units.forEach(function(unit) {
             if(unit.isEnemy() && !has_enemies) {
                 has_enemies = true;
-            };
+            }
         });
         return has_enemies;   
     };
@@ -57,30 +59,30 @@ var Place = function(template, name, units) {
             console.log(x, y, places);
             if(places[y][x - 1]) {
                 connections['west'] = places[y][x - 1];
-            };
+            }
             if(places[y][x + 1]) {
                 connections['east'] = places[y][x + 1];
-            };
+            }
             if(places[y - 1] && places[y - 1][x]) {
                 connections['north'] = places[y - 1][x];
-            };
+            }
             if(places[y + 1] && places[y + 1][x]) {
                 connections['south'] = places[y + 1][x];
-            };
-        };
+            }
+        }
         return connections;
     };
 
     this.tick = function() {
-        this.units.forEach(function(unit, id) {
+        this.units.forEach(function(unit) {
             if(unit.action) {
                unit.action.tick();
-            };
+            }
             if(!unit.action) {
                 if(unit != player) {
                     unit.requestAction(); 
-                };  
-            };
+                }
+            }
         }); 
     }
 };
@@ -88,15 +90,15 @@ var Place = function(template, name, units) {
 
 var PlaceTemplate = function(name, unit_templates, number_of_units_formula) {
     this.name = name;
-    this.unit_templates = unit_templates
+    this.unit_templates = unit_templates;
 
     this.getPlace = function() {
         var name = this.name;
         var units = [];
         var number_of_units = number_of_units_formula();
         for(var i = 0; i < number_of_units; i++) {
-        	units.push(getRandomItemInArray(unit_templates).getUnit()); 
-        };
+        	units.push(getRandomItemInArray(this.unit_templates).getUnit());
+        }
         return new Place(this, name, units);
     };   
 };

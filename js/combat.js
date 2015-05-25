@@ -1,3 +1,4 @@
+
 Unit.prototype.calcDamage = function() {
 	return rand(10);
 };

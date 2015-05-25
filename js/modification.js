@@ -3,6 +3,7 @@
 	replayability to the game.
 	Modifications may and should be organized by ideas/things they are rolled for/rarity.
 */
+
 var Modification = function(text, type, stats, script) {
 	this.text = text;  	// the words modification adds to name of the object it is applied to.
 	this.type = type; 	// 'prefix' of 'affix'.
@@ -16,7 +17,7 @@ var Modification = function(text, type, stats, script) {
 			object.name = this.text + ' ' + object.name;
 		} else {
 			object.name = object.name + ' ' + this.text;
-		};	
+		}
 
 		$.each(object.stats, function(stat, value) {
 			value += mod_stats[stat];

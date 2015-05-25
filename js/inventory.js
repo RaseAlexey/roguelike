@@ -1,3 +1,4 @@
+
 var Inventory = function(unit, slots_list, items) {
 	this.unit = unit;
 	this.slots = [];
@@ -15,6 +16,7 @@ var Inventory = function(unit, slots_list, items) {
 			self.slots.push(new Slot(self, type));
 		});		
 	};
+
 
 	this.addItem = function(item) {
 		item.unit = this.unit;
@@ -42,12 +44,8 @@ var Inventory = function(unit, slots_list, items) {
 	this.canWield = function(item) {
 		var slot = this.getSlotForItem(item);
 		if (unit.checkRequirements(item.requirements)) {
-			if(slot.item) {
-				return false;
-			} else {
-				return true
-			};
-		};
+            return !Boolean(slot.item);
+		}
 	};
 
 	this.wieldItem = function(item_id) {
@@ -59,40 +57,41 @@ var Inventory = function(unit, slots_list, items) {
 			var name = this.unit == player ? 'You' : this.unit.name;
 			chat.send(name + ' wielded ' + item.name + '.');
 		} else {
-
+            throw new Error('WTF? Inventory.wieldItem var slot == false');
 		}
 	};
 
 	this.unwieldItem = function(slot_id) {
 		var slot = this.slots[slot_id];
-		console.log('unwield', slot_id)
+		console.log('unwield', slot_id);
 		if(slot) {
 			if(slot.pair_slot) {
 				this.unpairSlot(slot_id);
 			}
 			var item = slot.item;
-			console.log(slot, item)
+			console.log(slot, item);
 			if(item) {
 				slot.removeItem();
 				this.addItem(item);
 				var name = this.unit == player ? 'You' : this.unit.name;
 				chat.send(name + ' unwielded ' + item.name + '.');
 			}
-		};
+		}
 	};
 
 	this.dropItem = function(item_id) {
 		var item = this.removeItem(item_id);
 		if(item) {
 			this.unit.place.addItem(item);
-		};
+		}
 	};
+
 	this.getSlotsOfType = function(type) {
-		var slots = []
-		this.slots.forEach(function(slot, id) {
+		var slots = [];
+		this.slots.forEach(function(slot) {
 			if(slot.type == type) {
 				slots.push(slot);
-			};
+			}
 		});
 		return slots;
 	};
@@ -101,14 +100,16 @@ var Inventory = function(unit, slots_list, items) {
 		var free_slot;
 		var slots = this.getSlotsOfType(item.slot_type);
 		var new_slots = [];
-		slots.forEach(function(slot, id) {
+
+		slots.forEach(function(slot) {
 			if(!slot.pair_slot) {
 				new_slots.push(slot);
 				if(!slot.item && !free_slot) {
 					free_slot = slot;
-				};
-			};
+				}
+			}
 		});
+
 		return free_slot || new_slots[0];
 	};
 
@@ -117,7 +118,8 @@ var Inventory = function(unit, slots_list, items) {
 		var free_slot;
 		var slots = this.getSlotsOfType(first_slot.item.slot_type);
 		var new_slots = [];
-		slots.forEach(function(slot, id) {
+
+		slots.forEach(function(slot) {
 			if(slot != first_slot && !slot.pair_slot) {
 				new_slots.push(slot);
 				if(!free_slot && !slot.item) {
@@ -125,6 +127,7 @@ var Inventory = function(unit, slots_list, items) {
 				}
 			}
 		});
+
 		return free_slot || new_slots[0];
 	};
 
@@ -148,14 +151,14 @@ var Inventory = function(unit, slots_list, items) {
 		this.slots.forEach(function(slot, id) {
 			if(slot.item) {
 				self.unwieldItem(id);
-			};
+			}
 		});
 	};
 
 	this.dropItems = function() {
 		while(this.items.length>0) {
 			this.dropItem(0);
-		};
+		}
 	};
 
 };

@@ -1,13 +1,15 @@
 /* example of getHTML function
-Object.prototype.getHTML = function() {
-    var html = '';
-    html += '<div class="class_name">' + this['property_name'] + '</div>';
-    return html;
-};
+    Object.prototype.getHTML = function() {
+        var html = '';
+        html += '<div class="class_name">' + this['property_name'] + '</div>';
+        return html;
+    };
 */
+
 Dungeon.prototype.getHTML = function() {
 	return this.current_floor.getHTML();
 };
+
 
 Floor.prototype.getHTML = function() {
     var html ='<div class="floor">';
@@ -15,6 +17,7 @@ Floor.prototype.getHTML = function() {
     html += '</div`>';
     return html;
 };
+
 
 Rect.prototype.getHTML = function() {
     var html = '<table border="1" class="cells">';
@@ -35,6 +38,7 @@ Rect.prototype.getHTML = function() {
     html += '</table>'
     return html;
 };
+
 
 Place.prototype.getHTML = function() {
     var html = '<div class="header">' + this.name + '</div>';
@@ -145,6 +149,7 @@ Unit.prototype.getSlotsHTML = function() {
     return html;
 };
 
+
 Slot.prototype.getHTML = function() {
     if(this.pair_slot && !this.item) { //pair slots without items dont display
         return '';
@@ -211,6 +216,7 @@ Tab.prototype.getInnerHTML = function() {
     html += '</div>';
 	return html;
 };
+
 
 $(document).on('click', '.list-header', function() {
     var list = $(this).next();

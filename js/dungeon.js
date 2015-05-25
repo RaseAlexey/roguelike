@@ -7,6 +7,7 @@
 	and you get save of your character. Then you can start all over again with that character and dungeon will be harder depending on
 	your character.
 */
+
 var Dungeon = function(floor_templates) {
 	this.floor_templates = floor_templates;
 	this.floors = [];
@@ -23,6 +24,7 @@ var Dungeon = function(floor_templates) {
 		return this.current_floor.getHTML();
 	}
 };
+
 //player.goTo(dungeon.floors[0])
 
 //$('body').html(dungeon.floors[0].getHTML());

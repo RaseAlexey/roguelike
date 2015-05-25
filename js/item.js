@@ -1,3 +1,4 @@
+
 var Item = function(template, name, stats, requirements, slot_type, code) {
 	this.name = name;
 	this.stats = stats;
@@ -9,10 +10,10 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 	this.getId = function() {
 		if(this.unit) {
 			return this.unit.inventory.items.indexOf(this);
-		};
+		}
 		if(this.place) {
 			return this.place.items.indexOf(this);
-		};
+		}
 		if(this.slot) {
 			return this.slot.getId();
 		}

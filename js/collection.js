@@ -1,7 +1,10 @@
+
 var Collection = function(items) {
     this.all = [];
     this.byName = {};
-
+    items.forEach(function(item, index) {
+        this.add(item);
+    }, this);
 
     this.add = function(item) {
     	this.all.push(item);
@@ -21,12 +24,4 @@ var Collection = function(items) {
         });
         return result;
     };
-
-    //  INITIALIZAION
-    var add_method = this.add;
-    var self = this;
-    items.forEach(function(item, index) {
-        add_method.call(self, item);
-    });
-
 };

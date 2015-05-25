@@ -1,3 +1,4 @@
+
 var Chat = function(node) {
 	this.node = node;
 	this.posts = [];
