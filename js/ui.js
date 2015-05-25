@@ -46,3 +46,12 @@ $(document).on('click', '.tab-icon', function() {
 	console.log(tab);
 	tab.toggle();
 });
+
+
+$(document).on('click', '.connection', function() {
+	var x = $(this).data('x');
+	var y = $(this).data('y');
+	var dest = dungeon.current_floor.places[y][x];
+	console.log(x, y, dungeon.current_floor[x])
+	player.goTo(dest);
+});

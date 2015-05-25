@@ -58,7 +58,15 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.goTo = function(dest) {
-		var dest_place = typeof dest == Place ? dest : dest.entrance;
+		console.log(dest);
+		var dest_place;
+		if(dest.constructor == Place) {
+			dest_place = dest;
+		} else if (dest.constructor == Floor) {
+			dest_place = dest.entrance
+		} else {
+			throw new Error('goTo invalid dest type');
+		}
 		this.startAction(1, function(data) {
 			this.setPlace(data.dest_place);
 			if(this == player) {
@@ -79,6 +87,7 @@ var Unit = function(template, name, stats, slots, items) {
 		place.addUnit(this);
 		if(this == player) {
 			dungeon.current_place = place;
+			dungeon.current_floor = place.floor || player.floor || dungeon.current_floor;
 		}
 	};
 

@@ -73,7 +73,7 @@ Place.prototype.getConnectionsHTML = function() {
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections v-list">';
     $.each(this.getConnections(), function(direction, destination) {
-        html += '<div class="connection"><div class="name">' + direction + ': ' + destination.name + '</div></div>';
+        html += '<div class="connection" data-x='+destination.x+' data-y='+destination.y+'><div class="name">' + direction + ': ' + destination.name + '</div></div>';
     });
     html += '</div>';
     html += '</div>';
@@ -98,9 +98,11 @@ Place.prototype.getItemsHTML = function() {
 
 Chat.prototype.getHTML = function() {
 	var html = '';
+    html += '<div class="posts">';
 	this.posts.forEach(function(post, index) {
 		html += post.getHTML();
 	});
+    html += '</div>';
 	return html;
 };
 

@@ -23,9 +23,12 @@
 .tab_contents {
 	display: flex;
 	flex-direction: column;
+	flex: 1;
+	height: calc(100% - 2em);
 	padding: 0 0.2em;
 	padding-top: 0.5em;
 	overflow: auto;
+	box-sizing: border-box;
 }
 .tab_footer {
 	flex: 1;

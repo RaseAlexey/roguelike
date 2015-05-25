@@ -65,7 +65,7 @@ body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }	
-.unit, .item {
+.unit, .item, .connection {
 	flex-direction: row;
 	cursor: pointer;	
 }
