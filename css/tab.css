@@ -21,7 +21,8 @@
 	/*box-shadow: 0 3px 1px rgba(0,0,0,0.5);*/
 }
 .tab_contents {
-	flex: 1;
+	display: flex;
+	flex-direction: column;
 	padding: 0 0.2em;
 	padding-top: 0.5em;
 	overflow: auto;

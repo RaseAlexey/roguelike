@@ -73,7 +73,7 @@ Place.prototype.getConnectionsHTML = function() {
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections v-list">';
     $.each(this.getConnections(), function(direction, destination) {
-        html += '<div class="connection">' + direction + ': ' + destination.name + '</div>';
+        html += '<div class="connection"><div class="name">' + direction + ': ' + destination.name + '</div></div>';
     });
     html += '</div>';
     html += '</div>';

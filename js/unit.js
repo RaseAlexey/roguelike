@@ -4,7 +4,7 @@ var Unit = function(template, name, stats, slots, items) {
 	this.name = name;
 	this.stats = stats;
 	this.inventory = new Inventory(this, slots, items);
-	this.stats['hp'] = this.stats['max_hp']
+	this.stats['hp'] = this.stats['hp'] ? this.stats['hp'] : this.stats['max_hp'];
 
 
 	this.getId = function() {
@@ -150,7 +150,11 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.pairSlots = function(slot_id, pair_slot_id) {
+<<<<<<< HEAD
 		console.log(slot_id, pair_slot_id);
+=======
+		console.log(slot_id, pair_slot_id)
+>>>>>>> refactored a bit
 		this.startAction(1, function(data) {
 			this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
 			var name = this == player ? 'You' : this.name;
@@ -195,6 +199,20 @@ var UnitTemplate = function(name, stat_formulas, slots) {
 		return new Unit(this, this.name, stats, this.slots);
 	};
 };
+
+/*
+var Rat = function() {
+	return new Unit('Rat', {'max_hp':range_formula(10, 15)});
+};
+
+var Zombie = function() {
+	return new Unit('Zombie', {'max_hp':range_formula(10, 20)});
+};
+
+var Skeleton = function() {
+	return new Unit('Skeleton', {'max_hp':range_formula(5, 20)});
+};
+*/
 
 
 var unit_templates = new Collection([
