@@ -29,15 +29,18 @@ var Place = function(template, name, units) {
                 console.log(unit);
                 self.removeUnit(unit);
             };
-        })
+        });
     };
 
     this.hasEnemies = function() {
+        var has_enemies = false;
         if(!this.units) return false;
         this.units.forEach(function(unit, id) {
-            if(unit.isEnemy()) return true;
+            if(unit.isEnemy() && !has_enemies) {
+                has_enemies = true;
+            };
         });
-        return false;   
+        return has_enemies;   
     };
 
     this.addItem = function(item) {

@@ -18,6 +18,6 @@ var heavy_helm = new Item(null, 'heavy helm', 		{'armor':2}, {'strength':11}, 'h
 var player = new Unit(null, 'player', {'max_hp':100, 'strength': 10}, humanoid_slots, [// Items
 	sword, axe, mace, hammer, spear, claymore, light_helm, heavy_helm
 ]);
-dungeon.floors[0].entrance.clearEnemies();
+//dungeon.floors[0].entrance.clearEnemies();
 player.goTo(dungeon.floors[0]);
 UI.draw();

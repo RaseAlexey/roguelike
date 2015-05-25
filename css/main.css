@@ -51,7 +51,7 @@ body {
 .slot.full {
 	border-color: #6B6B6B;
 }
-.unit, .item, .slot {
+.unit, .item, .slot, .connection {
 	display: flex;
 	flex-align: center;
 	justify-content: space-between;
