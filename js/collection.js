@@ -3,14 +3,11 @@ var Collection = function(items) {
     this.all = [];
     this.byName = {};
 
-    this.add = function(item) {
-    	this.all.push(item);
-    	this.byName[item.name] = item;
-    };
 
-    items.forEach(function(item, index) {
-        this.add(item);
-    }, this);
+    this.add = function(item) {
+        this.all.push(item);
+        this.byName[item.name] = item;
+    };
 
     this.getByName = function(name) {
     	return this.byName[name];
@@ -25,4 +22,9 @@ var Collection = function(items) {
         });
         return result;
     };
+
+
+    items.forEach(function(item) {
+        this.add(item);
+    }, this);
 };
