@@ -33,5 +33,9 @@ var constant_formula = function(constant) {
     return new Formula(function(value){return value}, [constant]);
 };
 
+var add_item_to_player_formula = function(item) {
+    return new Formula(function(item) { player.addItem(item)}, [item]);
+};
+
 
 
