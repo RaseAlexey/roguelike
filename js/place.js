@@ -88,7 +88,7 @@ var Place = function(template, name, units) {
 };
 
 
-var PlaceTemplate = function(name, unit_templates, number_of_units_formula) {
+var PlaceTemplate = function(name, type, unit_templates, number_of_units_formula) {
     this.name = name;
     this.unit_templates = unit_templates;
 
@@ -110,6 +110,7 @@ Place.generate = function(name) {
 
 
 var place_templates = new Collection([
-    new PlaceTemplate('Dusty room', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
-    new PlaceTemplate('Hall', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3))
+    new PlaceTemplate('Dusty room', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
+    new PlaceTemplate('Hall', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
+    new PlaceTemplate('Zombie room: reward', 'reward', [unit_templates.getByName('Zombie')], constant_formula(5))
 ]);
