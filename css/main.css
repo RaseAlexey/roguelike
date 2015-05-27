@@ -74,6 +74,7 @@ body {
 }
 
 .option {
+	justify-content: space-around;
 }
 .name {
 	display: flex;

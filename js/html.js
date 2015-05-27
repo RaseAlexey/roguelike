@@ -210,7 +210,8 @@ Question.prototype.getHTML = function() {
 Option.prototype.getHTML = function() {
     var html = '';
     html += '<div class = "option" data-id=' + this.getId() + '>';
-    html += this.text;
+    html += '<span>'+this.text+'</span>';
+    //html += '<div class="name">'+this.text+'</div>';
     html += '</div>';
     return html;
 };
