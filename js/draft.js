@@ -96,6 +96,7 @@ var draft_generator = function() {
 
     questions.push(new Question('Next five choices will decide your fate!', [new Option('OK')]));
 
+
     items_library.all.forEach(function(item) {
         options_pull.push(new OptionItemRevard(item.name, item));
     });
@@ -103,6 +104,7 @@ var draft_generator = function() {
     ['str', 'dex', 'int'].forEach(function(stat_name) {
         options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
     });
+
 
     for (var i = 0; i<5; i++) {
         var options = [];

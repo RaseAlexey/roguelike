@@ -18,6 +18,7 @@ $(document).on('click', '.twohand-button', function(event) {
 
 $(document).on('click', '.inventory .item', function() {
 	var id = $(this).data('id');
+    console.log(id);
 	player.wieldItem(id);
 });
 

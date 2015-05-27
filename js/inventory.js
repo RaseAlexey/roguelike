@@ -45,6 +45,7 @@ var Inventory = function(unit, slots_list, items) {
 	};
 
 	this.canWield = function(item) {
+        console.log(item);
 		var slot = this.getSlotForItem(item);
 		if (this.unit.checkRequirements(item.requirements)) {
             return slot ? !Boolean(slot.item) : false;
@@ -52,8 +53,8 @@ var Inventory = function(unit, slots_list, items) {
 	};
 
 	this.wieldItem = function(item_id) {
+        console.log(item_id);
 		var item = this.items[item_id];
-        console.log(item_id, item);
 		var slot = this.getSlotForItem(item);
 		if (slot) {
 			this.removeItem(item_id);

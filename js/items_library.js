@@ -12,14 +12,14 @@
 
 var items_library = new Collection([
     // old trash section
-new Item(null, 		'sword', 			{'dmg':3, 'accuracy':7, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 		'axe', 				{'dmg':4, 'accuracy':6, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 		'mace', 			{'dmg':5, 'accuracy':5, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 		'spear	', 			{'dmg':8, 'accuracy':7, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 	'hammer', 			{'dmg':10, 'accuracy':5, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 	'claymore	', 		{'dmg':16, 'accuracy':4, 'attack_time':3, 'weight':10}, {'str':2}, 'hand', {}),
-new Item(null, 'light helm', 		{'armor':1, 'weight':4}, {}, 'head', {}),
-new Item(null, 'heavy helm', 		{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
+new Item(null, 	'sword', 		{'dmg':3, 'accuracy':7, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'axe', 			{'dmg':4, 'accuracy':6, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'mace', 		{'dmg':5, 'accuracy':5, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'spear	', 		{'dmg':8, 'accuracy':7, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'hammer', 		{'dmg':10, 'accuracy':5, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'claymore	', 	{'dmg':16, 'accuracy':4, 'attack_time':3, 'weight':10}, {'str':2}, 'hand', {}),
+new Item(null, 'light helm', 	{'armor':1, 'weight':4}, {}, 'head', {}),
+new Item(null, 'heavy helm', 	{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
 
 //var heavy_helm = new Item(null, 'heavy helm', 		{'armor':2, 'weight':8}, {'str':11}, 'head', {});
 
@@ -49,7 +49,7 @@ new Item(null, 'heavy helm', 		{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
 
     // ########################################## SHIELDS ##########################################
     // Light
-    new Item(null, 'Light shield',   {'block_rate':20, 'dex_penalty':0}, {'str':0}, 'hand', {}),
+    new Item(null, 'Light shield',   {'dmg':0, 'block_rate':20, 'dex_penalty':0}, {'str':0}, 'hand', {}),
     // Medium
     new Item(null, 'Medium shield',  {'dmg':0, 'block_rate':35, 'dex_penalty':1}, {'str':1}, 'hand', {}),
     // Heavy

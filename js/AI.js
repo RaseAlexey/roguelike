@@ -7,7 +7,7 @@ Unit.prototype.requestAction = function() {
             });
             // console.log(weapons);
             weapons.forEach(function(weapon) {
-                // console.log('wielding'  , weapon);
+                 console.log('wielding', weapon);
                 this.wieldItem(weapon.getId());
             }, this);
         }

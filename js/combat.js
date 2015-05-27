@@ -48,10 +48,16 @@ Unit.prototype.decreaseHp = function(damage) {
     this.check();
 };
 
-Unit.prototype.getAbsorb = function(damage) {
+Unit.prototype.getAbsorb = function() {
+    var armor = this.inventory.getItemsFromNotEmptySlotsOfType('torso');
+    if (armor.length) {
+        console.log(armor);
+        return armor[0].stats.def;
+    }
     return 0;
 };
-Unit.prototype.getDodge = function(damage) {
+
+Unit.prototype.getDodge = function() {
     return 5 + this.stats.dex;
 };
 
@@ -94,7 +100,7 @@ Unit.prototype.strike = function(target) {
                 }
                 else {
                     // strike successful
-                    chat.send(this.name + ' strikes ' + target.name +' and dealt ' + (dmg - absorb) + ' damage.');
+                    chat.send(this.name + ' strikes ' + target.name +' and dealt ' + (dmg - absorb) + ' damage. absorbed: '+absorb);
                     data.target.decreaseHp(dmg - absorb);
                 }
             } else {
