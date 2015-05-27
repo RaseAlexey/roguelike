@@ -87,6 +87,7 @@ Place.prototype.getItemsHTML = function() {
     html += '<div class="list-header">Items</div>';
     html += '<div class="place_items v-list">';
     this.items.forEach(function(item, id) {
+        console.log(this.items, item)
         html += item.getHTML();
     });
     html += '</div>';

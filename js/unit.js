@@ -128,32 +128,36 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.wieldItem = function(id) {
-		console.log(this.inventory.items, id);
 		var item = this.inventory.items[id];
-		var slot = this.inventory.getSlotForItem(item);
-		console.log(id, item, slot)
-		if(slot) {
-			if(!slot.item) {
-				if(this.checkRequirements(item.requirements)) {
-					console.log('wielding', item.name)
-					this.startAction(1, function (data) {
-						this.inventory.wieldItem(data.id)
-					}, {'id':id} );	
+		if(item) {
+			var slot = this.inventory.getSlotForItem(item);
+			console.log(id, item, slot)
+			if(slot) {
+				if(!slot.item) {
+					if(this.checkRequirements(item.requirements)) {
+						console.log('wielding', item.name)
+						this.startAction(1, function (data) {
+							this.inventory.wieldItem(data.id)
+						}, {'id':id} );	
+					} else {
+						chat.send('You dont meet requirements for ' + item.name + '.');
+					};	
 				} else {
-					chat.send('You dont meet requirements for ' + item.name + '.');
-				};	
+					console.log('not empty slot');
+					if(slot.type == 'hand') {
+						chat.send('You have no empty hands for ' + item.name + '.');
+					} else {
+						console.log('not hand')
+						chat.send("You can't wield " + item.name);
+					}
+				};
 			} else {
-				console.log('not empty slot');
-				if(slot.type == 'hand') {
-					chat.send('You have no empty hands for ' + item.name + '.');
-				} else {
-					console.log('not hand')
-					chat.send("You can't wield " + item.name);
-				}
+				chat.send(item.name + " doesn't fit on your body.");
 			};
 		} else {
-			chat.send(item.name + " doesn't fit on your body.");
-		};
+			console.log(this.name, this.inventory.items, id, item);
+			throw new Error('unit.js wieldItem');
+		}
 	};
 
 	this.unwieldItem = function(id) {
