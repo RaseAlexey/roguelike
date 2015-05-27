@@ -51,11 +51,11 @@ new Item(null, 'heavy helm', 		{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
     // Light
     new Item(null, 'Light shield',   {'block_rate':20, 'dex_penalty':0}, {'str':0}, 'hand', {}),
     // Medium
-    new Item(null, 'Medium shield',  {'block_rate':35, 'dex_penalty':1}, {'str':1}, 'hand', {}),
+    new Item(null, 'Medium shield',  {'dmg':0, 'block_rate':35, 'dex_penalty':1}, {'str':1}, 'hand', {}),
     // Heavy
-    new Item(null, 'Heavy shield',   {'block_rate':50, 'dex_penalty':2}, {'str':2}, 'hand', {}),
+    new Item(null, 'Heavy shield',   {'dmg':0, 'block_rate':50, 'dex_penalty':2}, {'str':2}, 'hand', {}),
     // SuperHeavy
-    new Item(null, 'SuperHeavy shield', {'block_rate':60, 'dex_penalty':3}, {'str':3}, 'hand', {}),
+    new Item(null, 'SuperHeavy shield', {'dmg':0, 'block_rate':60, 'dex_penalty':3}, {'str':3}, 'hand', {}),
 
 
 

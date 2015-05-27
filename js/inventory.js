@@ -1,4 +1,7 @@
 
+// need rework to collection
+
+
 var Inventory = function(unit, slots_list, items) {
 	this.unit = unit;
 	this.slots = [];
@@ -9,13 +12,13 @@ var Inventory = function(unit, slots_list, items) {
 		this.items.forEach(function(item, id) {
 			item.unit = self.unit;
 		});
-	};
+	}
 
 	if(slots_list) {
 		slots_list.forEach(function(type, id) {
 			self.slots.push(new Slot(self, type));
 		});		
-	};
+	}
 
 
 	this.addItem = function(item) {

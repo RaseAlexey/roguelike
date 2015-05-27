@@ -27,3 +27,15 @@ var getRandomPropertyInObject = function(object) {
 var getRandomItemInArray = function(array) {
 	return array[Math.floor(Math.random()*array.length)];
 };
+
+
+
+var arrayFilter = function (array, condition) {
+    var result = [];
+    array.forEach(function(item) {
+        if(condition(item)) {
+            result.push(item);
+        }
+    });
+    return result;
+};

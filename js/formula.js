@@ -15,7 +15,7 @@ var Formula = function(f, arguments_array, context) {
 Formula.calcArray = function(array) {
     var calculated = {};
     $.each(array, function(stat, formula) {
-        calculated[stat] = formula();
+        calculated[stat] = (typeof formula == 'function') ? formula() : formula;
     });
     return calculated;
 };

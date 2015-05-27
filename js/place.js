@@ -56,7 +56,7 @@ var Place = function(template, name, units) {
         var places = this.floor.places;
         var connections = {};
         if(x != undefined && y != undefined && places != undefined) {
-            console.log(x, y, places);
+            //console.log(x, y, places);
             if(places[y][x - 1]) {
                 connections['west'] = places[y][x - 1];
             }
@@ -110,7 +110,7 @@ Place.generate = function(name) {
 
 
 var place_templates = new Collection([
-    new PlaceTemplate('Dusty room', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
+    new PlaceTemplate('Dusty room', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Skeleton')], constant_formula(3)),
     new PlaceTemplate('Hall', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
     new PlaceTemplate('Zombie room: reward', 'reward', [unit_templates.getByName('Zombie')], constant_formula(5))
 ]);

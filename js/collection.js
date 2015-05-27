@@ -10,13 +10,27 @@ var Collection = function(items) {
     };
 
     this.getByName = function(name) {
-    	return this.byName[name];
+        return this.byName[name];
+    };
+
+    this.createByName = function(name) {
+        return this.getByName(name);
     };
 
     this.filter = function(property, condition) {
         var result = [];
         this.all.forEach(function(item) {
             if(condition(item[property])) {
+                result.push(item);
+            }
+        });
+        return result;
+    };
+
+    this.customFilter = function (condition) {
+        var result = [];
+        this.all.forEach(function(item) {
+            if(condition(item)) {
                 result.push(item);
             }
         });
