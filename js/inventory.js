@@ -48,7 +48,7 @@ var Inventory = function(unit, slots_list, items) {
 		var slot = this.getSlotForItem(item);
 		if (unit.checkRequirements(item.requirements)) {
             return slot ? !Boolean(slot.item) : false;
-		}
+		};
 	};
 
 	this.wieldItem = function(item_id) {
