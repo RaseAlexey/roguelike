@@ -53,7 +53,7 @@ var Unit = function(template, name, stats, slots, items) {
 		this.inventory.dropItems();
 		this.place.units.splice(this.getId(), 1);
 		if(this == player) {
-			UI.tabs['place'].block();
+			UI.blockTab('place');
 		}
 	};
 

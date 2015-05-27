@@ -2,7 +2,7 @@
 var Inquirer = function(quiz) {
     this.quiz = quiz;
     this.counter = 0;
-
+    
 
     this.start = function() {
         this.showText(this.quiz.start);
