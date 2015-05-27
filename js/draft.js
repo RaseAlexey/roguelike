@@ -67,9 +67,11 @@ var Option = function(text, script) {
 
 
 var OptionItemRevard = function(text, item) {
-    //this.text = text;
-    //this.script = add_item_to_player_formula(item);
     return new Option(text, add_item_to_player_formula(item));
+};
+
+var OptionStatsRevard = function(text, stats_name) {
+    return new Option(text, inc_player_stats_formula(stats_name));
 };
 
 
@@ -102,6 +104,10 @@ var draft_generator = function() {
 
     items_library.all.forEach(function(item) {
         options_pull.push(new OptionItemRevard(item.name, item));
+    });
+
+    ['str', 'dex', 'int'].forEach(function(stat_name) {
+        options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
     });
 
     for (var i = 0; i<5; i++) {
