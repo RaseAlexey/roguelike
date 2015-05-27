@@ -10,7 +10,7 @@ var player = new Unit(null, 'player', {'max_hp':100, 'strength': 10}, humanoid_s
 
 // dungeon.floors[0].entrance.clearEnemies();
 
-var draft_handler = new Inquirer(initial_draft);
+var draft_handler = new Inquirer(draft_generator());
 draft_handler.start();
 
 player.goTo(dungeon.floors[0]);

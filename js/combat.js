@@ -12,7 +12,20 @@ Unit.prototype.calcDamage = function() {
 };
 
 Unit.prototype.calcAttackTime = function() {
-	return 1;
+    var weapon_time = 0;
+    var weapons = this.inventory.getItemsFromNotEmptySlotsOfType('hand');
+
+    weapons.forEach(function(weapon) {
+        if (weapon_time = 0) {
+            weapon_time += weapon.stats.attack_time;
+        } else {
+            if (weapon.stats.attack_time > 1) {
+                weapon_time += (weapon.stats.attack_time - 1);
+            }
+        }
+    });
+
+	return weapon_time > 0 ? weapon_time : 1;
 };
 
 Unit.prototype.decreaseHp = function(damage) {

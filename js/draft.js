@@ -69,7 +69,7 @@ var OptionItemRevard = function(text, item) {
 
 
 
-var initial_draft = new Quiz(
+var old_draft = new Quiz(
     'Сhoose your destiny!', [
         new Question('choose weapon: ', [
             new OptionItemRevard('Light sword', items_library.getByName('Light sword')),
@@ -83,3 +83,30 @@ var initial_draft = new Quiz(
         ])
     ],
     'So, lets go fight!');
+
+
+
+
+var draft_generator = function() {
+    var questions = [];
+
+    var options_pull = [];
+
+    items_library.all.forEach(function(item) {
+        options_pull.push(new OptionItemRevard(item.name, item));
+    });
+
+    for (var i = 0; i<5; i++) {
+        var options = [];
+        options.push(getRandomItemInArray(options_pull));
+        options.push(getRandomItemInArray(options_pull));
+        options.push(getRandomItemInArray(options_pull));
+        questions.push(new Question('Choose: ', options));
+    }
+
+    return new Quiz(
+        'Next 5 elections decide your fate.',
+        questions,
+        'So, lets go fight!'
+    );
+};
