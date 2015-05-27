@@ -11,13 +11,14 @@ var Tab = function(mode, inner_html_func, data) {
 	};
 
 	this.draw = function() {	
-		this.isMinimized = false;
-		UI.node.append(this.getHTML());
-		this.node = $('.tab[data-id='+this.mode+']');
+		if(!this.isHidden) {
+			this.isMinimized = false;
+			UI.node.append(this.getHTML());
+			this.node = $('.tab[data-id='+this.mode+']');	
+		};
 	};
 
 	this.refresh = function() {
-		console.log('refresh', mode);
 		if(this.node) {
 			this.node.html(this.getInnerHTML());
 			//this.needRefresh = false;
@@ -33,7 +34,7 @@ var Tab = function(mode, inner_html_func, data) {
 	};
 
 	this.maximize = function() {
-		if(this.isMinimized && !this.isBlocked) {	
+		if(this.isMinimized && !this.isBlocked && !this.isHidden) {	
 			this.isMinimized = false;
 			this.draw();
 			UI.refreshTabPanel();
@@ -133,6 +134,14 @@ UI.showTabs = function() {
 	});
 };
 
+UI.minimizeTab = function(tab_name) {
+	this.tabs[tab_name].minimize();
+};
+
+UI.maximizeTab = function(tab_name) {
+	this.tabs[tab_name].maximize();
+};
+
 UI.minimizeTabs = function() {
 	$.each(this.tabs, function(tab_name, tab) {
 		tab.minimize();
@@ -154,7 +163,6 @@ UI.drawTabs = function() {
 };
 
 UI.refreshTabs = function() {
-	console.log('refreshTabs');
 	$.each(this.tabs, function(mode, tab) {
 		if(!tab.isMinimized /* && tab.needRefresh */) {
 			tab.refresh();
@@ -179,13 +187,6 @@ UI.draw = function() {
 };
 
 
-UI.addTab(new Tab('place', function(data) {
-	if(dungeon.current_place) {
-		return dungeon.current_place.getHTML();
-	} else {
-		return '';
-	}
-}));
 
 UI.addTab(new Tab('inventory', function(data) {
 	if(player) {
@@ -205,7 +206,6 @@ UI.addTab(new Tab('slots', function(data) {
 
 UI.addTab(new Tab('stats', function(data) {
 	if(player) {
-		console.log(this);
 		return player.getStatsHTML();
 	} else {
 		return '';
@@ -220,3 +220,10 @@ UI.addTab(new Tab('chat', function(data) {
 	}
 }));
 
+UI.addTab(new Tab('place', function(data) {
+	if(dungeon.current_place) {
+		return dungeon.current_place.getHTML();
+	} else {
+		return '';
+	}
+}));

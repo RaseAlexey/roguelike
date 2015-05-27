@@ -46,7 +46,7 @@ var Inventory = function(unit, slots_list, items) {
 
 	this.canWield = function(item) {
 		var slot = this.getSlotForItem(item);
-		if (unit.checkRequirements(item.requirements)) {
+		if (this.unit.checkRequirements(item.requirements)) {
             return slot ? !Boolean(slot.item) : false;
 		};
 	};
@@ -77,8 +77,6 @@ var Inventory = function(unit, slots_list, items) {
 			if(item) {
 				slot.removeItem();
 				this.addItem(item);
-				var name = this.unit == player ? 'You' : this.unit.name;
-				chat.send(name + ' unwielded ' + item.name + '.');
 			}
 		}
 	};
@@ -111,6 +109,7 @@ var Inventory = function(unit, slots_list, items) {
     };
 
 	this.getSlotForItem = function(item) {
+		console.log(item);
 		var free_slot;
 		var slots = this.getSlotsOfType(item.slot_type);
 		var new_slots = [];

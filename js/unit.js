@@ -76,6 +76,7 @@ var Unit = function(template, name, stats, slots, items) {
 						unit.requestAction();
 					}
 				});
+				UI.refreshTabs();
 			}
 		}, {'dest_place' : dest_place});
 	};
@@ -126,27 +127,36 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.wieldItem = function(id) {
 		var item = this.inventory.items[id];
-		if(this.inventory.canWield(item)) {
-			this.startAction(1, function (data) {
-				this.inventory.wieldItem(data.id)
-			}, {'id':id} );			
-		} else {
-			if(this.checkRequirements(item.requirements)) {
-				if(item.slot_type == 'hand') {
+		var slot = this.inventory.getSlotForItem(item);
+
+		if(slot) {
+			if(!slot.item) {
+				if(this.checkRequirements(item.requirements)) {
+					this.startAction(1, function (data) {
+						this.inventory.wieldItem(data.id)
+					}, {'id':id} );	
+				} else {
+					chat.send('You dont meet requirements for ' + item.name + '.');
+				};	
+			} else {
+				if(slot.type == 'hand') {
 					chat.send('You have no empty hands for ' + item.name + '.');
 				} else {
-					chat.send(item.name + " doesn't fit on your body.")
+					chat.send("You can't wield " + item.name);
 				}
-			} else {
-				chat.send('You dont meet requirements for ' + item.name + '.')
-			}
-		}
+			};
+		} else {
+			chat.send(item.name + " doesn't fit on your body.");
+		};
 	};
 
 	this.unwieldItem = function(id) {
 		console.log('unit unwield start', id);
 		this.startAction(1, function (data) {
-			this.inventory.unwieldItem(data.id)
+			var item = this.inventory.slots[data.id].item;
+			this.inventory.unwieldItem(data.id);
+			var name = this == player ? 'You' : this.name;
+			chat.send(name + ' unwielded ' + item.name + '.');
 		}, {'id':id} );
 	};
 

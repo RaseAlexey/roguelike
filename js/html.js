@@ -200,7 +200,6 @@ Question.prototype.getHTML = function() {
     html += '<div class = "question">';
     html += this.text;
     this.options.forEach(function (option, id) {
-        console.log(option)
         html += option.getHTML();
     });
     html += '</div>';

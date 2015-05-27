@@ -4,32 +4,26 @@ var Draft = function(quiz) {
     this.turn = 0;
     this.question = this.quiz.questions[0];
 
-    this.start = function() {
-        console.log(this.quiz);
-        UI.tabs['draft'].draw();
-    };
 
     this.tick = function() {
         this.turn++;
-        console.log('tick', this.turn);
         if (this.turn >= this.quiz.questions.length) {
             this.end();
         } else {
             this.question = this.quiz.questions[this.turn];
         };
-        console.log(this.turn, this.quiz.questions, this.question);
         UI.refreshTabs(); 
-
     };
 
     this.chooseOption = function(id) {
-        console.log('you chose option '+id);
+        chat.send(this.question.options[id].text);
         this.question.options[id].script();
         this.tick();
     };
 
     this.end = function() {
         UI.hideTab('draft');
+        UI.showTab('place');    
     };
 };
 
@@ -115,11 +109,14 @@ var draft_generator = function() {
         options.push(getRandomItemInArray(options_pull));
         options.push(getRandomItemInArray(options_pull));
         options.push(getRandomItemInArray(options_pull));
-        questions.push(new Question('Choose: ', options));
+        questions.push(new Question('', options));
     };
 
     //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
-    questions.push(new Question('Are you ready?', [new Option('Yes!', function(){player.goTo(dungeon.floors[0]); UI.maximizeTabs()} )]));
+    questions.push(new Question('Are you ready?', [new Option('Yes!', function(){
+        UI.maximizeTabs(); 
+        player.goTo(dungeon.floors[0]);
+    } )]));
 
     return new Draft(new Quiz(questions));
 };
