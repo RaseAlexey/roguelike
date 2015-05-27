@@ -1,74 +1,81 @@
 
-var Inquirer = function(quiz) {
+var Draft = function(quiz) {
     this.quiz = quiz;
-    this.counter = 0;
-    
+    this.turn = 0;
+    this.question = this.quiz.questions[0];
 
     this.start = function() {
-        this.showText(this.quiz.start);
-        this.step();
+        console.log(this.quiz);
+        UI.tabs['draft'].draw();
     };
 
-    this.step = function() {
-        if (this.counter == this.quiz.questions.length) {
+    this.tick = function() {
+        this.turn++;
+        console.log('tick', this.turn);
+        if (this.turn >= this.quiz.questions.length) {
             this.end();
-            return 0;
-        }
-        var variant = this.showVariants(this.quiz.questions[this.counter]);
-        this.quiz.questions[this.counter].options[variant].script();
-        this.counter++;
-        this.step();
+        } else {
+            this.question = this.quiz.questions[this.turn];
+        };
+        console.log(this.turn, this.quiz.questions, this.question);
+        UI.refreshTabs(); 
+
+    };
+
+    this.chooseOption = function(id) {
+        console.log('you chose option '+id);
+        this.question.options[id].script();
+        this.tick();
     };
 
     this.end = function() {
-        this.showText(this.quiz.end);
-        // UI.draw();
+        UI.hideTab('draft');
     };
-
-    this.showText = function(text) {
-        alert(text);
-    };
-
-    this.showVariants = function(question) {
-        var text = question.text;
-        question.options.forEach(function(option, id) {
-            text += ' ' + id + ':' + option.text;
-        });
-
-        return prompt(text, '0');
-    };
-
 };
 
 
-var Quiz = function(start, questions, end) {
-    this.start = start;
+var Quiz = function(questions) {
+    console.log(questions)
     this.questions = questions;
-    this.end = end;
+
+    var self = this;
+    this.questions.forEach(function(question, id) {
+        question.quiz = self;
+    });
 };
 
 
 var Question = function(text, options) {
     this.text = text;
     this.options = options;
+
+    var self = this;
+    this.options.forEach(function(option, id) {
+        option.question = self;
+    });
 };
 
 
 var Option = function(text, script) {
     this.text = text;
-    this.script = script;
+    this.script = script || function() {};
+
+    this.getId = function() {
+        return this.question.options.indexOf(this);
+    }
 };
 
 
 var OptionItemRevard = function(text, item) {
-    this.text = text;
-    this.script = add_item_to_player_formula(item);
+    //this.text = text;
+    //this.script = add_item_to_player_formula(item);
+    return new Option(text, add_item_to_player_formula(item));
 };
 
 
 
 
-
+/*
 var old_draft = new Quiz(
     'Сhoose your destiny!', [
         new Question('choose weapon: ', [
@@ -83,14 +90,15 @@ var old_draft = new Quiz(
         ])
     ],
     'So, lets go fight!');
-
+*/
 
 
 
 var draft_generator = function() {
     var questions = [];
-
     var options_pull = [];
+
+    questions.push(new Question('Next five choices will decide your fate!', [new Option('OK')]));
 
     items_library.all.forEach(function(item) {
         options_pull.push(new OptionItemRevard(item.name, item));
@@ -102,11 +110,10 @@ var draft_generator = function() {
         options.push(getRandomItemInArray(options_pull));
         options.push(getRandomItemInArray(options_pull));
         questions.push(new Question('Choose: ', options));
-    }
+    };
 
-    return new Quiz(
-        'Next 5 elections decide your fate.',
-        questions,
-        'So, lets go fight!'
-    );
+    //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
+    questions.push(new Question('Are you ready?', [new Option('Yes!', function(){player.goTo(dungeon.floors[0]); UI.maximizeTabs()} )]));
+
+    return new Draft(new Quiz(questions));
 };

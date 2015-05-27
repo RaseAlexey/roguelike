@@ -9,9 +9,11 @@ var player = new Unit(null, 'player', {'max_hp':100, 'str': 1, 'dex': 1, 'int': 
 ]);
 
 // dungeon.floors[0].entrance.clearEnemies();
-
-var draft_handler = new Inquirer(draft_generator());
-draft_handler.start();
-
-player.goTo(dungeon.floors[0]);
+var draft = draft_generator();
+UI.addTab(new Tab('draft', function(data) {
+	console.log(this, data);
+	return data.draft.getHTML();
+}, {'draft':draft}));
 UI.draw();
+UI.minimizeTabs();
+draft.start();

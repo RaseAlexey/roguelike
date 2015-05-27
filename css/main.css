@@ -27,9 +27,6 @@ body {
 	width: 100%;
 	text-align: center;
 }
-.list-header {
-	cursor: pointer;
-}
 .scroll-button.left {
 	float: left;
 }
@@ -51,7 +48,7 @@ body {
 .slot.full {
 	border-color: #6B6B6B;
 }
-.unit, .item, .slot, .connection {
+.unit, .item, .slot, .connection, .option {
 	display: flex;
 	flex-align: center;
 	justify-content: space-between;
@@ -65,7 +62,7 @@ body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }	
-.unit, .item, .connection {
+.unit, .item, .connection, .list-header, .option {
 	flex-direction: row;
 	cursor: pointer;	
 }
@@ -74,6 +71,9 @@ body {
 }
 .slot.full {
 	height: 3em;
+}
+
+.option {
 }
 .name {
 	display: flex;

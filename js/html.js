@@ -187,10 +187,46 @@ Item.prototype.getHTML = function() {
 };
 
 
+Draft.prototype.getHTML = function() {
+    var html = '';
+    html += '<div class = "draft">';
+    html += this.question.getHTML();
+    html += '</div>';
+    return html;
+};
+
+Question.prototype.getHTML = function() {
+    var html = '';
+    html += '<div class = "question">';
+    html += this.text;
+    this.options.forEach(function (option, id) {
+        console.log(option)
+        html += option.getHTML();
+    });
+    html += '</div>';
+    return html;
+};
+
+Option.prototype.getHTML = function() {
+    var html = '';
+    html += '<div class = "option" data-id=' + this.getId() + '>';
+    html += this.text;
+    html += '</div>';
+    return html;
+};
+
 Tab.prototype.getHTML = function() {
     if(this.isBlocked) return '';
     var html = '<div class="tab" data-id='+this.mode+'>';
     html += this.getInnerHTML();
+    html += '</div>';
+    return html;
+};
+
+Tab.prototype.getInnerHTML = function() {
+    var html = '<div class = "tab_header header">'+this.mode+'</div>';
+    html += '<div class="tab_contents">';
+    html += this.inner_html_func.apply(this, [this.data]);
     html += '</div>';
     return html;
 };
@@ -209,14 +245,6 @@ Tab.prototype.getPanelButtonHTML = function() {
     };
     html += '<div class="tab-icon '+classes+'" data-id='+this.mode+'>'+this.mode+'</div>';
     return html;
-};
-
-Tab.prototype.getInnerHTML = function() {
-	var html = '<div class = "tab_header header">'+this.mode+'</div>';
-    html += '<div class="tab_contents">';
-    html += this.inner_html_func();
-    html += '</div>';
-	return html;
 };
 
 

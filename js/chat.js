@@ -6,7 +6,7 @@ var Chat = function(node) {
 	this.send = function(post) {
 		var post = post.constructor == Post ? post : new Post(post, 'generic', stack.time);
 		this.posts.unshift(post);
-		UI.tabs['chat'].refresh();
+		//UI.refreshChat();
 	};
 
 	this.refresh = function() {

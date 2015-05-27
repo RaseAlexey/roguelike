@@ -48,7 +48,7 @@ Unit.prototype.decreaseHp = function(damage) {
 };
 
 Unit.prototype.strike = function(target) {
-	console.log('strike', this.name, target.name);
+	//console.log('strike', this.name, target.name);
 	var data = {};
 	data.target = target;
 	this.startAction(this.calcAttackTime(), function(data) {

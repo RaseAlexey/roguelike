@@ -1,6 +1,7 @@
-var Tab = function(mode, inner_html_func) {
+var Tab = function(mode, inner_html_func, data) {
 	this.mode = mode;
 	this.inner_html_func = inner_html_func;
+	this.data = data;
 	this.isBlocked = false;
 	this.isMinimized = false;
 	//this.needRefresh = false;
@@ -10,11 +11,13 @@ var Tab = function(mode, inner_html_func) {
 	};
 
 	this.draw = function() {	
+		this.isMinimized = false;
 		UI.node.append(this.getHTML());
 		this.node = $('.tab[data-id='+this.mode+']');
 	};
 
 	this.refresh = function() {
+		console.log('refresh', mode);
 		if(this.node) {
 			this.node.html(this.getInnerHTML());
 			//this.needRefresh = false;
@@ -32,6 +35,22 @@ var Tab = function(mode, inner_html_func) {
 	this.maximize = function() {
 		if(this.isMinimized && !this.isBlocked) {	
 			this.isMinimized = false;
+			this.draw();
+			UI.refreshTabPanel();
+		}
+	};
+
+	this.hide = function() {
+		if(!this.isHidden) {	
+			this.isHidden = true;
+			this.node.remove();
+			UI.refreshTabPanel();
+		}
+	};
+
+	this.show = function() {
+		if(this.isHidden) {	
+			this.isHidden = false;
 			this.draw();
 			UI.refreshTabPanel();
 		}
@@ -60,7 +79,7 @@ var Tab = function(mode, inner_html_func) {
 UI.tabs = {};
 
 UI.addTab = function(tab) {
-	console.log(tab, this.tabs)
+	//console.log(tab, this.tabs)
 	if(this.tabs[tab.mode]) {
 		throw new Error('adding tab with same name');
 	} else {
@@ -88,6 +107,44 @@ UI.blockTabs = function() {
 	});
 };
 
+UI.unblockTabs = function() {
+	$.each(function(tab_name, tab) {
+		tab.unblock();
+	});
+};
+
+UI.hideTab = function(tab_name) {
+	this.tabs[tab_name].hide();
+};
+
+UI.showTab = function(tab_name) {
+	this.tabs[tab_name].show();
+};
+
+UI.hideTabs = function() {
+	$.each(this.tabs, function(tab_name, tab) {
+		tab.hide();
+	});
+};
+
+UI.showTabs = function() {
+	$.each(this.tabs, function(tab_name, tab) {
+		tab.show();
+	});
+};
+
+UI.minimizeTabs = function() {
+	$.each(this.tabs, function(tab_name, tab) {
+		tab.minimize();
+	});
+};
+
+UI.maximizeTabs = function() {
+	$.each(this.tabs, function(tab_name, tab) {
+		tab.maximize();
+	});
+};
+
 UI.drawTabs = function() {
 	$.each(this.tabs, function(mode, tab) {
 		if(!tab.isMinimized && !tab.isBlocked) {
@@ -97,6 +154,7 @@ UI.drawTabs = function() {
 };
 
 UI.refreshTabs = function() {
+	console.log('refreshTabs');
 	$.each(this.tabs, function(mode, tab) {
 		if(!tab.isMinimized /* && tab.needRefresh */) {
 			tab.refresh();
@@ -108,8 +166,9 @@ UI.refreshTabPanel = function() {
 	var panel = $('.tab-panel');
 	var html = '';
 	$.each(this.tabs, function(mode, tab) {
-		console.log(tab)
-		html += tab.getPanelButtonHTML();
+		if(!tab.isHidden) {
+			html += tab.getPanelButtonHTML();
+		};
 	});
 	panel.html(html);
 };
@@ -120,7 +179,7 @@ UI.draw = function() {
 };
 
 
-UI.addTab(new Tab('place', function() {
+UI.addTab(new Tab('place', function(data) {
 	if(dungeon.current_place) {
 		return dungeon.current_place.getHTML();
 	} else {
@@ -128,7 +187,7 @@ UI.addTab(new Tab('place', function() {
 	}
 }));
 
-UI.addTab(new Tab('inventory', function() {
+UI.addTab(new Tab('inventory', function(data) {
 	if(player) {
 		return player.getInventoryHTML();
 	} else {
@@ -136,7 +195,7 @@ UI.addTab(new Tab('inventory', function() {
 	}
 }));
 
-UI.addTab(new Tab('slots', function() {
+UI.addTab(new Tab('slots', function(data) {
 	if(player) {
 		return player.getSlotsHTML();
 	} else {
@@ -144,20 +203,20 @@ UI.addTab(new Tab('slots', function() {
 	}
 }));
 
-UI.addTab(new Tab('stats', function() {
+UI.addTab(new Tab('stats', function(data) {
 	if(player) {
+		console.log(this);
 		return player.getStatsHTML();
 	} else {
 		return '';
 	}
 }));
 
-UI.addTab(new Tab('chat', function() {
+UI.addTab(new Tab('chat', function(data) {
 	if(chat) {
 		return chat.getHTML();
 	} else {
 		return '';
 	}
 }));
-
 
