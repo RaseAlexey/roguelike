@@ -91,6 +91,7 @@ var Inventory = function(unit, slots_list, items) {
 	};
 
     this.getSlotsOfType = function(type) {
+        console.log(type);
         var slots = [];
         this.slots.forEach(function(slot) {
             if(slot.type == type) {
@@ -123,6 +124,7 @@ var Inventory = function(unit, slots_list, items) {
 		var free_slot;
 		var slots = this.getSlotsOfType(item.slot_type);
 		var new_slots = [];
+        console.log(slots);
 
 		slots.forEach(function(slot) {
 			if(!slot.pair_slot) {
