@@ -54,6 +54,7 @@ body {
 	justify-content: space-between;
 	border-radius: 3px;
 	height: 1.4em;
+	max-width: 50wh;
 	margin: 0.1em 0;
 	box-sizing: border-box;
 }

@@ -48,13 +48,14 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.die = function() {
 		chat.send(this.name + ' has died.');
+		stack.removeAction(stack.actions.indexOf(this.action));
 		this.action = undefined;
 		this.inventory.emptySlots();
 		this.inventory.dropItems();
 		this.place.units.splice(this.getId(), 1);
 		if(this == player) {
 			UI.blockTab('place');
-		}
+		};
 	};
 
 	this.goTo = function(dest) {
