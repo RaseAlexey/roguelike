@@ -1,14 +1,28 @@
 
 Unit.prototype.calcDamage = function() {
+    return this.calcWeaponDamage() + this.calcStrBonus();
+};
+
+Unit.prototype.calcWeaponDamage = function() {
     var weapon_damage = 0;
-    var str_modificator = 10;
     var weapons = this.inventory.getItemsFromNotEmptySlotsOfType('hand');
 
     weapons.forEach(function(weapon) {
         weapon_damage += weapon.stats.dmg;
     });
 
-    return weapon_damage + range(0, str_modificator);
+    return weapon_damage;
+};
+
+Unit.prototype.calcStrBonus = function() {
+    var sum_of_str = 0;
+    var weapons = this.inventory.getItemsFromNotEmptySlotsOfType('hand');
+
+    weapons.forEach(function(weapon) {
+        sum_of_str += weapon.requirements.str;
+    });
+
+    return (sum_of_str > this.stats.str) ? 0 : this.stats.str;
 };
 
 Unit.prototype.calcAttackTime = function() {
