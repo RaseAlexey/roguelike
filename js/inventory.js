@@ -53,6 +53,7 @@ var Inventory = function(unit, slots_list, items) {
 
 	this.wieldItem = function(item_id) {
 		var item = this.items[item_id];
+        console.log(item_id, item);
 		var slot = this.getSlotForItem(item);
 		if (slot) {
 			this.removeItem(item_id);

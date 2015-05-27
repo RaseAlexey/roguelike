@@ -5,9 +5,9 @@ Unit.prototype.requestAction = function() {
             var weapons = arrayFilter(this.inventory.items, function(item) {
                 return item.slot_type == 'hand';
             });
-            console.log(weapons);
+            // console.log(weapons);
             weapons.forEach(function(weapon) {
-                console.log('wielding'  , weapon);
+                // console.log('wielding'  , weapon);
                 this.wieldItem(weapon.getId());
             }, this);
         }

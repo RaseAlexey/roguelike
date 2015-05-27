@@ -42,9 +42,17 @@ Unit.prototype.calcAttackTime = function() {
 	return weapon_time > 0 ? weapon_time : 1;
 };
 
+
 Unit.prototype.decreaseHp = function(damage) {
-	this.stats.hp -= damage;
-	this.check();
+    this.stats.hp -= damage;
+    this.check();
+};
+
+Unit.prototype.getAbsorb = function(damage) {
+    return 0;
+};
+Unit.prototype.getDodge = function(damage) {
+    return 5 + this.stats.dex;
 };
 
 Unit.prototype.strike = function(target) {
@@ -52,7 +60,48 @@ Unit.prototype.strike = function(target) {
 	var data = {};
 	data.target = target;
 	this.startAction(this.calcAttackTime(), function(data) {
-		chat.send(this.name + ' strikes ' + target.name +'.');
-		data.target.decreaseHp(this.calcDamage());
+        var user_str = 0;
+        var user_dex = 0;
+        this.inventory.slots.forEach(function(slot) {
+            if (slot.item && slot.item.requirements) {
+                user_str -= slot.item.requirements.str ? slot.item.requirements.str : 0;
+                user_dex -= slot.item.requirements.dex ? slot.item.requirements.str : 0;
+            }
+        });
+        var str_bonus = ((this.stats.str - user_str) > 0) ? this.stats.str : 0;
+        var dex_bonus = ((this.stats.dex - user_str) > 0) ? this.stats.dex : 0;
+        var weapons = this.inventory.getItemsFromNotEmptySlotsOfType('hand');
+        if (weapons.length == 0) {
+            // удар голыми руками
+            weapons.push(new Item(null, 'hand', {'dmg':1, 'accuracy':5, 'attack_time':1}, {}, 'hand', {}));
+        }
+        weapons.forEach(function(weapon) {
+            var accuracy = weapon.stats.accuracy + dex_bonus;
+            var dodge = data.target.getDodge();
+            var diff = accuracy - dodge;
+            //  if (accuracy == dodge) -> 50% miss
+            var percent_diff = 50 + parseInt(diff*10);
+
+            var roll = range(0, 100);
+            if (roll < percent_diff) {
+                console.log(accuracy, dodge, diff, percent_diff);
+                // hit!
+                var dmg = weapon.stats.dmg + str_bonus;
+                var absorb = data.target.getAbsorb();
+                if (absorb >= dmg) {
+                    // damage absorbed
+                    chat.send(this.name + ' hit to ' + target.name +', but damage absorbed.');
+                }
+                else {
+                    // strike successful
+                    chat.send(this.name + ' strikes ' + target.name +' and dealt ' + (dmg - absorb) + ' damage.');
+                    data.target.decreaseHp(dmg - absorb);
+                }
+            } else {
+                // miss!
+                console.log(accuracy, dodge, diff, percent_diff);
+                chat.send(this.name + ' missed to ' + target.name +'. (roll: '+roll+', percent:'+percent_diff+')');
+            }
+        }, this);
 	}, data);
 };
