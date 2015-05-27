@@ -47,6 +47,7 @@ var Quiz = function(start, questions, end) {
     this.end = end;
 };
 
+
 var Question = function(text, options) {
     this.text = text;
     this.options = options;
@@ -71,13 +72,13 @@ var OptionItemRevard = function(text, item) {
 var initial_draft = new Quiz(
     'Сhoose your destiny!', [
         new Question('choose weapon: ', [
-            new OptionItemRevard('sword', new Item(null, 	'sword', {'dmg':3, 'accuracy':7, 'attack_time':1, 'weight':10}, {'strength':10}, 'hand', {})),
-            new OptionItemRevard('axe',   new Item(null, 	'axe', 	{'dmg':4, 'accuracy':6, 'attack_time':1, 'weight':10}, {'strength':10}, 'hand', {})),
+            new OptionItemRevard('Light sword', items_library.getByName('Light sword')),
+            new OptionItemRevard('Medium sword',   items_library.getByName('Medium sword')),
             new Option('gold',  function() {  })
         ]),
         new Question('choose armor: ', [
-            new OptionItemRevard('light armor',  new Item(null, 'light armor', {'armor':1, 'weight':1}, {'strength':1}, 'body', {})),
-            new OptionItemRevard('medium armor', new Item(null, 'medium armor', {'armor':2, 'weight':2}, {'strength':2}, 'body', {})),
+            new OptionItemRevard('Light armor',  items_library.getByName('Light armor')),
+            new OptionItemRevard('Medium armor',items_library.getByName('Medium armor')),
             new Option('gold',  function() {  })
         ])
     ],
