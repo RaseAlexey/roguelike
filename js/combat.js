@@ -44,6 +44,7 @@ Unit.prototype.calcAttackTime = function() {
 
 
 Unit.prototype.decreaseHp = function(damage) {
+	console.log(this.name, 'decreaseHp')
     this.stats.hp -= damage;
     this.check();
 };

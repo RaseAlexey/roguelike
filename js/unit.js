@@ -43,6 +43,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.check = function() {
+		console.log(this.name, 'check');
 		if(this.stats.hp <= 0) {
 			this.die();
 		}
@@ -50,7 +51,6 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.die = function() {
 		chat.send(this.name + ' has died.');
-		stack.removeAction(stack.actions.indexOf(this.action));
 		this.action = undefined;
 		this.inventory.emptySlots();
 		this.inventory.dropItems();
