@@ -43,7 +43,6 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.check = function() {
-		console.log(this.name, 'check');
 		if(this.stats.hp <= 0) {
 			this.die();
 		}
@@ -129,12 +128,10 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.wieldItem = function(id) {
-        console.log(id);
+		console.log(this.inventory.items, id);
 		var item = this.inventory.items[id];
-        console.log(item, this.inventory);
 		var slot = this.inventory.getSlotForItem(item);
-
-		console.log(item, slot)
+		console.log(id, item, slot)
 		if(slot) {
 			if(!slot.item) {
 				if(this.checkRequirements(item.requirements)) {
@@ -221,6 +218,7 @@ var UnitTemplate = function(name, stat_formulas, slots, items) {
 	this.getUnit = function() {
 		var stats = Formula.calcArray(this.stat_formulas);
 		stats.maxHp = stats.hp;
+		console.log(this.name, this.items)
 		return new Unit(this, this.name, stats, this.slots, this.items);
 	};
 };

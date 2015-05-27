@@ -3,6 +3,7 @@
 
 
 var Inventory = function(unit, slots_list, items) {
+	console.log(unit.name, items)
 	this.unit = unit;
 	this.slots = [];
 	this.items = items || [];
