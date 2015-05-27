@@ -15,7 +15,9 @@ var Unit = function(template, name, stats, slots, items) {
 		if(!this.action) {
 			var context = context || this;
 			this.action = new Action(context, time, code, data);
-			stack.addAction(this.action);
+		};
+		if(this == player) {
+			stack.tick();
 		}
 	};
 

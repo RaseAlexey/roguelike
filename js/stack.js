@@ -23,9 +23,6 @@ var Stack = function() {
 		}
 	};
 
-	this.removeAction = function(id) {
-		this.actions.splice(id, 1);
-	};
 };
 
 
@@ -46,7 +43,6 @@ var Action = function(context, time, code, data) {
 	this.end = function() {
 		this.code.call(context, this.data);
 		context.removeAction();
-		stack.removeAction(stack.actions.indexOf(this));
 		UI.refreshTabs();
 	};
 };
