@@ -129,9 +129,11 @@ var Unit = function(template, name, stats, slots, items) {
 		var item = this.inventory.items[id];
 		var slot = this.inventory.getSlotForItem(item);
 
+		console.log(item, slot)
 		if(slot) {
 			if(!slot.item) {
 				if(this.checkRequirements(item.requirements)) {
+					console.log('wielding', item.name)
 					this.startAction(1, function (data) {
 						this.inventory.wieldItem(data.id)
 					}, {'id':id} );	
@@ -139,9 +141,11 @@ var Unit = function(template, name, stats, slots, items) {
 					chat.send('You dont meet requirements for ' + item.name + '.');
 				};	
 			} else {
+				console.log('not empty slot');
 				if(slot.type == 'hand') {
 					chat.send('You have no empty hands for ' + item.name + '.');
 				} else {
+					console.log('not hand')
 					chat.send("You can't wield " + item.name);
 				}
 			};
