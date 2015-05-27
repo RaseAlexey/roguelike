@@ -109,6 +109,14 @@ var Inventory = function(unit, slots_list, items) {
         return items;
     };
 
+    this.getSlotsItems = function() {
+        var items = [];
+        this.slots.forEach(function(slot) {
+            items.push(slot.item);
+        });
+        return items;
+    };
+
 	this.getSlotForItem = function(item) {
 		console.log(item);
 		var free_slot;
