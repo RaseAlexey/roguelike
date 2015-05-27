@@ -128,6 +128,7 @@ var Unit = function(template, name, stats, slots, items) {
 	this.wieldItem = function(id) {
         console.log(id);
 		var item = this.inventory.items[id];
+        console.log(item, this.inventory);
 		var slot = this.inventory.getSlotForItem(item);
 
 		console.log(item, slot)

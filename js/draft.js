@@ -98,7 +98,7 @@ var draft_generator = function() {
 
 
     items_library.all.forEach(function(item) {
-        options_pull.push(new OptionItemRevard(item.name, item));
+        options_pull.push(new OptionItemRevard(item.name, clone(item)));
     });
 
     ['str', 'dex', 'int'].forEach(function(stat_name) {

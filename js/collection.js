@@ -14,7 +14,7 @@ var Collection = function(items) {
     };
 
     this.createByName = function(name) {
-        return this.getByName(name);
+        return clone(this.getByName(name));
     };
 
     this.filter = function(property, condition) {
