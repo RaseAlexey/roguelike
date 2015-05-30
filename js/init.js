@@ -13,7 +13,6 @@ var draft = draft_generator();
 UI.addTab(new Tab('draft', function(data) {
 	return data.draft.getHTML();
 }, {'draft':draft}));
-UI.draw();
-UI.hideTab('place');	
+UI.draw();	
 UI.minimizeTabs();
 UI.maximizeTab('draft');

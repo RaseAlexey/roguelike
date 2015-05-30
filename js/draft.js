@@ -29,7 +29,6 @@ var Draft = function(quiz) {
 
 
 var Quiz = function(questions) {
-    console.log(questions)
     this.questions = questions;
 
     var self = this;
@@ -115,7 +114,7 @@ var draft_generator = function() {
     };
 
     //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
-    questions.push(new Question('Are you ready?', [new Option('Yes!', function(){
+    questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
         UI.maximizeTabs(); 
         player.goTo(dungeon.floors[0]);
     } )]));

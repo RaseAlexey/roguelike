@@ -60,3 +60,39 @@ new Item(null, 'heavy helm', 	{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
 
 
 ]);
+
+var item_templates = new Collection([
+
+    // ########################################## WEAPON ##########################################
+    // Light
+    new ItemTemplate('Light sword',   {'dmg':5, 'accuracy':5, 'attack_time':1}, {'str':0}, 'hand', {}),
+    // Medium
+    new ItemTemplate('Medium sword',  {'dmg':10, 'accuracy':5, 'attack_time':2}, {'str':1}, 'hand', {}),
+    // Heavy
+    new ItemTemplate('Heavy sword',   {'dmg':15, 'accuracy':5, 'attack_time':3}, {'str':2}, 'hand', {}),
+    // SuperHeavy
+    new ItemTemplate('SuperHeavy sword', {'dmg':20, 'accuracy':5, 'attack_time':4}, {'str':3}, 'hand', {}),
+
+
+    // ########################################## ARMOR ##########################################
+    // Light
+    new ItemTemplate('Light armor',   {'def':1, 'dex_penalty':0}, {'str':0}, 'torso', {}),
+    // Medium
+    new ItemTemplate('Medium armor',  {'def':2, 'dex_penalty':1}, {'str':1}, 'torso', {}),
+    // Heavy
+    new ItemTemplate('Heavy armor',   {'def':3, 'dex_penalty':2}, {'str':2}, 'torso', {}),
+    // SuperHeavy
+    new ItemTemplate('SuperHeavy armor', {'def':4, 'dex_penalty':3}, {'str':3}, 'torso', {}),
+
+
+    // ########################################## SHIELDS ##########################################
+    // Light
+    new ItemTemplate('Light shield',   {'dmg':0, 'block_rate':20, 'dex_penalty':0}, {'str':0}, 'hand', {}),
+    // Medium
+    new ItemTemplate('Medium shield',  {'dmg':0, 'block_rate':35, 'dex_penalty':1}, {'str':1}, 'hand', {}),
+    // Heavy
+    new ItemTemplate('Heavy shield',   {'dmg':0, 'block_rate':50, 'dex_penalty':2}, {'str':2}, 'hand', {}),
+    // SuperHeavy
+    new ItemTemplate('SuperHeavy shield', {'dmg':0, 'block_rate':60, 'dex_penalty':3}, {'str':3}, 'hand', {}),
+
+]);

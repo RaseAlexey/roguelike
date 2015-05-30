@@ -78,7 +78,6 @@ var Unit = function(template, name, stats, slots, items) {
 						unit.requestAction();
 					}
 				});
-				UI.refreshTabs();
 			}
 		}, {'dest_place' : dest_place});
 	};
@@ -129,6 +128,7 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.wieldItem = function(id) {
 		var item = this.inventory.items[id];
+		console.log(this.inventory.items, id, item);
 		if(item) {
 			var slot = this.inventory.getSlotForItem(item);
 			console.log(id, item, slot)
@@ -212,18 +212,24 @@ var Unit = function(template, name, stats, slots, items) {
 };
 
 
-var UnitTemplate = function(name, stat_formulas, slots, items) {
+var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 	this.name = name;
 	this.slots = slots || humanoid_slots
 	this.stat_formulas = stat_formulas;
-    this.items = items;
+    this.item_templates = item_templates;
 	
 
 	this.getUnit = function() {
 		var stats = Formula.calcArray(this.stat_formulas);
 		stats.maxHp = stats.hp;
-		console.log(this.name, this.items)
-		return new Unit(this, this.name, stats, this.slots, this.items);
+		var items = [];
+		if(this.item_templates) {
+			this.item_templates.forEach(function(item_template, id) {
+				console.log(item_template)
+				items.push(item_template.getItem());
+			});
+		};
+		return new Unit(this, this.name, stats, this.slots, items);
 	};
 };
 
@@ -251,5 +257,5 @@ var Skeleton = function() {
 var unit_templates = new Collection([
 	new UnitTemplate('Rat', 		{'max_hp':range_formula(5, 10), 'str':1, 'dex':1, 'int':0 }, null),
 	new UnitTemplate('Zombie', 		{'max_hp':range_formula(20, 30), 'str':1, 'dex':0, 'int':0 }, humanoid_slots),
-	new UnitTemplate('Skeleton', 	{'max_hp':range_formula(10, 30), 'str':1, 'dex':0, 'int':0 }, humanoid_slots, [items_library.createByName('Light sword')])
+	new UnitTemplate('Skeleton', 	{'max_hp':range_formula(10, 30), 'str':1, 'dex':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
 ]);

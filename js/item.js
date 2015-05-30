@@ -9,6 +9,7 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 
 	this.getId = function() {
 		if(this.unit) {
+			console.log(this.unit, this.unit.inventory);
 			return this.unit.inventory.items.indexOf(this);
 		}
 		if(this.place) {
@@ -26,8 +27,17 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 
 };
 
-var ItemTemplate = function(template, name, stat_formulas, requirements, code) {
-	return new Item(this, name, Formula.calcArray(stat_formulas), code);
+var ItemTemplate = function(name, stat_formulas, requirements, slot_type, code) {
+	this.name = name;
+	this.stat_formulas = stat_formulas;
+	this.requirements = requirements;
+	this.slot_type = slot_type;
+	this.code = code;
+
+
+	this.getItem = function() {
+		return new Item(this, this.name, Formula.calcArray(this.stat_formulas), requirements, slot_type, code);
+	};
 };
 
 

@@ -13,7 +13,8 @@ var Stack = function() {
 		}
 		if(player.action) {			
 			this.tick();
-		}
+		};
+		UI.refreshTabs();	
 	};
 
 	this.addAction = function(action) {

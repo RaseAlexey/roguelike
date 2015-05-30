@@ -3,7 +3,6 @@
 
 
 var Inventory = function(unit, slots_list, items) {
-	console.log(unit.name, items)
 	this.unit = unit;
 	this.slots = [];
 	this.items = items || [];
@@ -30,7 +29,7 @@ var Inventory = function(unit, slots_list, items) {
 	this.pickUpItem = function(id) {
 		var item = this.unit.place.items[id];
 		this.unit.place.items.splice(id, 1);
-		item.unit = this;
+		item.unit = this.unit;
 		this.items.push(item);
 	};
 
