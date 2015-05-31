@@ -1,22 +1,11 @@
 html, body, .container  { 
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	color: #333333;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;	
 	height: 100%;
 	width: 100%;
 	margin: 0px;
 	overflow: hidden;
-	background-color: #8A8A8A;
-}
-body {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 }
 .container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
 	width: 100%;
 	height: calc(100% - 1em - 6px);
 	overflow: hidden;
@@ -33,16 +22,11 @@ body {
 	flex-wrap: wrap; 
 	justify-content: space-around;
 }
-.v-list.tab_footer {
-	justify-content: flex-end;
-}
 .rectangle {
 	display: flex;
 	position: relative;
 	flex-align: center;
 	justify-content: space-between;
-	border: 1px solid #808080;
-	border-radius: 3px;
 	height: calc(1.4em + 2px);
 	margin: 0.1em 0;
 	box-sizing: border-box;
@@ -50,6 +34,14 @@ body {
 .centered {
 	display: flex;
 	justify-content: space-around;
+}
+.column {
+	display: flex;
+	flex-direction: column;
+}
+.row {
+	display: flex;
+	flex-direction: row;
 }
 .justified {
 	display: flex;
@@ -65,12 +57,6 @@ body {
 	border-bottom:0;
 	border-right:0;
 	border-left:0;
-}	
-.unit, .item, .blue-button, .list-header, .option {
-	flex-direction: row;	
-}
-.slot {
-	flex-direction: column;
 }
 .slot.full {
 	height: 3em;
@@ -97,15 +83,18 @@ body {
 	width: 1em;
 	height: 1em;
 }
-
+.border-thin {	
+	border: 1px solid #808080;
+}
+.border-round {	
+	border-radius: 3px;
+}
 .button {
 	display: flex;
 	position: absolute;
 	right: 0;
 	flex-direction: column;
 	justify-content: center;
-	border: 1px solid #808080;
-	border-radius: 3px;
 	height: 1em;
 	margin: 0.2em;
 	padding-left: 0.4em;

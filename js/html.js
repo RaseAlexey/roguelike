@@ -73,13 +73,13 @@ Place.prototype.getConnectionsHTML = function() {
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections v-list">';
     $.each(this.getConnections(), function(direction, destination) {
-        html += '<div class="rectangle centered clickable connection blue" data-x='+destination.x+' data-y='+destination.y+'><span>' + direction + ': ' + destination.name + '</span></div>';
+        html += '<div class="rectangle centered clickable border-thin border-round connection blue" data-x='+destination.x+' data-y='+destination.y+'><span>' + direction + ': ' + destination.name + '</span></div>';
     });
     if (this.template.type == 'entrance') {
-        html += '<div class="rectangle centered clickable stairs up blue"><span>Climb the stairs</span></div>';
+        html += '<div class="rectangle centered clickable border-thin border-round stairs up blue"><span>Climb the stairs</span></div>';
     }
     if (this.template.type == 'stairs') {
-        html += '<div class="rectangle centered clickable stairs down blue"><span>Down the stairs</span></div>';
+        html += '<div class="rectangle centered clickable border-thin border-round stairs down blue"><span>Down the stairs</span></div>';
     }
     html += '</div>';
     html += '</div>';
@@ -120,7 +120,7 @@ Post.prototype.getHTML = function() {
 Unit.prototype.getHTML = function() {
     var classes = player.isEnemyWith(this) ? 'enemy red' : '';
     var html = '';
-    html += '<div class="rectangle centered clickable unit '+classes+'" data-id='+this.getId()+'>';
+    html += '<div class="rectangle centered clickable border-thin border-round unit '+classes+'" data-id='+this.getId()+'>';
     html += '<span">' + this.name + ' (' + this.stats.hp + '/' + this.stats.max_hp + ')' + '</span>';
     html += '</div>';
     return html;
@@ -163,7 +163,7 @@ Slot.prototype.getHTML = function() {
     }
     var html = '';
     var classes = (this.item ? 'full': 'empty');
-    html += '<div class="rectangle centered slot grey '+classes+'" data-id='+this.getId()+'>';
+    html += '<div class="rectangle centered border-thin border-round column slot grey '+classes+'" data-id='+this.getId()+'>';
     html += '<span class="centered">' + this.type + '</span>';
     if(this.item) {
         html += this.item.getHTML();    
@@ -175,16 +175,16 @@ Slot.prototype.getHTML = function() {
 Item.prototype.getHTML = function() {
     var html = '';
     var id = this.getId();
-    html += '<div class="item rectangle centered clickable swampish-green" data-id='+id+'>';
+    html += '<div class="item rectangle centered clickable border-thin border-round swampish-green" data-id='+id+'>';
     html += '<span>' + this.name + '</span>';
     if(this.unit) {
-        html += '<div class="button clickable drop-button dark-red"><span>drop</span></div>';
+        html += '<div class="button clickable border-thin border-round drop-button dark-red"><span>drop</span></div>';
     };
     if(this.slot && this.slot.type == 'hand' && !this.slot.pair_slot) {
-        html += '<div class="button clickable twohand-button dark-red"><span>twohand</span></div>';
+        html += '<div class="button clickable border-thin border-round twohand-button dark-red"><span>twohand</span></div>';
     }
     if(this.slot && this.slot.type == 'hand' && this.slot.pair_slot) {
-        html += '<div class="button clickable twohand-button dark-red"><span>onehand</span></div>';
+        html += '<div class="button clickable border-thin border-round twohand-button dark-red"><span>onehand</span></div>';
     }
     html += '</div>'
     return html;
@@ -212,7 +212,7 @@ Question.prototype.getHTML = function() {
 
 Option.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "rectangle clickable option blue centered" data-id=' + this.getId() + '>';
+    html += '<div class = "rectangle clickable border-thin border-round option blue centered" data-id=' + this.getId() + '>';
     html += '<span>'+this.text+'</span>';
     html += '</div>';
     return html;
@@ -238,15 +238,15 @@ Tab.prototype.getMenuButtonHTML = function() {
     var html = '';
     var classes;
     if(this.isBlocked) {
-        classes = 'blocked';
+        classes = 'blocked light-grey';
     } else {
         if(this.isMinimized) {
-            var classes = 'minimized'
+            var classes = 'minimized grey'
         } else {
-            var classes = 'maximized'
+            var classes = 'maximized dark-grey'
         };
     };
-    html += '<div class="tab-icon clickable '+classes+'" data-id='+this.mode+'>'+this.mode+'</div>';
+    html += '<div class="tab-icon clickable border-round '+classes+'" data-id='+this.mode+'>'+this.mode+'</div>';
     return html;
 };
 

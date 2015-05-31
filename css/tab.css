@@ -61,15 +61,12 @@
 	border-radius: 3px;
 }
 .tab-icon.minimized {
-	background-color: #B3B3B3;
 	color: #454545;
 }
 .tab-icon.maximized {
-	background-color: #808080;
 	color: white;
 }
 .tab-icon.blocked {
-	background-color: #D9D9D9;
 	color: #999999;
 }
 .maximized {
