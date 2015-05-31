@@ -65,7 +65,8 @@ var Unit = function(template, name, stats, slots, items) {
 		if(dest.constructor == Place) {
 			dest_place = dest;
 		} else if (dest.constructor == Floor) {
-			dest_place = dest.entrance
+			dest_place = dest.entrance;
+            dest.is_visited = true;
 		} else {
 			throw new Error('goTo invalid dest type');
 		}

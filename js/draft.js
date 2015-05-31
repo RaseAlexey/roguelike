@@ -111,7 +111,7 @@ var draft_generator = function() {
         options.push(getRandomItemInArray(options_pull));
         options.push(getRandomItemInArray(options_pull));
         questions.push(new Question('', options));
-    };
+    }
 
     //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
     questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
@@ -121,3 +121,26 @@ var draft_generator = function() {
 
     return new Draft(new Quiz(questions));
 };
+
+
+var level_up_generator = function(level) {
+    var questions = [];
+    var options_pull = [];
+
+    items_library.all.forEach(function(item) {
+        options_pull.push(new OptionItemRevard(item.name, clone(item)));
+    });
+
+    ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {
+        options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
+    });
+
+    questions.push(new Question('Choose your reward for completing the floor:', [getRandomItemInArray(options_pull), getRandomItemInArray(options_pull), getRandomItemInArray(options_pull)]));
+
+    questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
+        UI.maximizeTabs();
+    } )]));
+
+    return new Draft(new Quiz(questions));
+};
+

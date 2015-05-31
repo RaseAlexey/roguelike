@@ -15,6 +15,7 @@ var Floor = function(name, template, width, height, pattern, place_templates) {
     this.places = this.rect.cells;
     this.entrance = this.rect.entrance;
     this.exit = this.rect.exit;
+    this.is_visited = false;
 
 
     this.getHTML = function() {

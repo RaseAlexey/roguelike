@@ -79,6 +79,16 @@ $(document).on('click', '.stairs', function() {
             alert("end of dungeon, WIN");
         }
         dest = dungeon.floors[current_z+1];
+
+        if (!dest.is_visited) {
+            // level up!
+            console.log('LEVEL UP!');
+            var draft = level_up_generator(dungeon.floors.indexOf(dungeon.current_floor)+1);
+            UI.draw();
+            UI.minimizeTabs();
+            UI.maximizeTab('draft');
+        }
+
     } else {
         alert('wrong connection');
     }
