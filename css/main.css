@@ -42,19 +42,13 @@ body {
 .v-list.tab_footer {
 	justify-content: flex-end;
 }
-.slot.empty {
-	border-color: #CCCCCC;
-}
-.slot.full {
-	border-color: #6B6B6B;
-}
 .unit, .item, .slot, .blue-button, .option, .stat {
 	display: flex;
 	flex-align: center;
 	justify-content: space-between;
+	border: 1px solid #808080;
 	border-radius: 3px;
 	height: 1.4em;
-	max-width: 50wh;
 	margin: 0.1em 0;
 	box-sizing: border-box;
 }
@@ -62,6 +56,9 @@ body {
 	margin: 0;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+	border-bottom:0;
+	border-right:0;
+	border-left:0;
 }	
 .unit, .item, .blue-button, .list-header, .option {
 	flex-direction: row;
@@ -106,6 +103,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	border: 1px solid #808080;
 	border-radius: 3px;
 	margin: 0.2em;
 	padding-left: 0.4em;
