@@ -40,7 +40,7 @@
 .tab_footer {
 	flex: 1;
 }
-.tab-panel {
+.tab-menu {
 	display: flex;
 	flex-direction: row;
 	flex-align: center;

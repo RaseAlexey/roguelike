@@ -1,26 +1,23 @@
 
-.enemy {
+.red {
 	background-color: #DE5D79;
 }
-.item {
+.dark-red {
+	background-color: #D48787;
+}
+.swampish-green {
 	background-color: #D4D487;
 }
-.slot {
+.grey {
 	background-color: #D4D4D4;
 }
-.blue-button {
+.blue {
 	background-color: #879ED4;
 }
-.option {
-	background-color: #879ED4;
-}
-.stat {
-	background-color: #D4D4D4;	
-}
-.circle.empty {
+.white {
 	background-color: white;	
 }
-.circle.full {
+.green {
 	background-color: #A1E6A1;	
 }
 /*

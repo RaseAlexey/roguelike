@@ -4,7 +4,7 @@ var Draft = function(quiz) {
     this.turn = 0;
     this.question = this.quiz.questions[0];
     console.log(this.question);
-   
+
     UI.tabs['draft'].data.draft = this;
 
     this.start = function() {
@@ -74,8 +74,8 @@ var Option = function(text, script) {
 };
 
 
-var OptionItemRevard = function(text, item) {
-    return new Option(text, add_item_to_player_formula(item));
+var OptionItemRevard = function(item) {
+    return new Option(item.name, add_item_to_player_formula(item));
 };
 
 var OptionStatsRevard = function(text, stats_name) {
@@ -111,8 +111,9 @@ var draft_generator = function() {
     questions.push(new Question('Next five choices will decide your fate!', [new Option('OK')]));
 
 
-    items_library.all.forEach(function(item) {
-        options_pull.push(new OptionItemRevard(item.name, clone(item)));
+    item_templates.all.forEach(function(item_template) {
+        var item = item_template.getItem();
+        options_pull.push(new OptionItemRevard(item));
     });
 
     ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {
@@ -141,8 +142,9 @@ var level_up_generator = function(level) {
     var questions = [];
     var options_pull = [];
 
-    items_library.all.forEach(function(item) {
-        options_pull.push(new OptionItemRevard(item.name, clone(item)));
+    item_templates.all.forEach(function(item_template) {
+        var item = item_template.getItem();
+        options_pull.push(new OptionItemRevard(item));
     });
 
     ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {

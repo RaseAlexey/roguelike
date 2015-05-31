@@ -27,6 +27,130 @@ body {
 	width: 100%;
 	text-align: center;
 }
+.v-list {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap; 
+	justify-content: space-around;
+}
+.v-list.tab_footer {
+	justify-content: flex-end;
+}
+.rectangle {
+	display: flex;
+	position: relative;
+	flex-align: center;
+	justify-content: space-between;
+	border: 1px solid #808080;
+	border-radius: 3px;
+	height: calc(1.4em + 2px);
+	margin: 0.1em 0;
+	box-sizing: border-box;
+}
+.centered {
+	display: flex;
+	justify-content: space-around;
+}
+.justified {
+	display: flex;
+	justify-content: space-between;
+}
+.clickable {
+	cursor: pointer;
+}
+.slot .item {
+	margin: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom:0;
+	border-right:0;
+	border-left:0;
+}	
+.unit, .item, .blue-button, .list-header, .option {
+	flex-direction: row;	
+}
+.slot {
+	flex-direction: column;
+}
+.slot.full {
+	height: 3em;
+}
+
+.option {
+	justify-content: space-around;
+}
+.name, .stat-name, .stat-value {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.stat-value {
+	flex-grow: 3;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.circle {
+	border: 1px solid #808080;
+	border-radius: 50%;
+	width: 1em;
+	height: 1em;
+}
+
+.button {
+	display: flex;
+	position: absolute;
+	right: 0;
+	flex-direction: column;
+	justify-content: center;
+	border: 1px solid #808080;
+	border-radius: 3px;
+	height: 1em;
+	margin: 0.2em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+	box-sizing: border-box;
+}
+.button span {
+	font-size: 0.6em;
+}
+.blocked, .blocked .button {
+	cursor: default !important;
+}
+/*
+html, body, .container  { 
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	color: #333333;
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	overflow: hidden;
+	background-color: #8A8A8A;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+p {
+	margin: 0;
+}
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	width: 100%;
+	height: calc(100% - 1em - 6px);
+	overflow: hidden;
+	padding: 0.5% 0 0.5% 0.5%;
+	box-sizing: border-box;
+}
+.header, .list-header {
+	width: 100%;
+	text-align: center;
+}
 .scroll-button.left {
 	float: left;
 }
@@ -124,3 +248,4 @@ body {
 .blocked, .blocked .button {
 	cursor: default !important;
 }
+*/

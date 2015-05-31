@@ -29,7 +29,7 @@ var Tab = function(mode, inner_html_func, data) {
 		if(!this.isMinimized) {	
 			this.isMinimized = true;
 			this.node.remove();
-			UI.refreshTabPanel();
+			UI.refreshTabMenu();
 		}
 	};
 
@@ -37,7 +37,7 @@ var Tab = function(mode, inner_html_func, data) {
 		if(this.isMinimized && !this.isBlocked && !this.isHidden) {	
 			this.isMinimized = false;
 			this.draw();
-			UI.refreshTabPanel();
+			UI.refreshTabMenu();
 		}
 	};
 
@@ -45,7 +45,7 @@ var Tab = function(mode, inner_html_func, data) {
 		if(!this.isHidden) {	
 			this.isHidden = true;
 			this.node.remove();
-			UI.refreshTabPanel();
+			UI.refreshTabMenu();
 		}
 	};
 
@@ -53,7 +53,7 @@ var Tab = function(mode, inner_html_func, data) {
 		if(this.isHidden) {	
 			this.isHidden = false;
 			this.draw();
-			UI.refreshTabPanel();
+			UI.refreshTabMenu();
 		}
 	};
 
@@ -174,19 +174,19 @@ UI.refreshTabs = function() {
 	});
 };
 
-UI.refreshTabPanel = function() {
-	var panel = $('.tab-panel');
+UI.refreshTabMenu = function() {
+	var menu = $('.tab-menu');
 	var html = '';
 	$.each(this.tabs, function(mode, tab) {
 		if(!tab.isHidden) {
-			html += tab.getPanelButtonHTML();
+			html += tab.getMenuButtonHTML();
 		};
 	});
-	panel.html(html);
+	menu.html(html);
 };
 
 UI.draw = function() {
-	this.refreshTabPanel();
+	this.refreshTabMenu();
 	this.drawTabs();
 };
 

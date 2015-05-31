@@ -66,7 +66,7 @@ $(document).on('click', '.connection', function() {
 });
 
 $(document).on('click', '.stairs', function() {
-    var z = $(this).data('z');
+    var z = $(this).hasClass('up') ? 'up' : 'down';
     var dest = null;
     var current_z = dungeon.floors.indexOf(dungeon.current_floor);
     if (z == 'up') {

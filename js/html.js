@@ -73,13 +73,13 @@ Place.prototype.getConnectionsHTML = function() {
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections v-list">';
     $.each(this.getConnections(), function(direction, destination) {
-        html += '<div class="connection blue-button" data-x='+destination.x+' data-y='+destination.y+'><div class="name">' + direction + ': ' + destination.name + '</div></div>';
+        html += '<div class="rectangle centered clickable connection blue" data-x='+destination.x+' data-y='+destination.y+'><span>' + direction + ': ' + destination.name + '</span></div>';
     });
     if (this.template.type == 'entrance') {
-        html += '<div class="stairs blue-button" data-z = "up"><div class="name">climb the stairs</div></div>';
+        html += '<div class="rectangle centered clickable stairs up blue"><span>Climb the stairs</span></div>';
     }
     if (this.template.type == 'stairs') {
-        html += '<div class="stairs blue-button" data-z = "down"><div class="name">down the stairs</div></div>';
+        html += '<div class="rectangle centered clickable stairs down blue"><span>Down the stairs</span></div>';
     }
     html += '</div>';
     html += '</div>';
@@ -92,9 +92,7 @@ Place.prototype.getItemsHTML = function() {
     html += '<div class="tab_footer">'
     html += '<div class="list-header">Items</div>';
     html += '<div class="place_items v-list">';
-    this.items.forEach(function(item, id) {
-        console.log(this.items, item)
-        a = item;
+    this.items.forEach(function(item) {
         html += item.getHTML();
     });
     html += '</div>';
@@ -115,30 +113,25 @@ Chat.prototype.getHTML = function() {
 };
 
 Post.prototype.getHTML = function() {
-	return '<div class="post post-'+this.type+'">'+'<span class="time">'+this.time+': </span>'+this.text+'</div>';
+	return '<div class="post '+this.type+'">'+'<span class="time">'+this.time+': </span>'+this.text+'</div>';
 };
 
 
 Unit.prototype.getHTML = function() {
-    var classes = player.isEnemyWith(this) ? ' enemy' : '';
+    var classes = player.isEnemyWith(this) ? 'enemy red' : '';
     var html = '';
-    html += '<div class="unit'+classes+'" data-id='+this.getId()+'>';
-    html += '<div class="name">' + this.name + ' (' + this.stats.hp + '/' + this.stats.max_hp + ')' + '</div>';
+    html += '<div class="rectangle centered clickable unit '+classes+'" data-id='+this.getId()+'>';
+    html += '<span">' + this.name + ' (' + this.stats.hp + '/' + this.stats.max_hp + ')' + '</span>';
     html += '</div>';
     return html;
 };
 
 Unit.prototype.getStatsHTML = function() {
     var html = '<div class="unit-stats">';
-    /*
-    $.each(this.stats, function(stat, value) {
-        html = html + stat + ': ' + value + '<br>';
-    });
-    */
     html += '<span>Hitpoints: ' + this.stats.hp + '/' + this.stats.max_hp + '</span>';
     var self = this;
     ['str', 'dex', 'end', 'int'].forEach(function(stat) {
-        html += '<div class="stat"><div class="stat-name">' + stat + '</div><div class="stat-value">' + getStatCirclesHTML(self.stats[stat]) + '</div></div>';
+        html += '<div class="rectangle stat grey"><div class="stat-name">' + stat + '</div><div class="stat-value">' + getStatCirclesHTML(self.stats[stat]) + '</div></div>';
     });
     html += '</div>';
     return html;
@@ -169,9 +162,9 @@ Slot.prototype.getHTML = function() {
         return '';
     }
     var html = '';
-    var classes = (this.item ? ' full': ' empty');
-    html += '<div class="slot'+classes+'" data-id='+this.getId()+'>';
-    html += '<div class="name">' + this.type + '</div>';
+    var classes = (this.item ? 'full': 'empty');
+    html += '<div class="rectangle centered slot grey '+classes+'" data-id='+this.getId()+'>';
+    html += '<span class="centered">' + this.type + '</span>';
     if(this.item) {
         html += this.item.getHTML();    
     };
@@ -180,19 +173,18 @@ Slot.prototype.getHTML = function() {
 };
 
 Item.prototype.getHTML = function() {
-    var classes = '';
     var html = '';
     var id = this.getId();
-    html += '<div class="item" data-id='+id+'>';
-    html += '<div class="name'+classes+'">' + this.name + '</div>';
+    html += '<div class="item rectangle centered clickable swampish-green" data-id='+id+'>';
+    html += '<span>' + this.name + '</span>';
     if(this.unit) {
-        html += '<div class="button drop-button"><span>drop</span></div>';
+        html += '<div class="button clickable drop-button dark-red"><span>drop</span></div>';
     };
     if(this.slot && this.slot.type == 'hand' && !this.slot.pair_slot) {
-        html += '<div class="button twohand-button"><span>twohand</span></div>';
+        html += '<div class="button clickable twohand-button dark-red"><span>twohand</span></div>';
     }
     if(this.slot && this.slot.type == 'hand' && this.slot.pair_slot) {
-        html += '<div class="button twohand-button"><span>onehand</span></div>';
+        html += '<div class="button clickable twohand-button dark-red"><span>onehand</span></div>';
     }
     html += '</div>'
     return html;
@@ -209,7 +201,7 @@ Draft.prototype.getHTML = function() {
 
 Question.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "question">';
+    html += '<div class = "question header">';
     html += this.text;
     this.options.forEach(function (option, id) {
         html += option.getHTML();
@@ -220,9 +212,8 @@ Question.prototype.getHTML = function() {
 
 Option.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "option" data-id=' + this.getId() + '>';
+    html += '<div class = "rectangle clickable option blue centered" data-id=' + this.getId() + '>';
     html += '<span>'+this.text+'</span>';
-    //html += '<div class="name">'+this.text+'</div>';
     html += '</div>';
     return html;
 };
@@ -236,14 +227,14 @@ Tab.prototype.getHTML = function() {
 };
 
 Tab.prototype.getInnerHTML = function() {
-    var html = '<div class = "tab_header header">'+this.mode+'</div>';
+    var html = '<div class = "tab_header header clickable">'+this.mode+'</div>';
     html += '<div class="tab_contents">';
     html += this.inner_html_func.apply(this, [this.data]);
     html += '</div>';
     return html;
 };
 
-Tab.prototype.getPanelButtonHTML = function() {
+Tab.prototype.getMenuButtonHTML = function() {
     var html = '';
     var classes;
     if(this.isBlocked) {
@@ -255,7 +246,7 @@ Tab.prototype.getPanelButtonHTML = function() {
             var classes = 'maximized'
         };
     };
-    html += '<div class="tab-icon '+classes+'" data-id='+this.mode+'>'+this.mode+'</div>';
+    html += '<div class="tab-icon clickable '+classes+'" data-id='+this.mode+'>'+this.mode+'</div>';
     return html;
 };
 
@@ -268,7 +259,7 @@ var getStatCirclesHTML = function(amount) {
     var amount = amount;
     for(var i = 0; i<5; i++) {
         amount--;
-        html += getStatCircleHTML(amount >= 0 ? 'full' : 'empty');
+        html += getStatCircleHTML(amount >= 0 ? 'green' : 'white');
     };
     return html;
 };

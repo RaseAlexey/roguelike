@@ -244,7 +244,9 @@ var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 		stats.hp = stats.max_hp;
 		var items = [];
 		if(this.item_templates) {
+			console.log(this.item_templates)
 			this.item_templates.forEach(function(item_template, id) {
+				console.log(item_template)
 				items.push(item_template.getItem());
 			});
 		};
@@ -276,5 +278,5 @@ var Skeleton = function() {
 var unit_templates = new Collection([
 	new UnitTemplate('Rat', 		{ 'bonus_hp':range_formula(1, 5), 'str':1, 'dex':1, 'end':0, 'int':0 }, null),
 	new UnitTemplate('Zombie', 		{ 'bonus_hp':range_formula(0, 5), 'str':1, 'dex':0, 'end':1, 'int':0 }, humanoid_slots),
-	new UnitTemplate('Skeleton', 	{ 'bonus_hp':range_formula(5, 10), 'str':1, 'dex':0, 'end':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
+	new UnitTemplate('Skeleton', 	{ 'bonus_hp':range_formula(5, 10), 'str':1, 'dex':0, 'end':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Dagger')])
 ]);
