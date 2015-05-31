@@ -8,8 +8,7 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 
 
 	this.getId = function() {
-		if(this.unit) {
-			console.log(this.unit, this.unit.inventory);
+		if(this.unit) {	
 			return this.unit.inventory.items.indexOf(this);
 		}
 		if(this.place) {

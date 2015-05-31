@@ -174,8 +174,7 @@ UI.refreshTabPanel = function() {
 	var panel = $('.tab-panel');
 	var html = '';
 	$.each(this.tabs, function(mode, tab) {
-		if(!tab.isHidden && tab.getPanelButtonHTML) {
-			console.log(tab)
+		if(!tab.isHidden) {
 			html += tab.getPanelButtonHTML();
 		};
 	});

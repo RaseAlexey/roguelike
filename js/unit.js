@@ -227,7 +227,6 @@ var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 		var items = [];
 		if(this.item_templates) {
 			this.item_templates.forEach(function(item_template, id) {
-				console.log(item_template)
 				items.push(item_template.getItem());
 			});
 		};
