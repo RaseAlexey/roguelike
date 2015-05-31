@@ -1,27 +1,34 @@
 
 var Stack = function() {
-	this.actions = [];
 	this.time = 0;
 
 
 	this.tick = function() {
 		this.time++;
 		if(dungeon.current_place) {
-			dungeon.current_place.tick();
+			var units = dungeon.current_place.units;
+			units.forEach(function(unit) {
+				if(unit.action) {
+					unit.action.tick();
+				} else if (unit != player) {
+					unit.requestAction();
+				}
+			});
 		} else {
 			player.action.tick();
-		}
-		if(player.action) {			
-			this.tick();
 		};
-		UI.refreshTabs();	
+		if(player.action) {	
+			console.log('player has action', player.action);		
+			this.tick();
+		} else {
+			UI.refreshTabs();
+		}	
 	};
 
 	this.addAction = function(action) {
-		this.actions.push(action);
 		if(action.context == player) { //Player's actions cause stack to tick and process all actions
 			this.tick();
-		}
+		};
 	};
 
 };
@@ -44,6 +51,5 @@ var Action = function(context, time, code, data) {
 	this.end = function() {
 		this.code.call(context, this.data);
 		context.removeAction();
-		UI.refreshTabs();
 	};
 };

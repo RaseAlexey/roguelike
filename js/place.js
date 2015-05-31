@@ -79,10 +79,13 @@ var Place = function(template, name, units) {
                unit.action.tick();
             }
             if(!unit.action) {
-                if(unit != player) {
+                if(unit == player) {
+
+                } else {
                     unit.requestAction(); 
                 }
             }
+            UI.refreshTabs(); 
         }); 
     }
 };
