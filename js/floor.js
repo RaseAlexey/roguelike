@@ -58,14 +58,16 @@ var Rect = function(floor, width, height, pattern, place_templates) {
     this.height = height;
     this.place_templates = place_templates;
     this.cells = [];
+    this.entrance = null;
+    this.exit = null;
 
     for (var y = 0; y < height; y++) {
         var row = [];
         for (var x = 0; x < width; x++) {
            row.push(null); 
-        };
-        this.cells.push(row)
-    };
+        }
+        this.cells.push(row);
+    }
 
 
     this.getCell = function(x, y) {
@@ -92,25 +94,25 @@ var Rect = function(floor, width, height, pattern, place_templates) {
                     html += 'Empty';
                 } else {
                     html += cell.name;    
-                };
+                }
                 html += '</td>';        
-            });  
+            });
             html += '</tr>';
         });
-        html += '</table>'
+        html += '</table>';
         return html;
-    }
+    };
 };
 
 
 var floor_templates = new Collection([
-    new FloorTemplate('Entrance',   'linear', range_formula(4, 7), range_formula(4, 7), [1], [place_templates.getByName('Dusty room'), place_templates.getByName('Hall')]),
-    new FloorTemplate('Sewers',     'linear', range_formula(4, 7), range_formula(4, 7), [2, 3], [place_templates.getByName('Hall')]),
-    new FloorTemplate('Mines',      'linear', range_formula(4, 7), range_formula(4, 7), [2, 3, 4, 5], [place_templates.getByName('Hall')]),
-    new FloorTemplate('Tombs',      'linear', range_formula(4, 7), range_formula(4, 7), [4, 5, 6, 7], [place_templates.getByName('Hall')]),
-    new FloorTemplate('Treasury',   'linear', range_formula(4, 7), range_formula(4, 7), [6, 7, 8, 9], [place_templates.getByName('Hall')]),
-    new FloorTemplate('Stronghold', 'linear', range_formula(4, 7), range_formula(4, 7), [8, 9], [place_templates.getByName('Hall')]),
-    new FloorTemplate('End',        'linear', range_formula(4, 7), range_formula(4, 7), [10], [place_templates.getByName('Hall')])
+    new FloorTemplate('Entrance',   'simple_line', range_formula(4, 7), range_formula(4, 7), [1], [place_templates_collection.getByName('Dusty room'), place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('Sewers',     'simple_line', range_formula(4, 7), range_formula(4, 7), [2, 3], [place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('Mines',      'simple_line', range_formula(4, 7), range_formula(4, 7), [2, 3, 4, 5], [place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('Tombs',      'simple_line', range_formula(4, 7), range_formula(4, 7), [4, 5, 6, 7], [place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('Treasury',   'simple_line', range_formula(4, 7), range_formula(4, 7), [6, 7, 8, 9], [place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('Stronghold', 'simple_line', range_formula(4, 7), range_formula(4, 7), [8, 9], [place_templates_collection.getByName('Hall')]),
+    new FloorTemplate('End',        'simple_line', range_formula(4, 7), range_formula(4, 7), [10], [place_templates_collection.getByName('Hall')])
 ]);
 
 
@@ -126,8 +128,8 @@ var patterns = {
                 rect.fill(i, y, place);
                 if(i==0) {rect.entrance = place};
                 if(i==rect.width-1) {rect.exit = place};
-            };
-        };
+            }
+        }
         if(mode == 'vertical') {
             var x = rand(rect.width);
             for (var i = 0; i < rect.height; i++) {
@@ -135,8 +137,25 @@ var patterns = {
                 rect.fill(x, i, place);
                 if(i==0) {rect.entrance = place};
                 if(i==rect.height-1) {rect.exit = place};
-            };
-        };
+            }
+        }
+        return rect;
+    },
+    'simple_line' : function(rect, place_templates) {
+        var y = rand(rect.height - 1);
+        var place = null;
+        for (var i = 0; i < rect.width; i++) {
+            if (i == 0) {
+                place = place_templates_collection.getByName('Entrance').getPlace();
+                rect.entrance = place
+            } else if (i == (rect.height - 1)) {
+                place = place_templates_collection.getByName('Stairs').getPlace();
+                rect.exit = place
+            } else {
+                place = getRandomItemInArray(place_templates).getPlace();
+            }
+            rect.fill(i, y, place);
+        }
         return rect;
     }
 };

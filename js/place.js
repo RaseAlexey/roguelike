@@ -109,7 +109,9 @@ Place.generate = function(name) {
 };
 
 
-var place_templates = new Collection([
+var place_templates_collection = new Collection([
+    new PlaceTemplate('Entrance', 'entrance', [], constant_formula(0)),
+    new PlaceTemplate('Stairs', 'stairs', [], constant_formula(0)),
     new PlaceTemplate('Dusty room', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Skeleton')], constant_formula(3)),
     new PlaceTemplate('Hall', 'generic', [unit_templates.getByName('Rat'), unit_templates.getByName('Zombie')], constant_formula(3)),
     new PlaceTemplate('Zombie room: reward', 'reward', [unit_templates.getByName('Zombie')], constant_formula(5))
