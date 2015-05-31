@@ -38,7 +38,7 @@ var add_item_to_player_formula = function(item) {
 };
 
 var inc_player_stats_formula = function(stats_name) {
-    return new Formula(function(stats_name) { player.stats[stats_name]++; }, [stats_name]);
+    return new Formula(function(stats_name) { player.stats[stats_name]++; player.calcHp()}, [stats_name]);
 };
 
 

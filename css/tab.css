@@ -34,6 +34,9 @@
 .post {
 	font-size: smaller;
 }
+.time {
+	font-style: italic;	
+}
 .tab_footer {
 	flex: 1;
 }

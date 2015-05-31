@@ -1,9 +1,9 @@
 var Tab = function(mode, inner_html_func, data) {
 	this.mode = mode;
 	this.inner_html_func = inner_html_func;
-	this.data = data;
+	this.data = data || {};
 	this.isBlocked = false;
-	this.isMinimized = false;
+	this.isMinimized = true;
 	//this.needRefresh = false;
 
 	this.getId = function() {
@@ -144,13 +144,17 @@ UI.maximizeTab = function(tab_name) {
 
 UI.minimizeTabs = function() {
 	$.each(this.tabs, function(tab_name, tab) {
-		tab.minimize();
+		if(!tab.isMinimized) {
+			tab.minimize();
+		};
 	});
 };
 
 UI.maximizeTabs = function() {
 	$.each(this.tabs, function(tab_name, tab) {
-		tab.maximize();
+		if(tab.isMinimized) {
+			tab.maximize();
+		};
 	});
 };
 
@@ -226,4 +230,10 @@ UI.addTab(new Tab('place', function(data) {
 	} else {
 		return '';
 	}
+}));
+
+UI.addTab(new Tab('draft', function() {
+	if(this.data.draft) {
+		return this.data.draft.getHTML();
+	};
 }));

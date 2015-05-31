@@ -3,7 +3,17 @@ var Draft = function(quiz) {
     this.quiz = quiz;
     this.turn = 0;
     this.question = this.quiz.questions[0];
+    console.log(this.question);
+   
+    UI.tabs['draft'].data.draft = this;
 
+    this.start = function() {
+        var tab = UI.tabs['draft'];
+        tab.data.draft = this;
+        tab.show();
+        UI.minimizeTabs();
+        UI.maximizeTab('draft');
+    };
 
     this.tick = function() {
         this.turn++;
@@ -12,19 +22,24 @@ var Draft = function(quiz) {
         } else {
             this.question = this.quiz.questions[this.turn];
         };
+        console.log(this.question, this.question.options);
         UI.refreshTabs(); 
     };
 
+   this.end = function() {
+        UI.tabs['draft'].data.draft = undefined;
+        UI.hideTab('draft');
+        UI.showTab('place'); 
+        UI.maximizeTabs();   
+    };
+
     this.chooseOption = function(id) {
+        console.log('chooseOption', id, this.question.options, this.question.options[id]);
         chat.send(this.question.options[id].text);
         this.question.options[id].script();
         this.tick();
     };
-
-    this.end = function() {
-        UI.hideTab('draft');
-        UI.showTab('place');    
-    };
+ 
 };
 
 
@@ -115,7 +130,6 @@ var draft_generator = function() {
 
     //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
     questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
-        UI.maximizeTabs(); 
         player.goTo(dungeon.floors[0]);
     } )]));
 
@@ -138,7 +152,6 @@ var level_up_generator = function(level) {
     questions.push(new Question('Choose your reward for completing the floor:', [getRandomItemInArray(options_pull), getRandomItemInArray(options_pull), getRandomItemInArray(options_pull)]));
 
     questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
-        UI.maximizeTabs();
     } )]));
 
     return new Draft(new Quiz(questions));

@@ -28,6 +28,7 @@ var Inventory = function(unit, slots_list, items) {
 
 	this.pickUpItem = function(id) {
 		var item = this.unit.place.items[id];
+		item.place = undefined;
 		this.unit.place.items.splice(id, 1);
 		item.unit = this.unit;
 		this.items.push(item);
@@ -126,12 +127,10 @@ var Inventory = function(unit, slots_list, items) {
         console.log(slots);
 
 		slots.forEach(function(slot) {
-			if(!slot.pair_slot) {
-				new_slots.push(slot);
-				if(!slot.item && !free_slot) {
-					free_slot = slot;
-				}
-			}
+			new_slots.push(slot);
+			if(!slot.item && !slot.pair_slot && !free_slot) {
+				free_slot = slot;
+			};
 		});
 
 		return free_slot || new_slots[0];

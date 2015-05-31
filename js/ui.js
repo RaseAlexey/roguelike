@@ -84,9 +84,7 @@ $(document).on('click', '.stairs', function() {
             // level up!
             console.log('LEVEL UP!');
             var draft = level_up_generator(dungeon.floors.indexOf(dungeon.current_floor)+1);
-            UI.draw();
-            UI.minimizeTabs();
-            UI.maximizeTab('draft');
+            draft.start();
         }
 
     } else {
@@ -97,5 +95,5 @@ $(document).on('click', '.stairs', function() {
 
 $(document).on('click', '.option', function() {
 	var id = $(this).data('id');
-	draft.chooseOption(id);
+	UI.tabs['draft'].data.draft.chooseOption(id);
 });

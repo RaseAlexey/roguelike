@@ -4,7 +4,6 @@ var Unit = function(template, name, stats, slots, items) {
 	this.name = name;
 	this.stats = stats;
 	this.inventory = new Inventory(this, slots, items);
-	this.stats['hp'] = this.stats['hp'] ? this.stats['hp'] : this.stats['max_hp'];
 
 
 	this.getId = function() {
@@ -46,6 +45,23 @@ var Unit = function(template, name, stats, slots, items) {
 		if(this.stats.hp <= 0) {
 			this.die();
 		}
+	};
+
+	this.calcHp = function() {
+		var old_max_hp = this.stats['max_hp'];
+		var new_max_hp = this.stats['end']*5 + this.stats['bonus_hp'];
+		if(new_max_hp == old_max_hp) {
+			return true;
+		} else {
+			var diff = new_max_hp - old_max_hp;
+			this.stats['max_hp'] = new_max_hp;
+			this.stats['hp'] = this.stats['hp'] ? this.stats['hp'] + diff : this.stats['max_hp'];
+		};
+	};
+
+	this.incStat = function(stat, value) {
+		this.stats[stat].value++;
+		this.calcHp();
 	};
 
 	this.die = function() {
@@ -134,7 +150,7 @@ var Unit = function(template, name, stats, slots, items) {
 			var slot = this.inventory.getSlotForItem(item);
 			console.log(id, item, slot)
 			if(slot) {
-				if(!slot.item) {
+				if(!slot.item && !slot.pair_slot) {
 					if(this.checkRequirements(item.requirements)) {
 						console.log('wielding', item.name)
 						this.startAction(1, function (data) {
@@ -190,6 +206,7 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.toggleTwohand = function(slot_id) {
 		var slot = this.inventory.slots[slot_id];
+		console.log(this.inventory.slots, slot_id, slot);
 		if(slot.pair_slot) {
 			this.unpairSlot(slot_id);		
 		} else {
@@ -210,6 +227,9 @@ var Unit = function(template, name, stats, slots, items) {
 			this.inventory.dropItem(data.id)
 		}, {'id':id} );
 	};
+
+
+	this.calcHp();	
 };
 
 
@@ -256,7 +276,7 @@ var Skeleton = function() {
 
 
 var unit_templates = new Collection([
-	new UnitTemplate('Rat', 		{ 'bonus_hp':range_formula(5, 10), 'str':1, 'dex':1, 'end':0, 'int':0 }, null),
-	new UnitTemplate('Zombie', 		{ 'bonus_hp':range_formula(0, 10), 'str':1, 'dex':0, 'end':1, 'int':0 }, humanoid_slots),
-	new UnitTemplate('Skeleton', 	{ 'bonus_hp':range_formula(5, 15), 'str':1, 'dex':0, 'end':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
+	new UnitTemplate('Rat', 		{ 'bonus_hp':range_formula(1, 5), 'str':1, 'dex':1, 'end':0, 'int':0 }, null),
+	new UnitTemplate('Zombie', 		{ 'bonus_hp':range_formula(0, 5), 'str':1, 'dex':0, 'end':1, 'int':0 }, humanoid_slots),
+	new UnitTemplate('Skeleton', 	{ 'bonus_hp':range_formula(5, 10), 'str':1, 'dex':0, 'end':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
 ]);
