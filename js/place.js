@@ -90,6 +90,7 @@ var Place = function(template, name, units) {
 
 var PlaceTemplate = function(name, type, unit_templates, number_of_units_formula) {
     this.name = name;
+    this.type = type;
     this.unit_templates = unit_templates;
 
     this.getPlace = function() {

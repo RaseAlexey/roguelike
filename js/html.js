@@ -73,8 +73,14 @@ Place.prototype.getConnectionsHTML = function() {
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections v-list">';
     $.each(this.getConnections(), function(direction, destination) {
-        html += '<div class="connection" data-x='+destination.x+' data-y='+destination.y+'><div class="name">' + direction + ': ' + destination.name + '</div></div>';
+        html += '<div class="connection blue-button" data-x='+destination.x+' data-y='+destination.y+'><div class="name">' + direction + ': ' + destination.name + '</div></div>';
     });
+    if (this.template.type == 'entrance') {
+        html += '<div class="stairs blue-button" data-z = "up"><div class="name">climb the stairs</div></div>';
+    }
+    if (this.template.type == 'stairs') {
+        html += '<div class="stairs blue-button" data-z = "down"><div class="name">down the stairs</div></div>';
+    }
     html += '</div>';
     html += '</div>';
     html += '</div>';

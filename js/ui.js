@@ -58,11 +58,31 @@ $(document).on('click', '.tab-icon', function() {
 });
 
 $(document).on('click', '.connection', function() {
-	var x = $(this).data('x');
-	var y = $(this).data('y');
-	var dest = dungeon.current_floor.places[y][x];
-	console.log(x, y, dungeon.current_floor[x])
-	player.goTo(dest);
+    var x = $(this).data('x');
+    var y = $(this).data('y');
+    var dest = dungeon.current_floor.places[y][x];
+    console.log(x, y, dungeon.current_floor[x]);
+    player.goTo(dest);
+});
+
+$(document).on('click', '.stairs', function() {
+    var z = $(this).data('z');
+    var dest = null;
+    var current_z = dungeon.floors.indexOf(dungeon.current_floor);
+    if (z == 'up') {
+        if (current_z == 0) {
+            alert("exit from dungeon");
+        }
+        dest = dungeon.floors[current_z-1];
+    } else if (z == 'down') {
+        if (current_z == dungeon.floors.length-1) {
+            alert("end of dungeon, WIN");
+        }
+        dest = dungeon.floors[current_z+1];
+    } else {
+        alert('wrong connection');
+    }
+    player.goTo(dest);
 });
 
 $(document).on('click', '.option', function() {

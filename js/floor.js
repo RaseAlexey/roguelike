@@ -148,7 +148,7 @@ var patterns = {
             if (i == 0) {
                 place = place_templates_collection.getByName('Entrance').getPlace();
                 rect.entrance = place
-            } else if (i == (rect.height - 1)) {
+            } else if (i == (rect.width - 1)) {
                 place = place_templates_collection.getByName('Stairs').getPlace();
                 rect.exit = place
             } else {

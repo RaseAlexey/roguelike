@@ -48,7 +48,7 @@ body {
 .slot.full {
 	border-color: #6B6B6B;
 }
-.unit, .item, .slot, .connection, .option, .stat	 {
+.unit, .item, .slot, .blue-button, .option, .stat {
 	display: flex;
 	flex-align: center;
 	justify-content: space-between;
@@ -63,7 +63,7 @@ body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }	
-.unit, .item, .connection, .list-header, .option {
+.unit, .item, .blue-button, .list-header, .option {
 	flex-direction: row;
 	cursor: pointer;	
 }
