@@ -221,7 +221,8 @@ var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 
 	this.getUnit = function() {
 		var stats = Formula.calcArray(this.stat_formulas);
-		stats.maxHp = stats.hp;
+		stats.max_hp = stats.bonus_hp + 5*stats.end;
+		stats.hp = stats.max_hp;
 		var items = [];
 		if(this.item_templates) {
 			this.item_templates.forEach(function(item_template, id) {
@@ -255,7 +256,7 @@ var Skeleton = function() {
 
 
 var unit_templates = new Collection([
-	new UnitTemplate('Rat', 		{'max_hp':range_formula(5, 10), 'str':1, 'dex':1, 'int':0 }, null),
-	new UnitTemplate('Zombie', 		{'max_hp':range_formula(20, 30), 'str':1, 'dex':0, 'int':0 }, humanoid_slots),
-	new UnitTemplate('Skeleton', 	{'max_hp':range_formula(10, 30), 'str':1, 'dex':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
+	new UnitTemplate('Rat', 		{ 'bonus_hp':range_formula(5, 10), 'str':1, 'dex':1, 'end':0, 'int':0 }, null),
+	new UnitTemplate('Zombie', 		{ 'bonus_hp':range_formula(0, 10), 'str':1, 'dex':0, 'end':1, 'int':0 }, humanoid_slots),
+	new UnitTemplate('Skeleton', 	{ 'bonus_hp':range_formula(5, 15), 'str':1, 'dex':0, 'end':0, 'int':0 }, humanoid_slots, [item_templates.getByName('Light sword')])
 ]);

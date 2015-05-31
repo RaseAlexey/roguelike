@@ -48,7 +48,7 @@ body {
 .slot.full {
 	border-color: #6B6B6B;
 }
-.unit, .item, .slot, .connection, .option {
+.unit, .item, .slot, .connection, .option, .stat	 {
 	display: flex;
 	flex-align: center;
 	justify-content: space-between;
@@ -77,12 +77,17 @@ body {
 .option {
 	justify-content: space-around;
 }
-.name {
+.name, .stat-name, .stat-value {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+.stat-value {
+	flex-grow: 3;
+	flex-direction: row;
+	justify-content: space-around;
 }
 .inline-description {
 	border-radius: 0 3px 3px 0;
@@ -90,6 +95,12 @@ body {
 	font-size: 0.7em;
 	order: 1;
 	box-sizing: border-box;
+}
+.circle {
+	border: 1px solid #808080;
+	border-radius: 50%;
+	width: 1em;
+	height: 1em;
 }
 .button {
 	display: flex;

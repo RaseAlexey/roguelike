@@ -15,9 +15,9 @@ var items_library = new Collection([
 new Item(null, 	'sword', 		{'dmg':3, 'accuracy':7, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
 new Item(null, 	'axe', 			{'dmg':4, 'accuracy':6, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
 new Item(null, 	'mace', 		{'dmg':5, 'accuracy':5, 'attack_time':1, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 	'spear	', 		{'dmg':8, 'accuracy':7, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
+new Item(null, 	'spear', 		{'dmg':8, 'accuracy':7, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
 new Item(null, 	'hammer', 		{'dmg':10, 'accuracy':5, 'attack_time':2, 'weight':10}, {'str':1}, 'hand', {}),
-new Item(null, 	'claymore	', 	{'dmg':16, 'accuracy':4, 'attack_time':3, 'weight':10}, {'str':2}, 'hand', {}),
+new Item(null, 	'claymore', 	{'dmg':16, 'accuracy':4, 'attack_time':3, 'weight':10}, {'str':2}, 'hand', {}),
 new Item(null, 'light helm', 	{'armor':1, 'weight':4}, {}, 'head', {}),
 new Item(null, 'heavy helm', 	{'armor':2, 'weight':8}, {'str':1}, 'head', {}),
 

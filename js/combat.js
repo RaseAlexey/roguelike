@@ -63,9 +63,11 @@ Unit.prototype.getDodge = function() {
 };
 
 Unit.prototype.strike = function(target) {
-	//console.log('strike', this.name, target.name);
+	//console.log('strike', data.source_name, data.target_name);
 	var data = {};
 	data.target = target;
+    data.source_name = this == player ? 'You' : this.name;
+    data.target_name = target == player ? 'You' : target.name;
 	this.startAction(this.calcAttackTime(), function(data) {
         var user_str = 0;
         var user_dex = 0;
@@ -97,17 +99,19 @@ Unit.prototype.strike = function(target) {
                 var absorb = data.target.getAbsorb();
                 if (absorb >= dmg) {
                     // damage absorbed
-                    chat.send(this.name + ' hit to ' + target.name +', but damage absorbed.');
+                    chat.send(data.source_name + ' hit ' + data.target_name +', but damage absorbed.');
                 }
                 else {
                     // strike successful
-                    chat.send(this.name + ' strikes ' + target.name +' and dealt ' + (dmg - absorb) + ' damage. absorbed: '+absorb);
+                    //chat.send(data.source_name + ' striked ' + data.target_name +' and dealt ' + (dmg - absorb) + ' damage. absorbed: '+absorb);
+                    chat.send(data.source_name + ' striked ' + data.target_name +' for ' + (dmg - absorb) + ' damage.');
                     data.target.decreaseHp(dmg - absorb);
                 }
             } else {
                 // miss!
                 console.log(accuracy, dodge, diff, percent_diff);
-                chat.send(this.name + ' missed to ' + target.name +'. (roll: '+roll+', percent:'+percent_diff+')');
+                //chat.send(data.source_name + ' missed ' + data.target_name +'. (roll: '+roll+', percent:'+percent_diff+')');
+                chat.send(data.source_name + ' missed ' + data.target_name +'.');
             }
         }, this);
 	}, data);

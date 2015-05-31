@@ -130,6 +130,10 @@ Unit.prototype.getStatsHTML = function() {
     });
     */
     html += '<span>Hitpoints: ' + this.stats.hp + '/' + this.stats.max_hp + '</span>';
+    var self = this;
+    ['str', 'dex', 'end', 'int'].forEach(function(stat) {
+        html += '<div class="stat"><div class="stat-name">' + stat + '</div><div class="stat-value">' + getStatCirclesHTML(self.stats[stat]) + '</div></div>';
+    });
     html += '</div>';
     return html;
 };
@@ -250,11 +254,15 @@ Tab.prototype.getPanelButtonHTML = function() {
 };
 
 
-$(document).on('click', '.list-header', function() {
-    var list = $(this).next();
-    if(list.is(':visible')) {  
-        list.hide();
-    } else {
-        list.show();
-    }
-});
+var getStatCircleHTML = function(custom_class) {
+    return '<div class = "circle '+custom_class +'"></div>';
+};
+var getStatCirclesHTML = function(amount) {
+    var html = '';
+    var amount = amount;
+    for(var i = 0; i<5; i++) {
+        amount--;
+        html += getStatCircleHTML(amount >= 0 ? 'full' : 'empty');
+    };
+    return html;
+};

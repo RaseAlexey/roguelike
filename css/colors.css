@@ -14,6 +14,15 @@
 .option {
 	background-color: #879ED4;
 }
+.stat {
+	background-color: #D4D4D4;	
+}
+.circle.empty {
+	background-color: white;	
+}
+.circle.full {
+	background-color: #A1E6A1;	
+}
 /*
 .slot.empty {
 	background-color: #D4D4D4;

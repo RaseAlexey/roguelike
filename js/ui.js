@@ -3,6 +3,14 @@ var UI = {
 	'node' : $('.container')
 };
 
+$(document).on('click', '.list-header', function() {
+    var list = $(this).next();
+    if(list.is(':visible')) {  
+        list.hide();
+    } else {
+        list.show();
+    }
+});
 
 $(document).on('click', '.drop-button', function(event) {
 	var id = $(this).parent().data('id');

@@ -100,7 +100,7 @@ var draft_generator = function() {
         options_pull.push(new OptionItemRevard(item.name, clone(item)));
     });
 
-    ['str', 'dex', 'int'].forEach(function(stat_name) {
+    ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {
         options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
     });
 

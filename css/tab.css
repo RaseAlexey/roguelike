@@ -30,6 +30,9 @@
 	overflow: auto;
 	box-sizing: border-box;
 }
+.post {
+	font-size: smaller;
+}
 .tab_footer {
 	flex: 1;
 }
