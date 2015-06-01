@@ -5,7 +5,10 @@
 .dark-red {
 	background-color: #D48787;
 }
-.swampish-green {
+.swampish-yellow {
+	background-color: #D4D487;
+}
+.yellow {
 	background-color: #D4D487;
 }
 .light-grey {
@@ -14,17 +17,26 @@
 .grey {
 	background-color: #D4D4D4;
 }
+.font-grey {
+	color: #D4D4D4;
+}
 .soft-dark-grey {
 	background-color: #8A8A8A;
 }
 .dark-grey {
 	background-color: #808080;
 }
+.font-deep-dark-grey {
+	color: #454545;
+}
 .blue {
 	background-color: #879ED4;
 }
 .white {
 	background-color: white;	
+}
+.font-white {
+	color: white;	
 }
 .green {
 	background-color: #A1E6A1;	
