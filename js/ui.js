@@ -95,5 +95,5 @@ $(document).on('click', '.stairs', function() {
 
 $(document).on('click', '.option', function() {
 	var id = $(this).data('id');
-	UI.tabs['draft'].data.draft.chooseOption(id);
+	UI.tabs['draft'].data.draft.pick(id);
 });

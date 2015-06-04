@@ -13,6 +13,10 @@ var Collection = function(items) {
         return this.byName[name];
     };
 
+    this.getRandom = function() {
+        return getRandomItemInArray(this.all);
+    }
+
     this.createByName = function(name) {
         return clone(this.getByName(name));
     };

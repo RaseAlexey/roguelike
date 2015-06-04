@@ -1,11 +1,13 @@
 
-var Draft = function(quiz) {
-    this.quiz = quiz;
+var Draft = function(level, number_of_choices) {
+    this.level = level;
     this.turn = 0;
-    this.question = this.quiz.questions[0];
-    console.log(this.question);
+    this.choices = [];
 
-    UI.tabs['draft'].data.draft = this;
+    var self = this;
+    for (var i = 0; i < number_of_choices; i++) {
+        self.choices.push(new Choice(self, 3));
+    };
 
     this.start = function() {
         var tab = UI.tabs['draft'];
@@ -13,18 +15,8 @@ var Draft = function(quiz) {
         tab.show();
         UI.minimizeTabs();
         UI.maximizeTab('draft');
-    };
-
-    this.tick = function() {
-        this.turn++;
-        if (this.turn >= this.quiz.questions.length) {
-            this.end();
-        } else {
-            this.question = this.quiz.questions[this.turn];
-        };
-        console.log(this.question, this.question.options);
-        UI.refreshTabs(); 
-    };
+        UI.maximizeTab('chat');
+    }; 
 
    this.end = function() {
         UI.tabs['draft'].data.draft = undefined;
@@ -33,57 +25,75 @@ var Draft = function(quiz) {
         UI.maximizeTabs();   
     };
 
-    this.chooseOption = function(id) {
-        console.log('chooseOption', id, this.question.options, this.question.options[id]);
-        chat.send(this.question.options[id].text);
-        this.question.options[id].script();
+    this.tick = function() {
+        this.turn++;
+        if (this.turn >= this.choices.length) {
+            this.end();
+        };
+        UI.refreshTabs(); 
+    };
+
+    this.pick = function(id) {
+        this.choices[this.turn].options[id].pick();
         this.tick();
     };
  
 };
 
 
-var Quiz = function(questions) {
-    this.questions = questions;
+var Choice = function(draft, number_of_options) {
+    this.draft = draft;
+    this.level = this.draft.level;
+    this.options = [];
+
 
     var self = this;
-    this.questions.forEach(function(question, id) {
-        question.quiz = self;
-    });
+    for (var k = 0; k < number_of_options; k++) {
+        if(rand(100) <= 20) {
+            self.options.push(new OptionStat(self, getRandomItemInArray(['str', 'dex', 'int'])));
+        } else {
+            self.options.push(new OptionItem(self, self.draft.level));        
+        }
+    };
+
 };
 
 
-var Question = function(text, options) {
-    this.text = text;
-    this.options = options;
-
-    var self = this;
-    this.options.forEach(function(option, id) {
-        option.question = self;
-    });
-};
-
-
-var Option = function(text, script) {
-    this.text = text;
+var Option = function(choice, content, script) {
+    this.choice = choice;
+    this.content = content; //text or item
     this.script = script || function() {};
 
+
+    this.pick = function() {
+        chat.send(this.getChatMessage());
+        this.script(); 
+    };
+
     this.getId = function() {
-        return this.question.options.indexOf(this);
-    }
+        console.log(this, this.choice, this.choice.options)
+        return this.choice.options.indexOf(this);
+    };
+
+    this.getChatMessage = function() {
+        if(this.content.name) {
+            return "You've choosen " + content.name;
+        } else {
+            return this.content;
+        }
+    };
 };
 
 
-var OptionItemRevard = function(item) {
-    return new Option(item.name, add_item_to_player_formula(item));
-};
-
-var OptionStatsRevard = function(text, stats_name) {
-    return new Option(text, inc_player_stats_formula(stats_name));
+var OptionItem = function(choice, level) {
+    var item = item_templates.getRandom().getItem();  // here we need to choose items by level
+    return new Option(choice, item, add_item_to_player_formula(item));
 };
 
 
-
+var OptionStat = function(choice, stat_name) {
+    return new Option(choice, 'Increase your ' + acronym_dictionary.getFullWord(stat_name), inc_player_stat_formula(stat_name));
+};
 
 /*
 var old_draft = new Quiz(
@@ -102,42 +112,38 @@ var old_draft = new Quiz(
     'So, lets go fight!');
 */
 
+/*
+var generate_question = function() {
+  var options = [];
+    for (var k = 0; k<3; k++) {
+        var option = generate_option();
+        option.id = k;
+        options.push(option);
+    };
+    return new Question('', options)
+}
+var generate_option = function() {
+    return getRandomItemInArray(options_pull); //here must be recursive algorithm
+};
 
-
-var draft_generator = function() {
+var generate_draft = function(number_of_choices) {
     var questions = [];
-    var options_pull = [];
 
     questions.push(new Question('Next five choices will decide your fate!', [new Option('OK')]));
 
+    for (var i = 0; i<number_of_choices; i++) {
+        questions.push(generate_question());
+    };
 
-    item_templates.all.forEach(function(item_template) {
-        var item = item_template.getItem();
-        options_pull.push(new OptionItemRevard(item));
-    });
-
-    ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {
-        options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
-    });
-
-
-    for (var i = 0; i<5; i++) {
-        var options = [];
-        options.push(getRandomItemInArray(options_pull));
-        options.push(getRandomItemInArray(options_pull));
-        options.push(getRandomItemInArray(options_pull));
-        questions.push(new Question('', options));
-    }
-
-    //questions.push(new Question('Are you ready?', [new Option('Yes!', player.goTo(dungeon.floors[0]) )]));
     questions.push(new Question('Are you ready?', [new Option('Yes!', function() {
         player.goTo(dungeon.floors[0]);
     } )]));
 
     return new Draft(new Quiz(questions));
 };
+*/
 
-
+/*
 var level_up_generator = function(level) {
     var questions = [];
     var options_pull = [];
@@ -148,7 +154,7 @@ var level_up_generator = function(level) {
     });
 
     ['str', 'dex', 'end', 'int'].forEach(function(stat_name) {
-        options_pull.push(new OptionStatsRevard('Increase your ' + stat_name, stat_name));
+        options_pull.push(new OptionStatRevard(stat_name));
     });
 
     questions.push(new Question('Choose your reward for completing the floor:', [getRandomItemInArray(options_pull), getRandomItemInArray(options_pull), getRandomItemInArray(options_pull)]));
@@ -158,4 +164,5 @@ var level_up_generator = function(level) {
 
     return new Draft(new Quiz(questions));
 };
+*/
 

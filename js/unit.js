@@ -126,6 +126,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.addItem = function(item) {
+		console.log(item)
 		this.inventory.addItem(item);
 	};
 
@@ -244,9 +245,7 @@ var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 		stats.hp = stats.max_hp;
 		var items = [];
 		if(this.item_templates) {
-			console.log(this.item_templates)
 			this.item_templates.forEach(function(item_template, id) {
-				console.log(item_template)
 				items.push(item_template.getItem());
 			});
 		};

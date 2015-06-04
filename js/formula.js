@@ -37,8 +37,8 @@ var add_item_to_player_formula = function(item) {
     return new Formula(function(item) { player.addItem(item)}, [item]);
 };
 
-var inc_player_stats_formula = function(stats_name) {
-    return new Formula(function(stats_name) { player.stats[stats_name]++; player.calcHp()}, [stats_name]);
+var inc_player_stat_formula = function(stat_name) {
+    return new Formula(function(stat_name) { player.stats[stat_name]++; player.calcHp()}, [stat_name]);
 };
 
 

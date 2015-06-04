@@ -24,18 +24,18 @@ html, body, .container  {
 	display: flex;
 	position: relative;
 	flex-align: center;
-	justify-content: space-between;
-	height: calc(1.4em + 2px);
+	height: 1.4em;
+	line-height: 1.4em;
 	margin: 0.1em 0;
-	box-sizing: border-box;
 }
 .button {
-	position: absolute;
-	right: 0;
 	height: 1em;
-	margin: 0.2em;
+	line-height: 1em;
+	margin: 0;
+	margin-right: 0.2em;
 	padding-left: 0.4em;
 	padding-right: 0.4em;
+	box-sizing: border-box;
 }
 .stat-name {
 	flex: 1;
@@ -67,6 +67,10 @@ html, body, .container  {
 .clickable {
 	cursor: pointer;
 }
+.option .rectangle {
+	flex: 1;
+	margin: 0;
+}
 .post {
 	font-size: smaller;
 }
@@ -80,18 +84,21 @@ html, body, .container  {
 	border-radius: 3px;
 }
 
- 	
+/* 	
 .rectangle span {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
 }
-.item span {
-	font-size: smaller;
+*/
+.item-name {
+	flex: 1;
+	text-align: center;
+	font-size: 0.85em;
 }
-.button span {
-	font-size: x-small;
+.button-text {
+	font-size: 0.70em;
 }
 
 .slot .item {

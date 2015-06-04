@@ -52,9 +52,9 @@ Place.prototype.getHTML = function() {
     };
     html += this.getConnectionsHTML();
     if(this.hasEnemies()) {
-        html += '<div class="rectangle wait-button centered border-thin border-round green"><span>Wait</span></div>';
+        html += '<div class="rectangle wait-button centered border-thin border-round green"><div>Wait</div></div>';
     } else {
-      html += '<div class="rectangle rest-button centered border-thin border-round green"><span>Rest</span></div>';
+      html += '<div class="rectangle rest-button centered border-thin border-round green"><div>Rest</div></div>';
     }
     return html;
 };
@@ -81,10 +81,10 @@ Place.prototype.getConnectionsHTML = function() {
         html += '<div class="rectangle centered clickable border-thin border-round connection blue" data-x='+destination.x+' data-y='+destination.y+'><span>' + direction + ': ' + destination.name + '</span></div>';
     });
     if (this.template.type == 'entrance') {
-        html += '<div class="rectangle centered clickable border-thin border-round stairs up blue"><span>Climb the stairs</span></div>';
+        html += '<div class="rectangle centered clickable border-thin border-round stairs up blue"><div>Climb the stairs</div></div>';
     }
     if (this.template.type == 'stairs') {
-        html += '<div class="rectangle centered clickable border-thin border-round stairs down blue"><span>Down the stairs</span></div>';
+        html += '<div class="rectangle centered clickable border-thin border-round stairs down blue"><div>Down the stairs</div></div>';
     }
     html += '</div>';
     html += '</div>';
@@ -125,14 +125,14 @@ Unit.prototype.getHTML = function() {
     var classes = player.isEnemyWith(this) ? 'enemy red' : '';
     var html = '';
     html += '<div class="rectangle centered clickable border-thin border-round unit '+classes+'" data-id='+this.getId()+'>';
-    html += '<span">' + this.name + ' (' + this.stats.hp + '/' + this.stats.max_hp + ')' + '</span>';
+    html += '<div">' + this.name + ' (' + this.stats.hp + '/' + this.stats.max_hp + ')' + '</div>';
     html += '</div>';
     return html;
 };
 
 Unit.prototype.getStatsHTML = function() {
     var html = '<div class="unit-stats">';
-    html += '<span>Hitpoints: ' + this.stats.hp + '/' + this.stats.max_hp + '</span>';
+    html += '<div>Hitpoints: ' + this.stats.hp + '/' + this.stats.max_hp + '</div>';
     var self = this;
     ['str', 'dex', 'end', 'int'].forEach(function(stat) {
         html += '<div class="rectangle stat border-thin border-round grey"><div class="stat-name centered">' + stat + '</div><div class="row centered center-aligned stat-value">' + getStatCirclesHTML(self.stats[stat]) + '</div></div>';
@@ -167,8 +167,8 @@ Slot.prototype.getHTML = function() {
     }
     var html = '';
     var classes = (this.item ? 'full': 'empty');
-    html += '<div class="rectangle centered border-thin border-round column slot grey '+classes+'" data-id='+this.getId()+'>';
-    html += '<span class="centered">' + this.type + '</span>';
+    html += '<div class="rectangle justified border-thin border-round column slot grey '+classes+'" data-id='+this.getId()+'>';
+    html += '<div class="centered">' + this.type + '</div>';
     if(this.item) {
         html += this.item.getHTML();    
     };
@@ -179,16 +179,16 @@ Slot.prototype.getHTML = function() {
 Item.prototype.getHTML = function() {
     var html = '';
     var id = this.getId();
-    html += '<div class="item rectangle centered clickable border-thin border-round swampish-yellow" data-id='+id+'>';
-    html += '<span>' + this.name + '</span>';
+    html += '<div class="item rectangle centered center-aligned row clickable border-thin border-round swampish-yellow" data-id='+id+'>';
+    html += '<div class="item-name">' + this.name + '</div>';
     if(this.unit) {
-        html += '<div class="rectangle button clickable border-thin border-round drop-button dark-red"><span>drop</span></div>';
+        html += '<div class="rectangle button clickable border-thin border-round drop-button dark-red"><div class="button-text">drop</div></div>';
     };
     if(this.slot && this.slot.type == 'hand' && !this.slot.pair_slot) {
-        html += '<div class="rectangle button clickable border-thin border-round twohand-button dark-red"><span>twohand</span></div>';
+        html += '<div class="rectangle button clickable border-thin border-round twohand-button dark-red"><div class="button-text">twohand</div></div>';
     }
     if(this.slot && this.slot.type == 'hand' && this.slot.pair_slot) {
-        html += '<div class="rectangle button clickable border-thin border-round twohand-button dark-red"><span>onehand</span></div>';
+        html += '<div class="rectangle button clickable border-thin border-round twohand-button dark-red"><div class="button-text">onehand</div></div>';
     }
     html += '</div>'
     return html;
@@ -198,15 +198,14 @@ Item.prototype.getHTML = function() {
 Draft.prototype.getHTML = function() {
     var html = '';
     html += '<div class = "draft">';
-    html += this.question.getHTML();
+    html += this.choices[this.turn].getHTML();
     html += '</div>';
     return html;
 };
 
-Question.prototype.getHTML = function() {
+Choice.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "question header">';
-    html += this.text;
+    html += '<div class = "choice header">';
     this.options.forEach(function (option, id) {
         html += option.getHTML();
     });
@@ -216,8 +215,12 @@ Question.prototype.getHTML = function() {
 
 Option.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "rectangle clickable border-thin border-round option blue centered" data-id=' + this.getId() + '>';
-    html += '<span>'+this.text+'</span>';
+    html += '<div class = "rectangle option clickable border-thin border-round blue column centered" data-id=' + this.getId() + '>';
+    if(this.content.getHTML) {
+        html += this.content.getHTML();
+    } else {
+        html += '<div>' + this.content + '</div>';  
+    };
     html += '</div>';
     return html;
 };
