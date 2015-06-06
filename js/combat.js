@@ -86,6 +86,10 @@ Unit.prototype.strike = function(target) {
         }
         // удар каждым оружием обрабатывается отдельно
         weapons.forEach(function(weapon) {
+            if (!weapon.stats.accuracy && !weapon.stats.dmg)  {
+                // не бьем щитами и прочими штуками без дамага
+                return;
+            }
             var accuracy = weapon.stats.accuracy + dex_bonus;
             var dodge = data.target.getDodge();
             var diff = accuracy - dodge;
@@ -106,7 +110,7 @@ Unit.prototype.strike = function(target) {
                         if (shield_roll < shield.stats.block_rate) {
                             // блок щитом этого оружия.
                             is_blocked = true;
-                            chat.send(data.target_name + ' blocks ' + data.source_name + '\'s attack with his ' + shield.name +'.');
+                            chat.send(data.target_name + ' blocks ' + data.source_name + '\'s attack with ' + shield.name +'.');
                         }
                     }
                 });
