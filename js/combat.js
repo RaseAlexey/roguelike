@@ -84,6 +84,7 @@ Unit.prototype.strike = function(target) {
             // удар голыми руками
             weapons.push(new Item(null, 'hand', {'dmg':1, 'accuracy':5, 'attack_time':1}, {}, 'hand', {}));
         }
+        // удар каждым оружием обрабатывается отдельно
         weapons.forEach(function(weapon) {
             var accuracy = weapon.stats.accuracy + dex_bonus;
             var dodge = data.target.getDodge();
@@ -93,19 +94,37 @@ Unit.prototype.strike = function(target) {
 
             var roll = range(0, 100);
             if (roll < percent_diff) {
-                console.log(accuracy, dodge, diff, percent_diff);
-                // hit!
-                var dmg = weapon.stats.dmg + str_bonus;
-                var absorb = data.target.getAbsorb();
-                if (absorb >= dmg) {
-                    // damage absorbed
-                    chat.send(data.source_name + ' hit ' + data.target_name +', but damage absorbed.');
-                }
-                else {
-                    // strike successful
-                    //chat.send(data.source_name + ' striked ' + data.target_name +' and dealt ' + (dmg - absorb) + ' damage. absorbed: '+absorb);
-                    chat.send(data.source_name + ' striked ' + data.target_name +' for ' + (dmg - absorb) + ' damage.');
-                    data.target.decreaseHp(dmg - absorb);
+                // удар попал, но все еще может быть заблокирован щитом
+                //console.log(accuracy, dodge, diff, percent_diff);
+                var shields = data.target.inventory.getItemsFromNotEmptySlotsOfType('hand');
+                var is_blocked = false;
+                // блок каждым щитом обрабатывается отдельно
+                shields.forEach(function(shield) {
+                    if (shield.stats.block_rate) {
+                        // попытка пробивания щита. нужно успешно пробить все щиты для попадания
+                        var shield_roll = range(0, 100);
+                        if (shield_roll < shield.stats.block_rate) {
+                            // блок щитом этого оружия.
+                            is_blocked = true;
+                            chat.send(data.target_name + ' blocks ' + data.source_name + '\'s attack with his ' + shield.name +'.');
+                        }
+                    }
+                });
+
+                if (!is_blocked) {
+                    // hit!
+                    var dmg = weapon.stats.dmg + str_bonus;
+                    var absorb = data.target.getAbsorb();
+                    if (absorb >= dmg) {
+                        // damage absorbed
+                        chat.send(data.source_name + ' hit ' + data.target_name + ', but damage absorbed.');
+                    }
+                    else {
+                        // strike successful
+                        //chat.send(data.source_name + ' striked ' + data.target_name +' and dealt ' + (dmg - absorb) + ' damage. absorbed: '+absorb);
+                        chat.send(data.source_name + ' striked ' + data.target_name + ' for ' + (dmg - absorb) + ' damage.');
+                        data.target.decreaseHp(dmg - absorb);
+                    }
                 }
             } else {
                 // miss!
