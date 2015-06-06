@@ -1,5 +1,5 @@
 
-Unit.prototype.requestAction = function() {
+Unit.prototype.tickAI = function() {
     if (this.inventory.items.length) {
         if (this.inventory.getItemsFromNotEmptySlotsOfType('hand').length == 0) {
             var weapons = arrayFilter(this.inventory.items, function(item) {

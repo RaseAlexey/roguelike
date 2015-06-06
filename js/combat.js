@@ -68,7 +68,7 @@ Unit.prototype.strike = function(target) {
 	data.target = target;
     data.source_name = this == player ? 'You' : this.name;
     data.target_name = target == player ? 'You' : target.name;
-	this.startAction(this.calcAttackTime(), function(data) {
+	this.generateAction(this.calcAttackTime(), function(data) {
         var user_str = 0;
         var user_dex = 0;
         this.inventory.slots.forEach(function(slot) {

@@ -45,6 +45,12 @@ $(document).on('click', '.unit.enemy', function() {
 	player.strike(dungeon.current_place.units[id]);
 });
 
+$(document).on('click', '.wait-button', function(event) {
+});
+
+$(document).on('click', '.rest-button', function(event) {
+});
+
 $(document).on('click', '.tab_header', function() {
 	var tab = UI.tabs[$(this).parent().data('id')];
 	console.log(tab);
@@ -97,3 +103,4 @@ $(document).on('click', '.option', function() {
 	var id = $(this).data('id');
 	UI.tabs['draft'].data.draft.pick(id);
 });
+

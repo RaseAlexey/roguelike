@@ -11,12 +11,13 @@ var Stack = function() {
 				if(unit.action) {
 					unit.action.tick();
 				} else if (unit != player) {
-					unit.requestAction();
+					unit.tickAI();
 				}
 			});
 		} else {
+            console.log(player);
 			player.action.tick();
-		};
+		}
 		if(player.action) {	
 			console.log('player has action', player.action);		
 			this.tick();
@@ -25,10 +26,11 @@ var Stack = function() {
 		}	
 	};
 
-	this.addAction = function(action) {
+	this.addAction = function(action) {  // deprecated
+        console.log(action);
 		if(action.context == player) { //Player's actions cause stack to tick and process all actions
 			this.tick();
-		};
+		}
 	};
 
 };
@@ -42,7 +44,7 @@ var Action = function(context, time, code, data) {
 
 
 	this.tick = function() {
-		this.time --;
+		this.time--;
 		if(this.time <= 0) {
 			this.end();
 		}

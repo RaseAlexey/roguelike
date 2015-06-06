@@ -10,12 +10,11 @@ var Unit = function(template, name, stats, slots, items) {
 		return this.place.units.indexOf(this);
 	};
 
-	this.startAction = function(time, code, data, context) {
-		if(!this.action) {
-			var context = context || this;
-			this.action = new Action(context, time, code, data);
-			stack.addAction(this.action);
-		};
+	this.generateAction = function(time, code, data, context) {
+        this.action = new Action((context || this), time, code, data);
+        if (this == player) {
+             stack.tick();
+        }
 	};
 
 	this.removeAction = function() {
@@ -48,13 +47,13 @@ var Unit = function(template, name, stats, slots, items) {
 	this.calcHp = function() {
 		var old_max_hp = this.stats['max_hp'];
 		var new_max_hp = this.stats['end']*5 + this.stats['bonus_hp'];
-		if(new_max_hp == old_max_hp) {
+		if (new_max_hp == old_max_hp) {
 			return true;
 		} else {
 			var diff = new_max_hp - old_max_hp;
 			this.stats['max_hp'] = new_max_hp;
 			this.stats['hp'] = this.stats['hp'] ? this.stats['hp'] + diff : this.stats['max_hp'];
-		};
+		}
 	};
 
 	this.incStat = function(stat, value) {
@@ -68,9 +67,9 @@ var Unit = function(template, name, stats, slots, items) {
 		this.inventory.emptySlots();
 		this.inventory.dropItems();
 		this.place.units.splice(this.getId(), 1);
-		if(this == player) {
+		if (this == player) {
 			UI.blockTab('place');
-		};
+		}
 	};
 
 	this.goTo = function(dest) {
@@ -84,18 +83,28 @@ var Unit = function(template, name, stats, slots, items) {
 		} else {
 			throw new Error('goTo invalid dest type');
 		}
-		this.startAction(1, function(data) {
+		this.generateAction(1, function(data) {
 			this.setPlace(data.dest_place);
 			if(this == player) {
 				chat.send('You entered ' + dest_place.name + '.');
-				data.dest_place.units.forEach(function(unit, id) {
+				data.dest_place.units.forEach(function(unit) {
 					if(unit != player) {
-						unit.requestAction();
+						unit.tickAI();
 					}
 				});
 			}
 		}, {'dest_place' : dest_place});
 	};
+
+    this.wait = function() {
+        this.generateAction(1, function (data) {
+            // do nothing
+        }, {} );
+    };
+
+    this.rest = function() {
+        this.wait();
+    };
 
 	this.setPlace = function(place) {
 		if(this.place) {
@@ -131,13 +140,13 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.pickUpItem = function(id) {
-		this.startAction(1, function (data) {
+		this.generateAction(1, function (data) {
 			this.inventory.pickUpItem(data.id)
 		}, {'id':id} );
 	};
 
 	this.removeItem = function(id) {
-		this.startAction(1, function (data) {
+		this.generateAction(1, function (data) {
 			this.inventory.removeItem(data.id)
 		}, {'id':id} );
 	};
@@ -152,7 +161,7 @@ var Unit = function(template, name, stats, slots, items) {
 				if(!slot.item && !slot.pair_slot) {
 					if(this.checkRequirements(item.requirements)) {
 						console.log('wielding', item.name)
-						this.startAction(1, function (data) {
+						this.generateAction(1, function (data) {
 							this.inventory.wieldItem(data.id)
 						}, {'id':id} );	
 					} else {
@@ -178,7 +187,7 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.unwieldItem = function(id) {
 		console.log('unit unwield start', id);
-		this.startAction(1, function (data) {
+		this.generateAction(1, function (data) {
 			var item = this.inventory.slots[data.id].item;
 			this.inventory.unwieldItem(data.id);
 			var name = this == player ? 'You' : this.name;
@@ -187,7 +196,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.unpairSlot = function(slot_id) {
-		this.startAction(1, function(data) {
+		this.generateAction(1, function(data) {
 			var name = this == player ? 'You' : this.name;
 			this.inventory.unpairSlot(data.slot_id);
 			chat.send(name + ' onehanded ' + this.inventory.slots[data.slot_id].item.name + '.');
@@ -196,7 +205,7 @@ var Unit = function(template, name, stats, slots, items) {
 
 	this.pairSlots = function(slot_id, pair_slot_id) {
 		console.log(slot_id, pair_slot_id);
-		this.startAction(1, function(data) {
+		this.generateAction(1, function(data) {
 			this.inventory.pairSlots(data.slot_id, data.pair_slot_id);
 			var name = this == player ? 'You' : this.name;
 			chat.send(name + ' twohanded ' + this.inventory.slots[slot_id].item.name + '.');
@@ -222,7 +231,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.dropItem = function(id) {
-		this.startAction(1, function (data) {
+		this.generateAction(1, function (data) {
 			this.inventory.dropItem(data.id)
 		}, {'id':id} );
 	};
@@ -248,7 +257,7 @@ var UnitTemplate = function(name, stat_formulas, slots, item_templates) {
 			this.item_templates.forEach(function(item_template, id) {
 				items.push(item_template.getItem());
 			});
-		};
+		}
 		return new Unit(this, this.name, stats, this.slots, items);
 	};
 };
