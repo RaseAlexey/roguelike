@@ -1,24 +1,29 @@
 
-var Draft = function(level, number_of_choices) {
+var Draft = function(level, turns, end_callback) { // new Draft(1, )
     this.level = level;
-    this.turn = 0;
     this.choices = [];
+    this.turns = turns;
+    this.turn = 0;
+    this.end_callback = end_callback;
 
     var self = this;
-    for (var i = 0; i < number_of_choices; i++) {
+    for (var i = 0; i < turns; i++) {
         self.choices.push(new Choice(self, 3));
     };
+    
 
     this.start = function() {
         var tab = UI.tabs['draft'];
         tab.data.draft = this;
         tab.show();
+        UI.blockTab('place')
         UI.minimizeTabs();
         UI.maximizeTab('draft');
         UI.maximizeTab('chat');
     }; 
 
    this.end = function() {
+        end_callback();
         UI.tabs['draft'].data.draft = undefined;
         UI.hideTab('draft');
         UI.showTab('place'); 
@@ -29,7 +34,7 @@ var Draft = function(level, number_of_choices) {
         this.turn++;
         if (this.turn >= this.choices.length) {
             this.end();
-        };
+        }
         UI.refreshTabs(); 
     };
 
@@ -41,14 +46,14 @@ var Draft = function(level, number_of_choices) {
 };
 
 
-var Choice = function(draft, number_of_options) {
+var Choice = function(draft) {
     this.draft = draft;
     this.level = this.draft.level;
     this.options = [];
 
 
     var self = this;
-    for (var k = 0; k < number_of_options; k++) {
+    for (var k = 0; k < 3; k++) {
         if(rand(100) <= 20) {
             self.options.push(new OptionStat(self, getRandomItemInArray(['str', 'dex', 'int'])));
         } else {

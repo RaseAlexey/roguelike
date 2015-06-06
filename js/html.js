@@ -179,7 +179,8 @@ Slot.prototype.getHTML = function() {
 Item.prototype.getHTML = function() {
     var html = '';
     var id = this.getId();
-    html += '<div class="item rectangle centered center-aligned row clickable border-thin border-round swampish-yellow" data-id='+id+'>';
+    html += '<div class="rectangle item centered center-aligned row clickable border-thin border-round swampish-yellow" data-id='+id+'>';
+    //html += '<div class="rectangle button clickable blue font-white info-button">i</div>'
     html += '<div class="item-name">' + this.name + '</div>';
     if(this.unit) {
         html += '<div class="rectangle button clickable border-thin border-round drop-button dark-red"><div class="button-text">drop</div></div>';
@@ -198,6 +199,8 @@ Item.prototype.getHTML = function() {
 Draft.prototype.getHTML = function() {
     var html = '';
     html += '<div class = "draft">';
+    console.log(this.choices);
+    console.log(this.turn);
     html += this.choices[this.turn].getHTML();
     html += '</div>';
     return html;
@@ -225,6 +228,7 @@ Option.prototype.getHTML = function() {
     return html;
 };
 
+
 Tab.prototype.getHTML = function() {
     if(this.isBlocked) return '';
     var html = '<div class="tab column border-round border-thin" data-id='+this.mode+'>';
@@ -245,7 +249,7 @@ Tab.prototype.getMenuButtonHTML = function() {
     var html = '';
     var classes;
     if(this.isBlocked) {
-        classes = 'blocked font-grey light-grey';
+        classes = 'blocked font-dark-grey light-grey';
     } else {
         if(this.isMinimized) {
             var classes = 'minimized grey font-deep-dark-grey'

@@ -43,8 +43,8 @@ var Tab = function(mode, inner_html_func, data) {
 
 	this.hide = function() {
 		if(!this.isHidden) {	
+			this.minimize();
 			this.isHidden = true;
-			this.node.remove();
 			UI.refreshTabMenu();
 		}
 	};
@@ -191,6 +191,13 @@ UI.draw = function() {
 };
 
 
+UI.addTab(new Tab('place', function(data) {
+	if(dungeon.current_place) {
+		return dungeon.current_place.getHTML();
+	} else {
+		return '';
+	}
+}));
 
 UI.addTab(new Tab('inventory', function(data) {
 	if(player) {
@@ -224,13 +231,6 @@ UI.addTab(new Tab('chat', function(data) {
 	}
 }));
 
-UI.addTab(new Tab('place', function(data) {
-	if(dungeon.current_place) {
-		return dungeon.current_place.getHTML();
-	} else {
-		return '';
-	}
-}));
 
 UI.addTab(new Tab('draft', function() {
 	if(this.data.draft) {
