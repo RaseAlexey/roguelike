@@ -50,6 +50,7 @@ var Tab = function(mode, inner_html_func, data) {
 	};
 
 	this.show = function() {
+		this.maximize();
 		if(this.isHidden) {	
 			this.isHidden = false;
 			this.draw();
@@ -94,6 +95,19 @@ UI.removeTab = function(tab_name) {
 	}
 };
 
+UI.openDraft = function(draft) {
+	this.tabs['draft'].data.draft = draft;
+    this.hideTab('place');
+	this.showTab('draft');
+}
+
+UI.closeDraft = function() {
+    this.tabs['draft'].data.draft = undefined;
+    this.hideTab('draft');
+    this.showTab('place'); 
+    this.maximizeTabs();
+}
+
 UI.blockTab = function(tab_name) {
 	this.tabs[tab_name].block();
 };
@@ -119,6 +133,7 @@ UI.hideTab = function(tab_name) {
 };
 
 UI.showTab = function(tab_name) {
+	console.log(tab_name)
 	this.tabs[tab_name].show();
 };
 

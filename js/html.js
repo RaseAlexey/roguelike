@@ -50,12 +50,14 @@ Place.prototype.getHTML = function() {
     if(this.items.length > 0) {
         html += this.getItemsHTML();
     };
+    html += '<div class="tab_footer">'
     html += this.getConnectionsHTML();
     if(this.hasEnemies()) {
         html += '<div class="rectangle wait-button centered border-thin border-round green"><div>Wait</div></div>';
     } else {
       html += '<div class="rectangle rest-button centered border-thin border-round green"><div>Rest</div></div>';
     }
+    html += '</div>';
     return html;
 };
 
@@ -74,7 +76,6 @@ Place.prototype.getEnemiesHTML = function() {
 
 Place.prototype.getConnectionsHTML = function() {
     var html = '';        
-    html += '<div class="tab_footer">'
     html += '<div class="list-header">Connections</div>';
     html += '<div class="place_connections column centered">';
     $.each(this.getConnections(), function(direction, destination) {
@@ -86,7 +87,6 @@ Place.prototype.getConnectionsHTML = function() {
     if (this.template.type == 'stairs') {
         html += '<div class="rectangle centered clickable border-thin border-round stairs down blue"><div>Down the stairs</div></div>';
     }
-    html += '</div>';
     html += '</div>';
     return html;
 };

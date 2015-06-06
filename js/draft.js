@@ -11,23 +11,10 @@ var Draft = function(level, turns, end_callback) { // new Draft(1, )
         self.choices.push(new Choice(self, 3));
     };
     
-
-    this.start = function() {
-        var tab = UI.tabs['draft'];
-        tab.data.draft = this;
-        tab.show();
-        UI.blockTab('place')
-        UI.minimizeTabs();
-        UI.maximizeTab('draft');
-        UI.maximizeTab('chat');
-    }; 
-
    this.end = function() {
+        console.log('draft end');
+        UI.closeDraft();  
         end_callback();
-        UI.tabs['draft'].data.draft = undefined;
-        UI.hideTab('draft');
-        UI.showTab('place'); 
-        UI.maximizeTabs();   
     };
 
     this.tick = function() {

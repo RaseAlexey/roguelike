@@ -12,4 +12,4 @@ var player = new Unit(null, 'player', {'bonus_hp': 10, 'str': 1, 'dex': 1, 'end'
 var draft = new Draft(1, 5, function() {
 	player.goTo(dungeon.floors[0]);
 });
-draft.start();
+UI.openDraft(draft);
