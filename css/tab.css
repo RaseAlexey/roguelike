@@ -12,7 +12,6 @@
 }
 .tab_contents {
 	flex: 1;
-	height: calc(100% - 2em);
 	padding: 0.5em 0.2em 0 0.2em;
 	overflow: auto;
 	box-sizing: border-box;
@@ -21,8 +20,6 @@
 	flex: 1;
 }
 .tab-menu {
-	display: flex;
-	height: calc(2em + 2px);
 	width: 100%;
 	padding: 0.3em 0 0.3em 0.5%;
 	box-sizing: border-box;
@@ -31,5 +28,4 @@
 	width: 100%;
 	margin: 0;
 	margin-right: 0.5%;
-	box-sizing: none;
 }

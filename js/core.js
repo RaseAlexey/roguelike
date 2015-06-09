@@ -39,3 +39,7 @@ var arrayFilter = function (array, condition) {
     });
     return result;
 };
+
+var save = function(argument) {
+    console.log(player);
+};

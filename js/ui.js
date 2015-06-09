@@ -77,7 +77,7 @@ $(document).on('click', '.stairs', function() {
     var current_z = dungeon.floors.indexOf(dungeon.current_floor);
     if (z == 'up') {
         if (current_z == 0) {
-            alert("exit from dungeon");
+            save();
         }
         dest = dungeon.floors[current_z-1];
     } else if (z == 'down') {
@@ -89,14 +89,13 @@ $(document).on('click', '.stairs', function() {
         if (!dest.is_visited) {
             // level up!
             console.log('LEVEL UP!');
-            var draft = level_up_generator(dungeon.floors.indexOf(dungeon.current_floor)+1);
-            draft.start();
+            var draft = new Draft(dungeon.floors.indexOf(dungeon.current_floor)+1, 1);
+            player.goTo(dest);
         }
 
     } else {
         alert('wrong connection');
     }
-    player.goTo(dest);
 });
 
 $(document).on('click', '.option', function() {

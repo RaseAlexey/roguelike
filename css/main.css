@@ -1,8 +1,8 @@
 html, body, .container  { 
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;	
+	font-family: 'Inconsolata';
 	height: 100%;
 	width: 100%;
-	margin: 0px;
+	margin: 0;
 }
 .container {
 	display: flex;
@@ -16,26 +16,17 @@ html, body, .container  {
 	text-align: center;
 }
 .circle {
+	display: flex;
 	border-radius: 50%;
 	width: 1em;
 	height: 1em;
 }
 .rectangle {
 	display: flex;
-	position: relative;
-	flex-align: center;
-	height: 1.4em;
-	line-height: 1.4em;
 	margin: 0.1em 0;
 }
 .button {
-	height: 1em;
-	line-height: 1em;
 	margin: 0;
-	margin-right: 0.2em;
-	padding-left: 0.4em;
-	padding-right: 0.4em;
-	box-sizing: border-box;
 }
 .stat-name {
 	flex: 1;
@@ -71,9 +62,6 @@ html, body, .container  {
 	flex: 1;
 	margin: 0;
 }
-.post {
-	font-size: smaller;
-}
 .time {
 	font-style: italic;	
 }
@@ -83,7 +71,18 @@ html, body, .container  {
 .border-round {	
 	border-radius: 3px;
 }
-
+.font-sml {
+	font-size: smaller;
+}
+.sml-pad {
+	padding: 0.2em;
+}
+.sml-hor-pad {
+	padding: 0 0.2em;
+}
+.sml-top-pad {
+	padding-top: 0.2em;
+}
 /* 	
 .rectangle span {
 	display: flex;
@@ -94,13 +93,14 @@ html, body, .container  {
 */
 .item-name {
 	flex: 1;
-	text-align: center;
 	font-size: 0.85em;
+}
+.centered-text {
+	text-align: center;
 }
 .button-text {
 	font-size: 0.70em;
 }
-
 .slot .item {
 	margin: 0;
 	border-top-left-radius: 0;
@@ -108,9 +108,6 @@ html, body, .container  {
 	border-bottom:0;
 	border-right:0;
 	border-left:0;
-}
-.slot.full {
-	height: 3em;
 }
 
 

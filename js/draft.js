@@ -1,20 +1,26 @@
 
 var Draft = function(level, turns, end_callback) { // new Draft(1, )
+    console
     this.level = level;
     this.choices = [];
     this.turns = turns;
     this.turn = 0;
     this.end_callback = end_callback;
 
+    console.log(level, turns, end_callback)
+
     var self = this;
     for (var i = 0; i < turns; i++) {
         self.choices.push(new Choice(self, 3));
     };
+    UI.openDraft(this);
     
    this.end = function() {
         console.log('draft end');
         UI.closeDraft();  
-        end_callback();
+        if(this.end_callback) {
+            this.end_callback();
+        };
     };
 
     this.tick = function() {
