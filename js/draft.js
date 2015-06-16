@@ -32,6 +32,7 @@ var Draft = function(level, turns, end_callback) { // new Draft(1, )
     };
 
     this.pick = function(id) {
+        console.log(id)
         this.choices[this.turn].options[id].pick();
         this.tick();
     };

@@ -152,7 +152,7 @@ var Unit = function(template, name, stats, slots, items) {
 	};
 
 	this.wieldItem = function(id) {
-		var item = this.inventory.items[id];
+		var item = this.inventory.getItemById(id);
 		console.log(this.inventory.items, id, item);
 		if(item) {
 			var slot = this.inventory.getSlotForItem(item);

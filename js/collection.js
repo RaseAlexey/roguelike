@@ -41,8 +41,9 @@ var Collection = function(items) {
         return result;
     };
 
-
-    items.forEach(function(item) {
-        this.add(item);
-    }, this);
+    if(items) {
+        items.forEach(function(item) {
+            this.add(item);
+        }, this);        
+    }
 };

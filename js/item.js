@@ -8,23 +8,15 @@ var Item = function(template, name, stats, requirements, slot_type, code) {
 
 
 	this.getId = function() {
-		if(this.unit) {	
-			return this.unit.inventory.items.indexOf(this);
-		}
-		if(this.place) {
-			return this.place.items.indexOf(this);
-		}
-		if(this.slot) {
-			return this.slot.getId();
-		}
-		return undefined;
+		return items.all.indexOf(this);
 	};
 
 	this.setUnit = function(unit) {
 		return this.unit = unit;
 	};
-
+	items.add(this);
 };
+
 
 var ItemTemplate = function(name, stat_formulas, requirements, slot_type, code) {
 	this.name = name;
@@ -39,4 +31,5 @@ var ItemTemplate = function(name, stat_formulas, requirements, slot_type, code) 
 	};
 };
 
+var items = new Collection();
 

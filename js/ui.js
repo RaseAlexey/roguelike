@@ -99,7 +99,11 @@ $(document).on('click', '.stairs', function() {
 });
 
 $(document).on('click', '.option', function() {
-	var id = $(this).data('id');
-	UI.tabs['draft'].data.draft.pick(id);
+    var id = $(this).data('option-id');
+    UI.tabs['draft'].data.draft.pick(id);
+});
+
+$(document).on('click', '.info-button', function() {
+    var id = $(this).parent().data('id');
 });
 

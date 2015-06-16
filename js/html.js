@@ -52,9 +52,9 @@ Place.prototype.getHTML = function() {
     };
     html += this.getConnectionsHTML();
     if(this.hasEnemies()) {
-        html += '<div class="rectangle wait-button centered border-thin border-round green sml-pad"><div>Wait</div></div>';
+        html += '<div class="rectangle wait-button centered clickable border-thin border-round green sml-pad"><div>Wait</div></div>';
     } else {
-        html += '<div class="rectangle rest-button centered border-thin border-round green sml-pad"><div>Rest</div></div>';
+        html += '<div class="rectangle rest-button centered clickable border-thin border-round green sml-pad"><div>Rest</div></div>';
     }
     return html;
 };
@@ -177,7 +177,7 @@ Item.prototype.getHTML = function() {
     var html = '';
     var id = this.getId();
     html += '<div class="rectangle item centered center-aligned row clickable border-thin border-round swampish-yellow sml-pad" data-id='+id+'>';
-    html += '<div class="circle button info-button clickable blue border-thin column centered center-aligned font-white font-sml sml-pad"><div class="button-text">i</div></div>';
+    html += '<div class="circle button info-button clickable blue border-thin column centered clickable center-aligned font-white font-sml sml-pad"><div class="button-text">i</div></div>';
     html += '<div class="item-name centered-text">' + this.name + '</div>';
     if(this.unit) {
         html += '<div class="rectangle button clickable border-thin border-round drop-button dark-red sml-pad"><div class="button-text">drop</div></div>';
@@ -215,7 +215,7 @@ Choice.prototype.getHTML = function() {
 
 Option.prototype.getHTML = function() {
     var html = '';
-    html += '<div class = "rectangle option clickable border-thin border-round blue column centered sml-pad" data-id=' + this.getId() + '>';
+    html += '<div class = "rectangle option clickable border-thin border-round blue column centered sml-pad" data-option-id=' + this.getId() + '>';
     if(this.content.getHTML) {
         html += this.content.getHTML();
     } else {
