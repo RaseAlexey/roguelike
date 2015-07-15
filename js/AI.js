@@ -1,8 +1,8 @@
 
 Unit.prototype.tickAI = function() {
-    if (this.inventory.items.length) {
+    if (this.inventory.inv_items.length) {
         if (this.inventory.getItemsFromNotEmptySlotsOfType('hand').length == 0) {
-            var weapons = arrayFilter(this.inventory.items, function(item) {
+            var weapons = arrayFilter(this.inventory.inv_items, function(item) {
                 return item.slot_type == 'hand';
             });
             // console.log(weapons);

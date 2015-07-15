@@ -3,7 +3,7 @@ var Place = function(template, name, units) {
     this.name = name;
     this.template = template;
     this.units = units;
-    this.items = [];
+    this.ground_items = [];
 
     var place = this;
     this.units.forEach(function(unit) {
@@ -47,7 +47,7 @@ var Place = function(template, name, units) {
 
     this.addItem = function(item) {
         item.place = this;
-        this.items.push(item);
+        this.ground_items.push(item);
     };
 
     this.getConnections = function() {

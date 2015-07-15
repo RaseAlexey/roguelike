@@ -19,7 +19,7 @@ $(document).on('click', '.drop-button', function(event) {
 });
 
 $(document).on('click', '.twohand-button', function(event) {
-	var id = $(this).parent().data('id');
+	var id = $(this).parents('.slot').data('id');
 	player.toggleTwohand(id);
 	event.stopPropagation();
 });

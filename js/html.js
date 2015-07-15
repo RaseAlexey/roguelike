@@ -47,7 +47,7 @@ Place.prototype.getHTML = function() {
     } else {
         //Interaction
     };
-    if(this.items.length > 0) {
+    if(this.ground_items.length > 0) {
         html += this.getItemsHTML();
     };
     html += this.getConnectionsHTML();
@@ -95,7 +95,7 @@ Place.prototype.getItemsHTML = function() {
     var html = '';
     html += '<div class="list-header">Items</div>';
     html += '<div class="place_items column centered">';
-    this.items.forEach(function(item) {
+    this.ground_items.forEach(function(item) {
         html += item.getHTML();
     });
     html += '</div>';
@@ -140,7 +140,7 @@ Unit.prototype.getStatsHTML = function() {
 
 Unit.prototype.getInventoryHTML = function() {
     var html = '<div class="inventory column centered">';
-    this.inventory.items.forEach(function(item, id) {
+    this.inventory.inv_items.forEach(function(item, id) {
         html += item.getHTML();
     });
     html += '</div>';

@@ -2,10 +2,10 @@
 // need rework to collection
 
 
-var Inventory = function(unit, slots_list, items) {
+var Inventory = function(unit, slots_list, inv_items) {
 	this.unit = unit;
 	this.slots = [];
-	this.items = items || [];
+	this.inv_items = inv_items || [];
 	var self = this;
 
 	if(this.items && this.items.length > 0) {
@@ -23,7 +23,7 @@ var Inventory = function(unit, slots_list, items) {
 
 	this.getItemById = function(id) {
 		var item;
-		this.items.forEach(function(inv_item) {
+		this.inv_items.forEach(function(inv_item) {
 			if(inv_item.getId() == id) {
 				item = inv_item;
 			};
@@ -33,22 +33,23 @@ var Inventory = function(unit, slots_list, items) {
 
 	this.addItem = function(item) {
 		item.unit = this.unit;
-		this.items.push(item);
+		this.inv_items.push(item);
 	};
 
 	this.pickUpItem = function(id) {
-		var item = this.unit.place.items[id];
+		var item = this.unit.place.ground_items[id];
 		item.place = undefined;
-		this.unit.place.items.splice(id, 1);
+		this.unit.place.ground_items.splice(id, 1);
 		item.unit = this.unit;
 		this.items.push(item);
 	};
 
 	this.removeItem = function(item_id) {
-		var item = this.items[item_id];
-		if(item) {
+		var item = items.all[item_id];
+		if(item && this.inv_items.indexOf(item) >=  0) {
+			console.log('remove', item)
 			item.unit = undefined;
-			this.items.splice(item_id, 1);
+			this.inv_items.splice(this.inv_items.indexOf(item), 1);
 			return item;
 		} else {
 			return false;
@@ -64,8 +65,8 @@ var Inventory = function(unit, slots_list, items) {
 	};
 
 	this.wieldItem = function(item_id) {
-        console.log(item_id);
-		var item = this.items[item_id];
+        console.log(items.all, item_id, item);
+		var item = items.all[item_id];
 		var slot = this.getSlotForItem(item);
 		if (slot) {
 			this.removeItem(item_id);
@@ -149,6 +150,7 @@ var Inventory = function(unit, slots_list, items) {
 	this.getPairForSlot = function(id) {
 		var first_slot = this.slots[id]; //First slot of pair
 		var free_slot;
+		console.log(first_slot)
 		var slots = this.getSlotsOfType(first_slot.item.slot_type);
 		var new_slots = [];
 
@@ -189,7 +191,7 @@ var Inventory = function(unit, slots_list, items) {
 	};
 
 	this.dropItems = function() {
-		while(this.items.length>0) {
+		while(this.inv_items.length>0) {
 			this.dropItem(0);
 		}
 	};
