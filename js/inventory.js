@@ -24,7 +24,7 @@ var Inventory = function(unit, slots_list, items) {
 	this.getItemById = function(id) {
 		var item;
 		this.items.forEach(function(inv_item) {
-			if(item.getId() == id) {
+			if(inv_item.getId() == id) {
 				item = inv_item;
 			};
 		});
